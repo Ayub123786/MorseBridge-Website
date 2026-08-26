@@ -408,25 +408,30 @@ const FOUNDER_COMMENT_SHORTS = [
   },
 ];
 
-/* ── Podcast Episodes ── */
+/* ── Podcast Episodes (Founders Talk with Ayub) ──
+   Paste any YouTube video link or ID into 'youtubeUrl'.
+   Easily swap or add episodes below.
+──────────────────────────────────────────────────── */
 const PODCAST_EPISODES = [
   {
     id: 1,
-    title: 'How to Raise from MENA VCs in 2025',
-    guest: 'With Active GCC Venture Partners',
-    duration: '42 min',
+    title: 'Founder Raised: Zero to Funded | Influencer Reached 2.5M Subscribers',
+    youtubeUrl: 'https://www.youtube.com/watch?v=7EXsB0FWuyw',
   },
   {
     id: 2,
-    title: 'Building a $1M+ ARR SaaS in UAE & KSA',
-    guest: 'Serial Tech Founders Journey',
-    duration: '38 min',
+    title: 'How Can You Build Wealth in 2025? | Investing & Tax Tips',
+    youtubeUrl: 'https://www.youtube.com/watch?v=bghlkGP1894',
   },
   {
     id: 3,
-    title: 'Family Office Capital: What Angels Look For',
-    guest: 'GCC Private Wealth Insights',
-    duration: '45 min',
+    title: 'How Family Offices Invest in Middle East | Family Offices From Scratch',
+    youtubeUrl: 'https://www.youtube.com/watch?v=SrJu7zkwsYs',
+  },
+  {
+    id: 4,
+    title: 'Why Most Startups FAIL to Raise Funding | VC Secrets',
+    youtubeUrl: 'https://www.youtube.com/watch?v=TcFcFcInvEI',
   },
 ];
 
@@ -1078,112 +1083,82 @@ export default function HomePage() {
       </section>
 
       {/* ====================================================================
-          3.9 — PODCAST
+          3.9 — "PODCAST: FOUNDERS TALK WITH AYUB"
           ==================================================================== */}
       <section id="podcast" className="section">
-        <div className="container">
-          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 40 }}>
-            <h2 className="section-title">Founders Talk with Ayub</h2>
-            <p className="section-subtitle">
-              Honest conversations with builders shaping what's next in MENA and global technology.
+        <div className="container container-wide">
+          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 36 }}>
+            <h3 style={{ color: '#EAB308', fontStyle: 'italic', fontSize: '2.5rem', fontWeight: 800, margin: '0 0 14px', letterSpacing: '-0.02em' }}>
+              Podcast
+            </h3>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 14 }}>
+              <div
+                style={{
+                  background: '#000000',
+                  padding: '12px 28px',
+                  borderRadius: 12,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                }}
+              >
+                <img
+                  src="/assets/podcast/founders_talk_logo_transparent.png"
+                  alt="Founders Talk with Ayub"
+                  style={{ maxHeight: 46, maxWidth: 260, objectFit: 'contain', display: 'block' }}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              </div>
+            </div>
+            <p className="section-subtitle" style={{ marginTop: 8 }}>
+              Honest conversations with builders shaping what's next.
             </p>
           </div>
 
-          <div
-            className="reveal-on-scroll reveal-delay-1 with-corner-brackets"
-            style={{
-              background: '#ffffff',
-              border: '1px solid var(--border-medium)',
-              borderRadius: 16,
-              padding: '36px',
-              display: 'grid',
-              gridTemplateColumns: '1fr 2fr',
-              gap: 36,
-              alignItems: 'center',
-              boxShadow: 'var(--shadow-xs)',
-            }}
-          >
-            {/* Podcast Banner */}
-            <div style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  aspectRatio: '1/1',
-                  maxWidth: 220,
-                  margin: '0 auto 20px',
-                  borderRadius: 14,
-                  background: '#000000',
-                  color: '#ffffff',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: 24,
-                }}
-              >
-                <span style={{ fontSize: 36 }}>🎙️</span>
-                <span style={{ fontWeight: 800, fontSize: 17, marginTop: 12 }}>
-                  Founders Talk
-                </span>
-                <span style={{ color: '#9ca3af', fontSize: 13, fontWeight: 500 }}>with Ayub</span>
-              </div>
-              <a
-                href="https://youtube.com/@FoundersTalkwithAyub"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary-black"
-                style={{ fontSize: 13.5, padding: '10px 24px' }}
-              >
-                Watch on YouTube ↗
-              </a>
-            </div>
-
-            {/* Episodes List */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {PODCAST_EPISODES.map((ep) => (
-                <a
+          {/* 4 Horizontal YouTube Episode Cards (16:9) */}
+          <div className="podcast-videos-grid">
+            {PODCAST_EPISODES.map((ep, idx) => {
+              const embedUrl = getYouTubeEmbedUrl(ep.youtubeUrl);
+              return (
+                <div
                   key={ep.id}
-                  href="https://youtube.com/@FoundersTalkwithAyub"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover-float with-corner-brackets"
-                  style={{
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-medium)',
-                    borderRadius: 10,
-                    padding: '16px 20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    textDecoration: 'none',
-                  }}
+                  className={`podcast-video-card reveal-on-scroll reveal-delay-${idx + 1}`}
                 >
-                  <div>
-                    <div style={{ color: '#000000', fontWeight: 700, fontSize: 15, marginBottom: 4 }}>
-                      {ep.title}
+                  {embedUrl ? (
+                    <iframe
+                      src={embedUrl}
+                      title={ep.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+                    />
+                  ) : (
+                    <div className="past-event-placeholder">
+                      <div className="past-event-yt-icon">▶</div>
+                      <div className="past-event-placeholder-title">{ep.title}</div>
+                      <div className="past-event-placeholder-hint">
+                        + Paste link in <code>PODCAST_EPISODES</code>
+                      </div>
                     </div>
-                    <div style={{ color: 'var(--text-muted)', fontSize: 13 }}>{ep.guest}</div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <span style={{ color: 'var(--text-muted)', fontSize: 12.5, fontWeight: 600, fontFamily: 'monospace' }}>{ep.duration}</span>
-                    <span
-                      style={{
-                        width: 28,
-                        height: 28,
-                        borderRadius: '50%',
-                        background: '#000000',
-                        color: '#ffffff',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: 12,
-                      }}
-                    >
-                      ▶
-                    </span>
-                  </div>
-                </a>
-              ))}
-            </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Watch CTA Button */}
+          <div className="reveal-on-scroll reveal-delay-2" style={{ textAlign: 'center', marginTop: 8 }}>
+            <a
+              href="https://youtube.com/@FoundersTalkwithAyub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="podcast-cta-btn"
+            >
+              Watch ↗
+            </a>
           </div>
         </div>
       </section>

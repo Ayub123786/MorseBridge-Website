@@ -912,6 +912,69 @@ button, input, textarea, select {
 }
 
 /* ==========================================================================
+   PODCAST SECTION (FOUNDERS TALK WITH AYUB)
+   ========================================================================== */
+.podcast-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 36px;
+}
+
+@media (max-width: 1024px) {
+  .podcast-videos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 580px) {
+  .podcast-videos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.podcast-video-card {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000000;
+  border: 1px solid var(--border-medium);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform var(--t-smooth), box-shadow var(--t-smooth), border-color var(--t-fast);
+}
+
+.podcast-video-card:hover {
+  transform: translateY(-4px);
+  border-color: #7C3AED;
+  box-shadow: 0 12px 28px rgba(124, 58, 237, 0.2);
+}
+
+.podcast-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #4C1D95;
+  color: #ffffff;
+  padding: 12px 36px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  font-style: italic;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(76, 29, 149, 0.3);
+}
+
+.podcast-cta-btn:hover {
+  background: #5B21B6;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(76, 29, 149, 0.45);
+}
+
+/* ==========================================================================
    MARQUEE ANIMATIONS (LOGOS & INVESTORS)
    ========================================================================== */
 @keyframes marqueeLeft {
