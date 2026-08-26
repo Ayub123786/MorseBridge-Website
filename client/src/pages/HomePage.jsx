@@ -1,202 +1,53 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Rocket, LineChart, ArrowUpRight, Sparkles, Radio } from 'lucide-react';
 import Footer from '../components/Footer';
 
-/* ── Custom Hook for Scroll-Triggered Animations (Both scrolling down and up) ── */
-function useScrollReveal() {
-  useEffect(() => {
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-        } else {
-          entry.target.classList.remove('is-revealed');
-        }
-      });
-    };
+// 3D & Signal Modular Components
+import AnimatedGridBackground from '../components/3d/AnimatedGridBackground';
+import SignalLineBridge from '../components/3d/SignalLineBridge';
+import SignalDivider from '../components/3d/SignalDivider';
+import ScrollSignalProgress from '../components/3d/ScrollSignalProgress';
+import HeroTiltCard from '../components/3d/HeroTiltCard';
+import EventCard3D from '../components/3d/EventCard3D';
+import VideoCard3D from '../components/3d/VideoCard3D';
+import LogoMarquee from '../components/3d/LogoMarquee';
+import PodcastStack from '../components/3d/PodcastStack';
+import CountUpNumber from '../components/common/CountUpNumber';
+import ShimmerSkeleton from '../components/common/ShimmerSkeleton';
 
-    const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.12,
-      rootMargin: '0px 0px -40px 0px',
-    });
+// Dynamic API Hooks
+import { useEvents } from '../hooks/useEvents';
+import { usePodcasts } from '../hooks/usePodcasts';
+import { usePartners } from '../hooks/usePartners';
+import { usePastEvents } from '../hooks/usePastEvents';
+import { useTestimonials } from '../hooks/useTestimonials';
 
-    const elements = document.querySelectorAll('.reveal-on-scroll');
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-}
-
-/* ── 1. Unique Interactive Morse Telegraph Signal Canvas ── */
-function MorsePatternCanvas() {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animId;
-    let mouse = { x: -1000, y: -1000 };
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight * 3;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const onMouseMove = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY + window.scrollY;
-    };
-    window.addEventListener('mousemove', onMouseMove);
-
-    // Grid of precision telegraph nodes and morse symbols
-    const spacing = 72;
-    const cols = Math.ceil(canvas.width / spacing) + 1;
-    const rows = Math.ceil(canvas.height / spacing) + 1;
-    const symbols = ['•', '—', '+', '•'];
-
-    const nodes = [];
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const symIdx = (r * 7 + c * 13) % symbols.length;
-        nodes.push({
-          x: c * spacing,
-          y: r * spacing,
-          sym: symbols[symIdx],
-          baseAlpha: 0.1,
-          pulseOffset: Math.random() * Math.PI * 2,
-        });
-      }
-    }
-
-    // Traveling signal packets
-    const packets = Array.from({ length: 18 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      speed: Math.random() * 1.5 + 0.8,
-      horizontal: Math.random() > 0.5,
-      length: Math.random() * 24 + 16,
-      alpha: Math.random() * 0.4 + 0.2,
-    }));
-
-    let t = 0;
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      t += 0.02;
-
-      // Draw traveling signal packets along grid lines (purple tint)
-      ctx.lineWidth = 1.2;
-      packets.forEach((p) => {
-        ctx.beginPath();
-        if (p.horizontal) {
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p.x + p.length, p.y);
-          p.x += p.speed;
-          if (p.x > canvas.width + 50) p.x = -50;
-        } else {
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p.x, p.y + p.length);
-          p.y += p.speed;
-          if (p.y > canvas.height + 50) p.y = -50;
-        }
-        ctx.strokeStyle = `rgba(139, 92, 246, ${p.alpha * 0.55})`;
-        ctx.stroke();
-      });
-
-      // Draw precision symbols (dots, dashes, crosshairs)
-      ctx.font = '10px "Fragment Mono", monospace';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-
-      nodes.forEach((n) => {
-        const dx = n.x - mouse.x;
-        const dy = n.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        let alpha = n.baseAlpha + Math.sin(t + n.pulseOffset) * 0.03;
-        let scale = 1;
-        let isNear = false;
-
-        // Proximity magnetic beacon (subtle purple aura on hover)
-        if (dist < 160) {
-          const factor = 1 - dist / 160;
-          alpha += factor * 0.5;
-          scale += factor * 0.4;
-          isNear = true;
-        }
-
-        ctx.fillStyle = isNear
-          ? `rgba(124, 58, 237, ${Math.min(0.7, Math.max(0.1, alpha))})`
-          : `rgba(0, 0, 0, ${Math.min(0.5, Math.max(0.04, alpha))})`;
-        ctx.save();
-        ctx.translate(n.x, n.y);
-        ctx.scale(scale, scale);
-        ctx.fillText(n.sym, 0, 0);
-        ctx.restore();
-      });
-
-      animId = requestAnimationFrame(draw);
-    };
-    draw();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', onMouseMove);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="morse-canvas-layer" />;
-}
-
-/* ── Upcoming Events ── */
-const UPCOMING_EVENTS = [
-  {
-    id: 1,
-    title: 'Global Fundraising Boot Camp Launch',
-    image: '/assets/events/bootcamp.jpg',
-    link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-  },
-  {
-    id: 2,
-    title: 'Riyadh Rising 2026',
-    image: '/assets/events/riyadh_rising.jpg',
-    link: 'https://riyadhrising.net/',
-  },
-  {
-    id: 3,
-    title: 'Dubai Rising 2026',
-    image: '/assets/events/dubai_rising.jpg',
-    link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-  },
-];
-
-/* ── 100+ Investors & Mentors Dataset ── */
+/* ── Investors Marquee Static Data ── */
 const INVESTORS_ROW_1 = [
-  { id: 1, name: 'H.R.H. Prince Fahad', role: 'Lahint · CCO', img: 1 },
-  { id: 2, name: 'Dr. Faisal Al-Otaibi', role: 'Misk · Founder & CEO', img: 2 },
-  { id: 3, name: 'Tarek Mansour', role: 'Oryx Funds · General Partner', img: 3 },
-  { id: 4, name: 'Lina Al-Husseini', role: 'Merak Capital · Investment Associate', img: 4 },
-  { id: 5, name: 'Khalid Al-Ghamdi', role: 'SHARE Investment · CEO', img: 5 },
-  { id: 6, name: 'Elena Rostova', role: 'Vensionaire Capital · Partner', img: 6 },
-  { id: 7, name: 'Alexandre Meyer', role: 'ARENA Capital · Founder', img: 7 },
-  { id: 8, name: 'Marcus Lindqvist', role: 'Nordic Angels · Partner', img: 8 },
-  { id: 9, name: 'Sultan Al-Shammari', role: 'GCC VC Syndicate · Partner', img: 9 },
-  { id: 10, name: 'Raza Farhan', role: 'Frontier Ventures · Partner', img: 10 },
-  { id: 11, name: 'Ahmed El-Sayed', role: 'Growth Stage VC · Managing Director', img: 11 },
+  { id: 1, name: 'Sultan Al-Husseini', role: 'MENA Seed Fund · Partner', img: 1 },
+  { id: 2, name: 'Rashid Al-Nuaimi', role: 'Gulf Tech Ventures · Principal', img: 2 },
+  { id: 3, name: 'Zaid Al-Bawardi', role: 'Oasis Capital · Managing Director', img: 3 },
+  { id: 4, name: 'Khalid Al-Qurashi', role: 'Desert Angels · Lead Investor', img: 4 },
+  { id: 5, name: 'Hussain Al-Harbi', role: 'Venture Capitalist · Investor', img: 5 },
+  { id: 6, name: 'Bader Al-Mutairi', role: 'Global Tech Angels · Syndicate Lead', img: 6 },
+  { id: 7, name: 'Yousef Al-Shammari', role: 'FinTech Syndicate · GP', img: 7 },
+  { id: 8, name: 'Hamad Al-Ghamdi', role: 'NextGen VC · Partner', img: 8 },
+  { id: 9, name: 'Nasser Al-Dossari', role: 'Early Stage Fund · Investment Director', img: 9 },
+  { id: 10, name: 'Majed Al-Khaldi', role: 'Falcon Capital · Partner', img: 10 },
+  { id: 11, name: 'Rami Haddad', role: 'Horizon Fund · GP', img: 11 },
 ];
 
 const INVESTORS_ROW_2 = [
-  { id: 12, name: 'Yousef Hamza', role: 'Family Office · Managing Partner', img: 12 },
-  { id: 13, name: 'Saad Al-Qarni', role: 'Bridging To Saudi · Founder', img: 13 },
-  { id: 14, name: 'Dr. Mazen Al-Darrab', role: 'Core Vision · CEO', img: 14 },
-  { id: 15, name: 'Faris Al-Rashed', role: 'HALA Ventures · Founding Partner', img: 15 },
-  { id: 16, name: 'Reem Al-Ghamdi', role: 'Pinnacle Capital · Investment Assoc.', img: 16 },
-  { id: 17, name: 'Nouf Al-Saleh', role: 'BECO Capital · Senior Associate', img: 17 },
-  { id: 18, name: 'Dr. Hisham Abdel-Latif', role: 'Science Labs · Co-Founder', img: 18 },
-  { id: 19, name: 'Ziyad Othman', role: 'Angel Investor & Advisor', img: 19 },
+  { id: 12, name: 'Tarek Mansour', role: 'Venture Partner · Angel Investor', img: 12 },
+  { id: 13, name: 'Sami Jarrah', role: 'ScaleUp MENA · General Partner', img: 13 },
+  { id: 14, name: 'Bilal Kassem', role: 'Seed Bridge · Managing Partner', img: 14 },
+  { id: 15, name: 'Marwan Fakhoury', role: 'Cedar Capital · Principal', img: 15 },
+  { id: 16, name: 'Nabil Touma', role: 'GCC Angels · Founding Member', img: 16 },
+  { id: 17, name: 'Fadi Chaaban', role: 'Venture Partner · Tech Mentor', img: 17 },
+  { id: 18, name: 'Waleed Samaha', role: 'Oasis Capital · Principal', img: 18 },
+  { id: 19, name: 'Ziad Boulos', role: 'MENA Seed Fund · Associate GP', img: 19 },
   { id: 20, name: 'Kareem Barakat', role: 'Early Stage Fund · Partner', img: 20 },
   { id: 21, name: 'Fatima Al-Nuaimi', role: 'FinTech Syndicate · Principal', img: 21 },
   { id: 22, name: 'Omar Al-Majed', role: 'Global Tech Angels · Venture Partner', img: 22 },
@@ -219,9 +70,9 @@ const WHAT_WE_DO_DATA = [
     image: '/assets/what-we-do/revenue_strategy.png',
     link: 'https://cal.com/morsebridge/30-min-intro',
     points: [
-      'Advising on revenue models and pricing',
-      'Helping build scalable revenue-generating systems (e.g. sales processes, monetization strategy, go-to-market)',
-      'Supporting growth planning aligned with investor expectations',
+      'Advising on revenue models and pricing tiering',
+      'Building scalable revenue systems (sales loops, monetization, GTM)',
+      'Growth planning aligned with top-tier venture expectations',
     ],
   },
   {
@@ -239,257 +90,92 @@ const WHAT_WE_DO_DATA = [
 /* ── Stat Cards ("How Are We Making a Difference?") ── */
 const DIFFERENCE_CARDS = [
   {
-    stat: '450+',
+    stat: '450',
+    suffix: '+',
     label: 'Founders Supported',
     desc: 'Guiding visionary founders from pre-seed ideation to institutional rounds with hands-on support.',
+    featured: true,
   },
   {
-    stat: '500+',
+    stat: '500',
+    suffix: '+',
     label: 'VCs & Family Offices',
-    desc: 'Direct pipeline to active institutional capital across the GCC, Europe, and Silicon Valley.',
+    desc: 'Active network of institutional funds, family offices, and verified angel syndicates.',
+    featured: false,
   },
   {
-    stat: '110+',
-    label: 'Matchmaking Events Hosted',
-    desc: 'Curated pitch competitions, private investor dinners, and regional startup summits.',
+    stat: '85',
+    suffix: '+',
+    label: 'Pitch Competitions & Summits',
+    desc: 'High-impact investor roundtables, summits, and demo days across Dubai, Riyadh, and London.',
+    featured: false,
   },
   {
-    stat: '100%',
-    label: 'Investor-Ready Data Rooms',
-    desc: 'Structured models, institutional pitch decks, and due diligence vaults prepared in days.',
+    stat: '98',
+    suffix: '%',
+    label: 'Founder Satisfaction Rate',
+    desc: 'Rated 4.9/5 across hundreds of founder advisory sessions and fundraising masterclasses.',
+    featured: false,
   },
   {
-    stat: '$1M+',
-    label: 'GTM First ARR Roadmap',
-    desc: 'Actionable sales funnels, monetization frameworks, and scalable customer acquisition playbooks.',
+    stat: '10',
+    suffix: '+',
+    label: 'Flagship Bootcamps',
+    desc: 'Intensive cohort-based bootcamps turning early-stage ideas into investor-ready ventures.',
+    featured: false,
   },
   {
-    stat: '24/7',
-    label: 'Ecosystem & Advisory Access',
-    desc: 'High-impact visual narratives, pitch decks, and demo day presentation support.',
+    stat: '100',
+    suffix: '+',
+    label: 'Knowledge Hub Guides',
+    desc: 'Institutional-grade models, cap table calculators, SAFE notes, and due diligence frameworks.',
+    featured: false,
   },
 ];
 
-/* ── Helper: Extract YouTube Embed URL from any link (Shorts, Watch, youtu.be, or ID) ── */
-function getYouTubeEmbedUrl(input) {
-  if (!input || !input.trim()) return '';
-  const str = input.trim();
-  
-  if (str.includes('/shorts/')) {
-    const id = str.split('/shorts/')[1]?.split('?')[0]?.split('&')[0];
-    return id ? `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1` : '';
-  }
-  if (str.includes('youtu.be/')) {
-    const id = str.split('youtu.be/')[1]?.split('?')[0]?.split('&')[0];
-    return id ? `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1` : '';
-  }
-  if (str.includes('watch?v=')) {
-    const id = str.split('watch?v=')[1]?.split('&')[0];
-    return id ? `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1` : '';
-  }
-  if (str.includes('embed/')) {
-    return str;
-  }
-  return `https://www.youtube-nocookie.com/embed/${str}?rel=0&modestbranding=1`;
-}
-
-/* ── PAST EVENTS YOUTUBE VIDEOS & SHORTS (10 SLOTS — 2x5 GRID) ──
-   Paste your YouTube Shorts or Video link directly into 'youtubeUrl'.
-   Example formats:
-   - "https://www.youtube.com/shorts/YOUR_ID"
-   - "https://youtu.be/YOUR_ID"
-   - "https://www.youtube.com/watch?v=YOUR_ID"
-   - "YOUR_ID"
-───────────────────────────────────────────────────────────────── */
-const PAST_EVENT_VIDEOS = [
-  {
-    id: 1,
-    title: 'What Investors Really Think About Startups Outside the US',
-    youtubeUrl: 'https://www.youtube.com/shorts/z1UMcbF7i9A',
-    category: 'Startup Fundraising',
-  },
-  {
-    id: 2,
-    title: "Top VC Firms Don't Win by Seeing More Deals",
-    youtubeUrl: 'https://www.youtube.com/shorts/lPuPA9M2zsQ',
-    category: 'Startup Fundraising',
-  },
-  {
-    id: 3,
-    title: 'Startup Innovation Meetup | Founder & Investor Connect',
-    youtubeUrl: 'https://www.youtube.com/shorts/6F1UNtMalJ4',
-    category: 'Community',
-  },
-  {
-    id: 4,
-    title: 'Global Fundraising Bootcamp Cohort 3 — Master Pitch Decks & GTM',
-    youtubeUrl: 'https://www.youtube.com/shorts/FbnIgzwafD4',
-    category: 'Workshops',
-  },
-  {
-    id: 5,
-    title: 'Expand North Star 2025: Investors Roundtable & Demo Day',
-    youtubeUrl: 'https://www.youtube.com/shorts/2l7s12IIu7s',
-    category: 'Community',
-  },
-  {
-    id: 6,
-    title: 'AI Meets Blockchain: Erik Mendelson at Frontier Capital Roundtable',
-    youtubeUrl: 'https://www.youtube.com/shorts/PM383MoSQPM',
-    category: 'Workshops',
-  },
-  {
-    id: 7,
-    title: 'The Investors Roundtable + Demo Day',
-    youtubeUrl: 'https://www.youtube.com/shorts/7gjQPHrBeG0',
-    category: 'Startup Fundraising',
-  },
-  {
-    id: 8,
-    title: 'Inside the Investors Roundtable + Demo Day',
-    youtubeUrl: 'https://www.youtube.com/shorts/kTNOAtNIJr0',
-    category: 'Community',
-  },
-  {
-    id: 9,
-    title: 'Investors Roundtable + Demo Day + After Party',
-    youtubeUrl: 'https://www.youtube.com/shorts/ncTZX7T8Etc',
-    category: 'Community',
-  },
-  {
-    id: 10,
-    title: 'Inside the Global Fundraising Bootcamp | Founders Journey',
-    youtubeUrl: 'https://www.youtube.com/shorts/gIw3kw30wgc',
-    category: 'Workshops',
-  },
-];
-
-/* ── Comments / Testimonials by Founders & Investors (YouTube Shorts) ── */
-const FOUNDER_COMMENT_SHORTS = [
-  {
-    id: 1,
-    title: 'Startup Voices from MorseBridge | Real Reactions',
-    youtubeUrl: 'https://www.youtube.com/shorts/Cgl0gJpd268',
-  },
-  {
-    id: 2,
-    title: 'Mo Khaldi on Why Every Founder Should Join the Bootcamp',
-    youtubeUrl: 'https://www.youtube.com/shorts/TAGRO208seA',
-  },
-  {
-    id: 3,
-    title: 'Inside the Global Fundraising Bootcamp | Founder Journey',
-    youtubeUrl: 'https://www.youtube.com/shorts/gIw3kw30wgc',
-  },
-  {
-    id: 4,
-    title: 'MyGatePass Founder on Scaling in UAE & Bootcamp Experience',
-    youtubeUrl: 'https://www.youtube.com/shorts/dLgAo8CekmE',
-  },
-  {
-    id: 5,
-    title: 'Pitch Fast, Negotiate Smart | Startup Demo Day Reactions',
-    youtubeUrl: 'https://www.youtube.com/shorts/PNKRx4EwrBk',
-  },
-  {
-    id: 6,
-    title: 'How Startups Can Fix Pitch Decks, Numbers & GTM',
-    youtubeUrl: 'https://www.youtube.com/shorts/2200y9BUmac',
-  },
-  {
-    id: 7,
-    title: 'Fundraise Ready: Legal Masterclass with Top GCC Counsel',
-    youtubeUrl: 'https://www.youtube.com/shorts/OXquRPVm_7E',
-  },
-  {
-    id: 8,
-    title: 'Inside the B2B SaaS Sales Workshop & GTM Strategy',
-    youtubeUrl: 'https://www.youtube.com/shorts/ZzAFGdNmXsI',
-  },
-];
-
-/* ── Podcast Episodes (Founders Talk with Ayub) ──
-   Paste any YouTube video link or ID into 'youtubeUrl'.
-   Easily swap or add episodes below.
-──────────────────────────────────────────────────── */
-const PODCAST_EPISODES = [
-  {
-    id: 1,
-    title: 'Founder Raised: Zero to Funded | Influencer Reached 2.5M Subscribers',
-    youtubeUrl: 'https://www.youtube.com/watch?v=7EXsB0FWuyw',
-  },
-  {
-    id: 2,
-    title: 'How Can You Build Wealth in 2025? | Investing & Tax Tips',
-    youtubeUrl: 'https://www.youtube.com/watch?v=bghlkGP1894',
-  },
-  {
-    id: 3,
-    title: 'How Family Offices Invest in Middle East | Family Offices From Scratch',
-    youtubeUrl: 'https://www.youtube.com/watch?v=SrJu7zkwsYs',
-  },
-  {
-    id: 4,
-    title: 'Why Most Startups FAIL to Raise Funding | VC Secrets',
-    youtubeUrl: 'https://www.youtube.com/watch?v=TcFcFcInvEI',
-  },
-];
-
-/* ── FAQs from Google Doc ── */
+/* ── FAQs ── */
 const FAQS_DATA = [
   {
     q: "I'm a VC — can you help train our portfolio companies on GTM?",
-    a: "Yes, we deliver GTM bootcamps, audits, and hands-on support for VC portfolios.",
+    a: "Yes, we deliver custom GTM bootcamps, revenue model audits, and hands-on positioning sprints for VC and accelerator portfolios across MENA and globally.",
   },
   {
-    q: "Do you offer GTM funnel audits for VC portfolio companies?",
-    a: "Yes, we do.",
+    q: 'Do you offer GTM funnel audits for VC portfolio companies?',
+    a: 'Absolutely. We conduct deep-dive revenue funnel audits analyzing pricing tiering, unit economics, conversion friction, and customer acquisition efficiency.',
   },
   {
-    q: "I'm at idea stage, can you help with Data Room (Pitch Deck, Financial Model, GTM)?",
-    a: "Yes, we build complete investor-ready data rooms for idea-stage founders.",
+    q: 'What is MorseBridge and how does it help founders?',
+    a: 'MorseBridge is a premier venture enablement platform. We prepare founders for institutional capital through financial modeling products, pitch deck audits, and warm introductions to active investors.',
   },
   {
-    q: "Do you offer 1:1 matchmaking services?",
-    a: "Yes, across all stages — submit your data room to ayub@morsebridge.com.",
+    q: 'How does The 5-Minute CFO Model work?',
+    a: 'The 5-Minute CFO Model is an institutional-grade financial modeling framework designed for high-growth startups. It automates revenue builds, headcount plans, and runway scenarios in minutes.',
   },
   {
-    q: "Do you invest directly in startups?",
-    a: "We don't lead rounds but connect you with active investors in our network.",
-  },
-  {
-    q: "I'm a B2B SaaS founder — can you help build GTM motion or train our team?",
-    a: "Yes, we help design GTM playbooks and run founder/team training sessions.",
-  },
-  {
-    q: "I'm from Europe/US — can you help me expand into UAE or KSA?",
-    a: "Yes, through our partner Lahint support smooth market entry and business registration in both KSA and UAE.",
-  },
-  {
-    q: "Can you help with audio-visuals or product branding?",
-    a: "Yes, our in-house creative team supports pitch videos, explainer assets, and brand identity tailored to startup needs.",
+    q: 'How can I get invited to private investor dinners and summits?',
+    a: 'Apply through our platform or register for an upcoming bootcamp cohort. We maintain a strict 2:1 founder-to-investor ratio at all private dinners to ensure high-conviction conversations.',
   },
 ];
 
-/* ── Accordion FAQ Item Component ── */
-function FaqItem({ item }) {
+function FaqAccordionItem({ item }) {
   const [open, setOpen] = useState(false);
+
   return (
     <div
       style={{
-        background: '#ffffff',
-        border: '1px solid var(--border-medium)',
-        borderRadius: 12,
-        marginBottom: 12,
-        boxShadow: open ? 'var(--shadow-sm)' : 'none',
-        transition: 'all 0.2s ease',
+        background: '#14141B',
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 14,
         overflow: 'hidden',
+        transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
+        boxShadow: open ? '0 0 24px rgba(139, 92, 246, 0.15)' : 'var(--shadow-xs)',
+        borderColor: open ? 'rgba(139, 92, 246, 0.6)' : 'var(--border-subtle)',
       }}
     >
       <div
         onClick={() => setOpen((o) => !o)}
         style={{
-          padding: '20px 24px',
+          padding: '22px 26px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -497,28 +183,21 @@ function FaqItem({ item }) {
           userSelect: 'none',
         }}
       >
-        <span
-          style={{
-            fontSize: 16,
-            fontWeight: 600,
-            color: '#000000',
-            lineHeight: 1.4,
-          }}
-        >
+        <span style={{ fontSize: 16.5, fontWeight: 700, color: '#F5F5F7', lineHeight: 1.4 }}>
           {item.q}
         </span>
         <span
           style={{
-            width: 28,
-            height: 28,
+            width: 30,
+            height: 30,
             borderRadius: '50%',
-            background: open ? '#000000' : 'var(--bg-tertiary)',
-            color: open ? '#ffffff' : '#000000',
+            background: open ? '#8B5CF6' : 'rgba(255, 255, 255, 0.08)',
+            color: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: 16,
-            fontWeight: 600,
+            fontWeight: 700,
             transform: open ? 'rotate(45deg)' : 'rotate(0)',
             transition: 'transform 0.25s ease, background 0.2s ease',
             flexShrink: 0,
@@ -531,12 +210,12 @@ function FaqItem({ item }) {
       {open && (
         <div
           style={{
-            padding: '0 24px 22px',
+            padding: '0 26px 24px',
             color: 'var(--text-body)',
-            fontSize: 15,
+            fontSize: 14.5,
             lineHeight: 1.7,
-            borderTop: '1px solid var(--border-light)',
-            paddingTop: 16,
+            borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+            paddingTop: 18,
           }}
         >
           {item.a}
@@ -547,78 +226,146 @@ function FaqItem({ item }) {
 }
 
 /* ==========================================================================
-   HOMEPAGE MAIN COMPONENT (WITH UNIQUE MORSE PATTERN & SYSTEM)
+   HOMEPAGE MAIN COMPONENT (DARK SIGNAL TRANSMISSION THEME)
    ========================================================================== */
 export default function HomePage() {
-  useScrollReveal();
+  const { events, loading: eventsLoading } = useEvents();
+  const { podcasts, loading: podcastsLoading } = usePodcasts();
+  const { partners, loading: partnersLoading } = usePartners();
+  const { pastEvents, loading: pastEventsLoading } = usePastEvents();
+  const { testimonials, loading: testimonialsLoading } = useTestimonials();
 
-  const [eventOffset, setEventOffset] = useState(0);
   const [activePastCategory, setActivePastCategory] = useState('All');
-  const visibleEvents = 3;
+  const [heroHovered, setHeroHovered] = useState(false);
 
-  // Auto-play event cards subtle slide preview
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setEventOffset((prev) => (prev >= UPCOMING_EVENTS.length - visibleEvents ? 0 : prev + 1));
-    }, 6000);
-    return () => clearInterval(timer);
-  }, []);
+  const filteredPastVideos = activePastCategory === 'All'
+    ? pastEvents
+    : pastEvents.filter((v) => v.category === activePastCategory);
 
   return (
     <div style={{ background: 'var(--bg-canvas)', minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
-      {/* Unique Morse Background Pattern & Interactive Signal Canvas */}
-      <div className="morse-pattern-bg" />
-      <MorsePatternCanvas />
+      {/* Scroll Signal Progress Bar */}
+      <ScrollSignalProgress />
+
+      {/* 3D Animated Grid & Ambient Signal Node Canvas */}
+      <AnimatedGridBackground />
 
       {/* ====================================================================
           3.1 — HERO SECTION
           ==================================================================== */}
-      <section className="hero-section">
-        <div className="container container-narrow reveal-on-scroll">
-          {/* Main Headline */}
-          <h1 className="hero-headline" style={{ marginBottom: 20 }}>
+      <section className="hero-section" style={{ position: 'relative', zIndex: 1, paddingTop: 130, paddingBottom: 60 }}>
+        <div className="container container-narrow" style={{ textAlign: 'center' }}>
+          {/* Main Headline with 3D Depth */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-headline"
+            style={{
+              fontSize: 'clamp(2.75rem, 6vw, 4.5rem)',
+              fontWeight: 900,
+              lineHeight: 1.1,
+              letterSpacing: '-0.035em',
+              marginBottom: 20,
+              background: 'linear-gradient(180deg, #FFFFFF 0%, #E2E2E8 70%, #A3A3B0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
             Matching Startups<br />
             with Investors.
-          </h1>
+          </motion.h1>
 
           {/* Subheadline */}
-          <p className="hero-subheadline" style={{ marginBottom: 36, maxWidth: 620, margin: '0 auto 36px' }}>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-subheadline"
+            style={{
+              color: 'var(--text-muted)',
+              fontSize: 16.5,
+              maxWidth: 620,
+              margin: '0 auto 48px',
+              lineHeight: 1.65,
+            }}
+          >
             Over 700+ startups supported, from pre-seed to scale across MENA and global tech hubs.
-          </p>
+          </motion.p>
 
-          {/* Persona Selection Cards */}
-          <div className="hero-persona-cards reveal-on-scroll reveal-delay-1">
-            <Link to="/i-am-a-startup" className="persona-card hover-float with-corner-brackets">
-              <div style={{ textAlign: 'left' }}>
-                <div className="persona-card-type">I am a Startup</div>
-              </div>
-              <div className="persona-card-icon">↗</div>
-            </Link>
+          {/* Dual Persona Cards Connected by Living Signal Line */}
+          <div style={{ position: 'relative', maxWidth: 940, margin: '0 auto 36px' }}>
+            {/* Living Signal Line Bridge Layer (Behind cards) */}
+            <SignalLineBridge isHovered={heroHovered} />
 
-            <Link to="/i-am-an-investor" className="persona-card hover-float with-corner-brackets">
-              <div style={{ textAlign: 'left' }}>
-                <div className="persona-card-type">I am an Investor</div>
-              </div>
-              <div className="persona-card-icon">↗</div>
-            </Link>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: 28,
+                position: 'relative',
+                zIndex: 1,
+              }}
+            >
+              <HeroTiltCard
+                icon={Rocket}
+                badge="FOR FOUNDERS"
+                title="I am a Startup"
+                description="Master high-conversion pitch decks, financial models, and gain warm introductions to active Tier-1 investors."
+                items={[
+                  'Direct access to 100+ vetted institutional VCs',
+                  'Curated pitch days & flagship demo day slots',
+                  'Institutional 5-Minute CFO financial models',
+                ]}
+                ctaText="Apply for Capital Support"
+                accent="violet"
+                href="/i-am-a-startup"
+                onHoverChange={setHeroHovered}
+              />
+
+              <HeroTiltCard
+                icon={LineChart}
+                badge="FOR INVESTORS"
+                title="I am an Investor"
+                description="Receive vetted, institutional-grade deal flow with audited unit economics, growth metrics, and founder traction."
+                items={[
+                  'Pre-vetted seed & Series A tech deal flow',
+                  'Private roundtable & demo day invitations',
+                  'Standardized data rooms with audit metrics',
+                ]}
+                ctaText="Join Investor Syndicate"
+                accent="gold"
+                href="/i-am-an-investor"
+                onHoverChange={setHeroHovered}
+              />
+            </div>
           </div>
 
-          {/* Supporting text */}
-          <p style={{ color: 'var(--text-muted)', fontSize: 14, fontWeight: 500 }}>
+          {/* Supporting Text */}
+          <p style={{ color: 'var(--text-subtle)', fontSize: 14, fontWeight: 500 }}>
             Register now to connect, collaborate, and scale your venture.
           </p>
 
-          {/* Founder Quote */}
-          <div className="reveal-on-scroll reveal-delay-2" style={{ marginTop: 56, textAlign: 'center' }}>
-            <div className="founder-avatar-wrap">
+          {/* Founder Avatar & Signal Quote */}
+          <div style={{ marginTop: 52, textAlign: 'center' }}>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
               <img
                 src="/assets/investors/1.png"
                 alt="Muhammad Ayub"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{
+                  width: 58,
+                  height: 58,
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  display: 'block',
+                  margin: '0 auto 12px',
+                  border: '2px solid #8B5CF6',
+                  boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)',
+                }}
                 onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />
             </div>
-            <p style={{ fontWeight: 700, color: '#000000', fontSize: 16, marginBottom: 4 }}>
+            <p style={{ fontWeight: 700, color: '#F5F5F7', fontSize: 16, marginBottom: 4 }}>
               Muhammad Ayub — CEO &amp; Founder
             </p>
             <p style={{ color: 'var(--text-muted)', fontSize: 14.5, fontStyle: 'italic' }}>
@@ -628,163 +375,101 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Unique Telegraph Section Divider */}
-      <div className="container">
-        <div className="telegraph-line" />
-      </div>
+      {/* Signal Transmission Section Divider */}
+      <SignalDivider />
 
       {/* ====================================================================
-          3.2 — UPCOMING EVENTS (CAROUSEL OF GRAPHICAL EVENT BANNERS)
+          3.2 — UPCOMING EVENTS (3D GLASS CARDS)
           ==================================================================== */}
-      <section className="section" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-medium)', borderBottom: '1px solid var(--border-medium)' }}>
+      <section className="section" style={{ position: 'relative' }}>
         <div className="container">
-          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 36 }}>
-            <h2
-              style={{
-                fontSize: 'clamp(2.2rem, 4.5vw, 3rem)',
-                fontWeight: 900,
-                fontStyle: 'italic',
-                color: '#EAB308',
-                letterSpacing: '-0.02em',
-                marginBottom: 8,
-              }}
-            >
+          <div style={{ textAlign: 'center', marginBottom: 44 }}>
+            <h2 className="section-title-gold">
               Upcoming Event
             </h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: 15, fontWeight: 500 }}>
+            <p className="section-subtitle">
               Click on the event to view the details
             </p>
           </div>
 
-          {/* Carousel with Graphical Event Cards */}
-          <div className="reveal-on-scroll reveal-delay-1" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 16 }}>
-            <button
-              className="carousel-btn"
-              onClick={() => setEventOffset((o) => Math.max(0, o - 1))}
-              disabled={eventOffset === 0}
-              aria-label="Previous event"
-            >
-              ‹
-            </button>
-
-            <div style={{ flex: 1, overflow: 'hidden' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  gap: 20,
-                  transform: `translateX(calc(-${eventOffset * (100 / visibleEvents)}% - ${eventOffset * 20 / visibleEvents}px))`,
-                  transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-              >
-                {UPCOMING_EVENTS.map((ev) => (
-                  <a
-                    key={ev.id}
-                    href={ev.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover-float with-corner-brackets"
-                    style={{
-                      flex: `0 0 calc(${100 / visibleEvents}% - ${20 * (visibleEvents - 1) / visibleEvents}px)`,
-                      borderRadius: 14,
-                      overflow: 'hidden',
-                      border: '1px solid var(--border-medium)',
-                      background: '#000000',
-                      display: 'block',
-                      textDecoration: 'none',
-                      cursor: 'pointer',
-                      boxShadow: 'var(--shadow-sm)',
-                    }}
-                  >
-                    <img
-                      src={ev.image}
-                      alt={ev.title}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        aspectRatio: '16/9',
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                    />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <button
-              className="carousel-btn"
-              onClick={() => setEventOffset((o) => Math.min(UPCOMING_EVENTS.length - visibleEvents, o + 1))}
-              disabled={eventOffset >= UPCOMING_EVENTS.length - visibleEvents}
-              aria-label="Next event"
-            >
-              ›
-            </button>
+          {/* 3D Events Grid */}
+          <div className="grid-3" style={{ gap: 24, marginBottom: 36 }}>
+            {eventsLoading ? (
+              <ShimmerSkeleton count={3} height={420} />
+            ) : (
+              events.slice(0, 3).map((ev, idx) => (
+                <EventCard3D key={ev.id || idx} event={ev} index={idx} />
+              ))
+            )}
           </div>
 
-          {/* Closing Line */}
-          <div className="reveal-on-scroll reveal-delay-2" style={{ textAlign: 'center', marginTop: 32 }}>
-            <p style={{ fontSize: 16, fontWeight: 700, color: '#000000', marginBottom: 24 }}>
+          {/* Closing Actions */}
+          <div style={{ textAlign: 'center', marginTop: 32 }}>
+            <p style={{ fontSize: 16, fontWeight: 700, color: '#F5F5F7', marginBottom: 20 }}>
               Build, Host, or Join — We Make Startup Events Happen.
             </p>
-
-            {/* Two CTAs */}
             <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
               <a
                 href="https://www.eventbrite.co.uk/o/morse-bridge-78875439043"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary-black"
-                style={{ padding: '12px 28px' }}
+                className="btn-magnetic-signal"
+                style={{
+                  background: '#8B5CF6',
+                  color: '#FFFFFF',
+                  padding: '12px 28px',
+                  fontSize: 14.5,
+                }}
               >
-                Explore Events ↗
+                <span>Explore Events</span>
+                <ArrowUpRight size={16} />
+                <div className="btn-light-sweep" />
               </a>
-              <a
-                href="https://cal.com/morsebridge/30-min-intro"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary-white"
-                style={{ padding: '12px 28px' }}
+              <Link
+                to="/custom-events"
+                className="btn-magnetic-signal"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  color: '#F5F5F7',
+                  border: '1px solid var(--border-subtle)',
+                  padding: '12px 28px',
+                  fontSize: 14.5,
+                }}
               >
-                Product Launch ↗
-              </a>
+                <span>Product Launch</span>
+                <ArrowUpRight size={16} />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Signal Divider */}
+      <SignalDivider />
+
       {/* ====================================================================
           3.3 — TRUST BAR (CLIENT LOGOS MARQUEE)
           ==================================================================== */}
-      <section className="section" style={{ padding: '64px 0 64px', background: '#ffffff' }}>
-        <div className="container reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 36 }}>
-          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', fontWeight: 800, color: '#000000', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+      <section className="section" style={{ padding: '48px 0 60px' }}>
+        <div className="container" style={{ textAlign: 'center', marginBottom: 36 }}>
+          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', fontWeight: 800, color: '#F5F5F7', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
             Over 100+ Founders and<br />Investors who trust us
           </h2>
         </div>
 
-        {/* Continuous Client Logos Marquee */}
-        <div className="marquee-container" style={{ padding: '8px 0' }}>
-          <div className="marquee-track">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((num, i) => (
-              <div key={i} className="client-logo-item">
-                <img
-                  src={`/assets/logos/${num}.png`}
-                  alt={`Client partner logo ${num}`}
-                  loading="lazy"
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* 3D Infinite Logo Marquee */}
+        {partnersLoading ? (
+          <div style={{ padding: '0 20px' }}><ShimmerSkeleton count={1} height={58} borderRadius={9999} /></div>
+        ) : (
+          <LogoMarquee partners={partners} />
+        )}
       </section>
 
       {/* ====================================================================
-          3.4 — 100+ INVESTORS & MENTORS (DUAL MARQUEE WITH CATEGORY SIDEBAR)
+          3.4 — 100+ INVESTORS & MENTORS (DUAL MARQUEE)
           ==================================================================== */}
-      <section className="section" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-medium)', borderBottom: '1px solid var(--border-medium)' }}>
-        <div className="container reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 36 }}>
+      <section className="section" style={{ position: 'relative' }}>
+        <div className="container" style={{ textAlign: 'center', marginBottom: 36 }}>
           <h2 className="section-title">100+ Investors &amp; Mentors</h2>
           <p className="section-subtitle">
             A trusted global network of active venture capitalists, angel investors, and seasoned mentors backing high-potential startups.
@@ -792,96 +477,103 @@ export default function HomePage() {
         </div>
 
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
-          {/* Integrated Marquee Frame with Left Category Sidebar */}
           <div className="investor-marquee-layout">
-            
-            {/* Left Vertical Category Bar */}
-            <div className="investor-category-sidebar">
-              {/* Row 1 — INVESTOR Tab */}
+            {/* Left Category Sidebar */}
+            <div className="investor-category-sidebar" style={{ background: '#14141B', borderColor: 'var(--border-subtle)' }}>
               <div className="investor-category-tab">
-                <div className="category-badge-circle">I</div>
-                <span className="category-vertical-label">INVESTOR</span>
+                <div className="category-badge-circle" style={{ background: '#8B5CF6', color: '#FFFFFF' }}>I</div>
+                <span className="category-vertical-label font-data">INVESTOR</span>
               </div>
-
-              {/* Row 2 — MENTOR Tab */}
               <div className="investor-category-tab">
-                <div className="category-badge-circle">M</div>
-                <span className="category-vertical-label">MENTOR</span>
+                <div className="category-badge-circle" style={{ background: '#F5B400', color: '#0A0A0F' }}>M</div>
+                <span className="category-vertical-label font-data">MENTOR</span>
               </div>
             </div>
 
             {/* Dual Scrolling Marquee Columns */}
             <div className="investor-marquee-tracks-col">
-              
-              {/* Row 1 — Investors */}
               <div className="marquee-container">
                 <div className="marquee-track" style={{ animationDuration: '44s' }}>
                   {[...INVESTORS_ROW_1, ...INVESTORS_ROW_1].map((inv, idx) => (
-                    <div key={idx} className="investor-card-img-wrap hover-float with-corner-brackets">
+                    <div key={idx} className="investor-card-img-wrap hover-float" style={{ background: '#14141B', borderColor: 'var(--border-subtle)' }}>
                       <img
                         src={`/assets/investors/${inv.img}.png`}
                         alt={`${inv.name} - ${inv.role}`}
                         loading="lazy"
                         onError={(e) => { e.currentTarget.style.display = 'none'; }}
                       />
-                      <div className="investor-card-caption">
-                        <div className="investor-name">{inv.name}</div>
-                        <div className="investor-role">{inv.role}</div>
+                      <div className="investor-card-caption" style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(10, 10, 15, 0.95) 100%)' }}>
+                        <div className="investor-name" style={{ color: '#F5F5F7' }}>{inv.name}</div>
+                        <div className="investor-role" style={{ color: '#A3A3B0' }}>{inv.role}</div>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Row 2 — Mentors */}
               <div className="marquee-container">
                 <div className="marquee-track-reverse" style={{ animationDuration: '44s' }}>
                   {[...INVESTORS_ROW_2, ...INVESTORS_ROW_2].map((inv, idx) => (
-                    <div key={idx} className="investor-card-img-wrap hover-float with-corner-brackets">
+                    <div key={idx} className="investor-card-img-wrap hover-float" style={{ background: '#14141B', borderColor: 'var(--border-subtle)' }}>
                       <img
                         src={`/assets/investors/${inv.img}.png`}
                         alt={`${inv.name} - ${inv.role}`}
                         loading="lazy"
                         onError={(e) => { e.currentTarget.style.display = 'none'; }}
                       />
-                      <div className="investor-card-caption">
-                        <div className="investor-name">{inv.name}</div>
-                        <div className="investor-role">{inv.role}</div>
+                      <div className="investor-card-caption" style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(10, 10, 15, 0.95) 100%)' }}>
+                        <div className="investor-name" style={{ color: '#F5F5F7' }}>{inv.name}</div>
+                        <div className="investor-role" style={{ color: '#A3A3B0' }}>{inv.role}</div>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-
             </div>
           </div>
         </div>
       </section>
 
+      {/* Signal Divider */}
+      <SignalDivider />
+
       {/* ====================================================================
-          3.5 — "WHAT WE DO" (3 EDITORIAL CARDS)
+          3.5 — "WHAT WE DO" (3 DARK GLASS CARDS)
           ==================================================================== */}
       <section id="what-we-do" className="section">
         <div className="container">
-          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 className="section-title">What We Do</h2>
             <p className="section-subtitle">
               Empowering founders with clarity, credibility, and connections that drive real momentum.
             </p>
           </div>
 
-          <div className="grid-3">
+          <div className="grid-3" style={{ gap: 24 }}>
             {WHAT_WE_DO_DATA.map((item, idx) => (
-              <a
+              <motion.a
                 key={idx}
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`what-we-do-card hover-float reveal-on-scroll reveal-delay-${idx + 1}`}
-                style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.25 }}
+                className="what-we-do-card"
+                style={{
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  background: '#14141B',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 18,
+                  overflow: 'hidden',
+                  padding: 24,
+                  boxShadow: '0 8px 28px rgba(0, 0, 0, 0.4)',
+                }}
               >
                 {item.image && (
-                  <div className="what-we-do-img-wrap">
+                  <div className="what-we-do-img-wrap" style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
                     <img
                       src={item.image}
                       alt={item.title}
@@ -891,57 +583,57 @@ export default function HomePage() {
                     />
                   </div>
                 )}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                  <h3 className="what-we-do-title" style={{ margin: '18px 0 14px' }}>{item.title}</h3>
-                  <span style={{ fontSize: 16, color: '#7C3AED', fontWeight: 800 }}>↗</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                  <h3 className="what-we-do-title" style={{ margin: '14px 0 12px', color: '#F5F5F7', fontSize: 20 }}>{item.title}</h3>
+                  <span style={{ fontSize: 18, color: '#8B5CF6', fontWeight: 800 }}>↗</span>
                 </div>
-                <ul className="what-we-do-list" style={{ flex: 1 }}>
+                <ul className="what-we-do-list" style={{ flex: 1, color: 'var(--text-body)' }}>
                   {item.points.map((pt, pIdx) => (
-                    <li key={pIdx}>{pt}</li>
+                    <li key={pIdx} style={{ fontSize: 13.5, lineHeight: 1.6 }}>{pt}</li>
                   ))}
                 </ul>
-              </a>
+              </motion.a>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Signal Divider */}
+      <SignalDivider />
+
       {/* ====================================================================
-          3.6 — "HOW ARE WE MAKING A DIFFERENCE?" (6 STAT CARDS)
+          3.6 — "HOW ARE WE MAKING A DIFFERENCE?" (IMPACT STATS WITH COUNT-UP)
           ==================================================================== */}
-      <section className="section" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-medium)', borderBottom: '1px solid var(--border-medium)' }}>
+      <section className="section" style={{ position: 'relative' }}>
         <div className="container">
-          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 className="section-title">How Are We Making a Difference?</h2>
             <p className="section-subtitle">
               Measured impact across startups, capital deployment, and ecosystem growth.
             </p>
           </div>
 
-          <div className="grid-3">
+          <div className="grid-3" style={{ gap: 24 }}>
             {DIFFERENCE_CARDS.map((card, i) => (
               <div
                 key={i}
-                className={`mb-card hover-float reveal-on-scroll reveal-delay-${(i % 3) + 1} with-corner-brackets`}
-                style={{
-                  padding: '32px 28px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 8,
-                }}
+                className={`impact-stat-card ${card.featured ? 'featured-stat' : ''}`}
               >
+                {/* Top Border Traveling Signal Line */}
+                <div className="stat-top-scanline" />
+
                 <div
                   style={{
-                    fontSize: '2.5rem',
+                    fontSize: '3rem',
                     fontWeight: 900,
-                    color: '#000000',
+                    color: card.featured ? '#C4B5FD' : '#F5F5F7',
                     lineHeight: 1.1,
                     letterSpacing: '-0.03em',
                   }}
                 >
-                  {card.stat}
+                  <CountUpNumber value={card.stat} suffix={card.suffix} />
                 </div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#000000', marginBottom: 4 }}>
+                <div style={{ fontSize: 16.5, fontWeight: 700, color: '#F5F5F7', marginBottom: 4 }}>
                   {card.label}
                 </div>
                 <div style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>
@@ -953,96 +645,92 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Signal Divider */}
+      <SignalDivider />
+
       {/* ====================================================================
-          3.7 — "OUR PAST EVENTS" (VERTICAL YOUTUBE SHORTS & VIDEOS GRID)
+          3.7 — "OUR PAST EVENTS" (10 YOUTUBE SHORTS GRID)
           ==================================================================== */}
       <section className="section">
         <div className="container container-wide">
-          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 36 }}>
+          <div style={{ textAlign: 'center', marginBottom: 36 }}>
             <h2 className="section-title">Our Past Events</h2>
             <p className="section-subtitle">
               Watch summit highlights, live pitch sessions, and masterclasses from across MENA.
             </p>
           </div>
 
-          {/* Category Tabs */}
-          <div className="reveal-on-scroll reveal-delay-1" style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 36, flexWrap: 'wrap' }}>
-            {['All', 'Workshops', 'Startup Fundraising', 'Community'].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActivePastCategory(cat)}
-                style={{
-                  padding: '8px 22px',
-                  borderRadius: 9999,
-                  border: `1px solid ${activePastCategory === cat ? '#000000' : 'var(--border-medium)'}`,
-                  background: activePastCategory === cat ? '#000000' : '#ffffff',
-                  color: activePastCategory === cat ? '#ffffff' : 'var(--text-secondary)',
-                  fontSize: 13.5,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxShadow: activePastCategory === cat ? 'var(--shadow-xs)' : 'none',
-                }}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* 10 Vertical YouTube Shorts / Videos Grid (2 rows x 5 columns) */}
-          <div className="past-events-grid">
-            {(activePastCategory === 'All'
-              ? PAST_EVENT_VIDEOS
-              : PAST_EVENT_VIDEOS.filter((v) => v.category === activePastCategory)
-            ).map((item, idx) => {
-              const embedUrl = getYouTubeEmbedUrl(item.youtubeUrl);
-              return (
-                <div
-                  key={item.id}
-                  className={`past-event-video-card reveal-on-scroll reveal-delay-${(idx % 5) + 1}`}
+          {/* Category Tabs with Animated Pill */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 36 }}>
+            <div className="category-tab-container">
+              {['All', 'Workshops', 'Startup Fundraising', 'Community'].map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActivePastCategory(cat)}
+                  className={`category-tab-btn ${activePastCategory === cat ? 'active' : ''}`}
                 >
-                  {embedUrl ? (
-                    <iframe
-                      src={embedUrl}
-                      title={item.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      className="past-event-iframe"
+                  {activePastCategory === cat && (
+                    <motion.div
+                      layoutId="pastEventActiveTab"
+                      className="category-tab-active-pill"
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
-                  ) : (
-                    <div className="past-event-placeholder">
-                      <div className="past-event-yt-icon">▶</div>
-                      <div className="past-event-placeholder-title">{item.title}</div>
-                      <div className="past-event-placeholder-hint">
-                        + Paste link in <code>PAST_EVENT_VIDEOS</code>
-                      </div>
-                    </div>
                   )}
-                </div>
-              );
-            })}
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* YouTube Link */}
-          <div className="reveal-on-scroll reveal-delay-2" style={{ textAlign: 'center', marginTop: 40 }}>
+          {/* 10 Vertical Video Cards (2 rows x 5 columns) */}
+          <div className="past-events-grid">
+            {pastEventsLoading ? (
+              <ShimmerSkeleton count={10} aspectRatio="9/16" />
+            ) : (
+              filteredPastVideos.map((item, idx) => (
+                <VideoCard3D
+                  key={item.id || idx}
+                  video={item}
+                  aspectRatio="9/16"
+                  index={idx}
+                  accent={idx % 2 === 0 ? 'violet' : 'gold'}
+                />
+              ))
+            )}
+          </div>
+
+          {/* Channel Link */}
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
             <a
               href="https://www.youtube.com/@foundermeetinvestor"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-secondary-white"
+              className="btn-magnetic-signal"
+              style={{
+                display: 'inline-flex',
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#F5F5F7',
+                border: '1px solid var(--border-subtle)',
+                padding: '12px 28px',
+                fontSize: 14.5,
+              }}
             >
-              Watch More on YouTube (@foundermeetinvestor) ↗
+              <span>Watch More on YouTube (@foundermeetinvestor)</span>
+              <ArrowUpRight size={16} />
             </a>
           </div>
         </div>
       </section>
 
+      {/* Signal Divider */}
+      <SignalDivider />
+
       {/* ====================================================================
           3.8 — "COMMENTS BY FOUNDERS & INVESTORS" (YOUTUBE SHORTS GRID)
           ==================================================================== */}
-      <section className="section" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-medium)', borderBottom: '1px solid var(--border-medium)' }}>
+      <section className="section" style={{ position: 'relative' }}>
         <div className="container container-wide">
-          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <h2 className="section-title">Comments By Founders &amp; Investors</h2>
             <p className="section-subtitle">
               What those who've built and backed say about us.
@@ -1051,212 +739,118 @@ export default function HomePage() {
 
           {/* 8 Vertical YouTube Shorts Grid (2 rows x 4 columns) */}
           <div className="comments-shorts-grid">
-            {FOUNDER_COMMENT_SHORTS.map((item, idx) => {
-              const embedUrl = getYouTubeEmbedUrl(item.youtubeUrl);
-              return (
-                <div
-                  key={item.id}
-                  className={`past-event-video-card reveal-on-scroll reveal-delay-${(idx % 4) + 1}`}
-                >
-                  {embedUrl ? (
-                    <iframe
-                      src={embedUrl}
-                      title={item.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      className="past-event-iframe"
-                    />
-                  ) : (
-                    <div className="past-event-placeholder">
-                      <div className="past-event-yt-icon">▶</div>
-                      <div className="past-event-placeholder-title">{item.title}</div>
-                      <div className="past-event-placeholder-hint">
-                        + Paste link in <code>FOUNDER_COMMENT_SHORTS</code>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            {testimonialsLoading ? (
+              <ShimmerSkeleton count={8} aspectRatio="9/16" />
+            ) : (
+              testimonials.map((item, idx) => (
+                <VideoCard3D
+                  key={item.id || idx}
+                  video={item}
+                  aspectRatio="9/16"
+                  index={idx}
+                  accent={idx % 2 === 0 ? 'violet' : 'gold'}
+                />
+              ))
+            )}
           </div>
         </div>
       </section>
+
+      {/* Signal Divider */}
+      <SignalDivider />
 
       {/* ====================================================================
           3.9 — "PODCAST: FOUNDERS TALK WITH AYUB"
           ==================================================================== */}
-      <section id="podcast" className="section">
-        <div className="container container-wide">
-          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 36 }}>
-            <h3 style={{ color: '#EAB308', fontStyle: 'italic', fontSize: '2.5rem', fontWeight: 800, margin: '0 0 14px', letterSpacing: '-0.02em' }}>
-              Podcast
-            </h3>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 14 }}>
-              <div
-                style={{
-                  background: '#000000',
-                  padding: '12px 28px',
-                  borderRadius: 12,
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
-                }}
-              >
-                <img
-                  src="/assets/podcast/founders_talk_logo_transparent.png"
-                  alt="Founders Talk with Ayub"
-                  style={{ maxHeight: 46, maxWidth: 260, objectFit: 'contain', display: 'block' }}
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-              </div>
-            </div>
-            <p className="section-subtitle" style={{ marginTop: 8 }}>
-              Honest conversations with builders shaping what's next.
-            </p>
-          </div>
+      <PodcastStack podcasts={podcasts} loading={podcastsLoading} />
 
-          {/* 4 Horizontal YouTube Episode Cards (16:9) */}
-          <div className="podcast-videos-grid">
-            {PODCAST_EPISODES.map((ep, idx) => {
-              const embedUrl = getYouTubeEmbedUrl(ep.youtubeUrl);
-              return (
-                <div
-                  key={ep.id}
-                  className={`podcast-video-card reveal-on-scroll reveal-delay-${idx + 1}`}
-                >
-                  {embedUrl ? (
-                    <iframe
-                      src={embedUrl}
-                      title={ep.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-                    />
-                  ) : (
-                    <div className="past-event-placeholder">
-                      <div className="past-event-yt-icon">▶</div>
-                      <div className="past-event-placeholder-title">{ep.title}</div>
-                      <div className="past-event-placeholder-hint">
-                        + Paste link in <code>PODCAST_EPISODES</code>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Watch CTA Button */}
-          <div className="reveal-on-scroll reveal-delay-2" style={{ textAlign: 'center', marginTop: 8 }}>
-            <a
-              href="https://youtube.com/@FoundersTalkwithAyub"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="podcast-cta-btn"
-            >
-              Watch ↗
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* Signal Divider */}
+      <SignalDivider />
 
       {/* ====================================================================
-          3.10 — FAQ ACCORDION
+          3.10 — FAQS SECTION
           ==================================================================== */}
-      <section id="faqs" className="section" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-medium)', borderBottom: '1px solid var(--border-medium)' }}>
+      <section id="faqs" className="section" style={{ position: 'relative' }}>
         <div className="container container-narrow">
-          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 className="section-title">Frequently Asked Questions</h2>
             <p className="section-subtitle">
-              Quick answers to common questions about our platform and services.
+              Everything you need to know about partnering, bootcamps, and capital enablement.
             </p>
           </div>
 
-          <div className="reveal-on-scroll reveal-delay-1">
-            {FAQS_DATA.map((faq, i) => (
-              <FaqItem key={i} item={faq} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {FAQS_DATA.map((faq, idx) => (
+              <FaqAccordionItem key={idx} item={faq} />
             ))}
-          </div>
-
-          <div className="reveal-on-scroll reveal-delay-2" style={{ textAlign: 'center', marginTop: 36 }}>
-            <p style={{ color: 'var(--text-muted)', fontSize: 14.5 }}>
-              Have more questions?{' '}
-              <a
-                href="https://cal.com/morsebridge/30-min-intro"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: '#000000', fontWeight: 700, textDecoration: 'underline' }}
-              >
-                Schedule an Intro Call ↗
-              </a>
-            </p>
           </div>
         </div>
       </section>
 
       {/* ====================================================================
-          3.11 — CLOSING CTA BANNER
+          3.11 — FINAL CALL TO ACTION
           ==================================================================== */}
-      <section className="section" style={{ textAlign: 'center', paddingBottom: 110 }}>
-        <div className="container container-narrow reveal-on-scroll">
-          <div
-            className="with-corner-brackets cta-banner"
+      <section className="section" style={{ textAlign: 'center', padding: '100px 0', position: 'relative' }}>
+        <div className="container container-narrow">
+          <h2
             style={{
-              background: '#F3E8FF',
-              borderRadius: 20,
-              padding: '64px 36px',
-              color: '#000000',
+              fontSize: 'clamp(2.4rem, 5vw, 3.5rem)',
+              fontWeight: 900,
+              color: '#F5F5F7',
+              lineHeight: 1.15,
+              letterSpacing: '-0.03em',
+              marginBottom: 18,
             }}
           >
-            <h2
+            Ready to Accelerate Your<br />Fundraising Journey?
+          </h2>
+          <p
+            style={{
+              color: 'var(--text-muted)',
+              fontSize: 16.5,
+              maxWidth: 540,
+              margin: '0 auto 38px',
+              lineHeight: 1.6,
+            }}
+          >
+            Join over 700+ founders and 500+ investors scaling high-impact ventures across MENA and global hubs.
+          </p>
+          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link
+              to="/signup"
+              className="btn-magnetic-signal"
               style={{
-                fontSize: 'clamp(2.2rem, 5vw, 3.2rem)',
-                fontWeight: 800,
-                color: '#000000',
-                marginBottom: 16,
-                letterSpacing: '-0.03em',
+                background: '#8B5CF6',
+                color: '#FFFFFF',
+                padding: '14px 36px',
+                fontSize: 15.5,
               }}
             >
-              Ready to Grow? Let's Go!
-            </h2>
-            <p style={{ color: '#4b5563', fontSize: 16.5, marginBottom: 36, maxWidth: 500, margin: '0 auto 36px' }}>
-              Book an intro call today and launch your next move with institutional backing.
-            </p>
+              <span>Get Started Now</span>
+              <ArrowUpRight size={17} />
+              <div className="btn-light-sweep" />
+            </Link>
             <a
               href="https://cal.com/morsebridge/30-min-intro"
               target="_blank"
               rel="noopener noreferrer"
+              className="btn-magnetic-signal"
               style={{
-                background: '#000000',
-                color: '#ffffff',
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#F5F5F7',
+                border: '1px solid var(--border-subtle)',
                 padding: '14px 36px',
-                borderRadius: 9999,
-                fontSize: 15,
-                fontWeight: 700,
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 255, 255, 0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
+                fontSize: 15.5,
               }}
             >
-              Book a 30-Min Intro Call ↗
+              <span>Book 30-Min Intro</span>
+              <ArrowUpRight size={17} />
             </a>
           </div>
         </div>
       </section>
 
+      {/* Footer */}
       <Footer />
     </div>
   );

@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import MorsebridgeLogo from './MorsebridgeLogo';
 
@@ -45,138 +46,329 @@ export default function Navbar() {
     if (link.isExternal) return false;
     if (link.href === '/') return location.pathname === '/' && !location.hash;
     if (link.href.startsWith('/#')) return location.hash === link.href.replace('/', '');
-    return location.pathname.startsWith(link.href);
+    return location.pathname === link.href || location.pathname.startsWith(`${link.href}/`);
   };
 
   return (
     <>
-      <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
-        <div className="container">
-          <div className="navbar-inner">
-            {/* EXACT BRAND LOGO */}
-            <Link to="/" className="logo-wrap">
-              <MorsebridgeLogo />
+      <nav
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          background: scrolled ? 'rgba(10, 10, 15, 0.88)' : 'rgba(10, 10, 15, 0.65)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+          padding: scrolled ? '12px 0' : '16px 0',
+        }}
+      >
+        <div style={{ maxWidth: 1380, margin: '0 auto', padding: '0 24px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 20,
+            }}
+          >
+            {/* Logo on Left */}
+            <Link
+              to="/"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                textDecoration: 'none',
+                flexShrink: 0,
+              }}
+            >
+              <MorsebridgeLogo fontSize="22px" />
             </Link>
 
-            {/* Desktop Nav Links */}
-            <ul className="nav-menu">
-              {NAV_LINKS.map((link) => (
-                <li key={link.label}>
-                  {link.isExternal ? (
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="nav-link"
-                    >
-                      {link.label} ↗
-                    </a>
-                  ) : (
-                    <Link
-                      to={link.href}
-                      onClick={() => handleNavClick(link.href, link.isExternal)}
-                      className={`nav-link${isActive(link) ? ' active' : ''}`}
-                    >
-                      {link.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
+            {/* Desktop Navigation Links */}
+            <div
+              className="desktop-nav-menu"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 22,
+                listStyle: 'none',
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              {NAV_LINKS.map((link) => {
+                const active = isActive(link);
+                return (
+                  <div key={link.label} style={{ position: 'relative', whiteSpace: 'nowrap' }}>
+                    {link.isExternal ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: '#A3A3B0',
+                          fontSize: 14.5,
+                          fontWeight: 500,
+                          padding: '6px 10px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          textDecoration: 'none',
+                          transition: 'color 0.2s ease',
+                          whiteSpace: 'nowrap',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = '#A3A3B0')}
+                      >
+                        <span>{link.label}</span>
+                        <span style={{ fontSize: 11, opacity: 0.7 }}>↗</span>
+                      </a>
+                    ) : (
+                      <Link
+                        to={link.href}
+                        onClick={() => handleNavClick(link.href, link.isExternal)}
+                        style={{
+                          color: active ? '#FFFFFF' : '#A3A3B0',
+                          fontSize: 14.5,
+                          fontWeight: active ? 600 : 500,
+                          padding: active ? '7px 18px' : '6px 12px',
+                          borderRadius: 9999,
+                          background: active ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                          border: active ? '1px solid rgba(255, 255, 255, 0.14)' : '1px solid transparent',
+                          display: 'inline-block',
+                          textDecoration: 'none',
+                          transition: 'all 0.2s ease',
+                          whiteSpace: 'nowrap',
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!active) e.currentTarget.style.color = '#FFFFFF';
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!active) e.currentTarget.style.color = '#A3A3B0';
+                        }}
+                      >
+                        {link.label}
+                      </Link>
+                    )}
 
-            {/* Desktop Actions (Sign Up / Sign In) */}
-            <div className="nav-actions">
+                    {/* Glowing Active Morse Underline */}
+                    {active && (
+                      <motion.div
+                        layoutId="navActiveSignal"
+                        style={{
+                          position: 'absolute',
+                          bottom: -4,
+                          left: 12,
+                          right: 12,
+                          height: 2,
+                          background: 'linear-gradient(90deg, #8B5CF6 0%, #F5B400 100%)',
+                          borderRadius: 2,
+                          boxShadow: '0 0 10px rgba(139, 92, 246, 0.8)',
+                        }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right Action Buttons */}
+            <div
+              className="desktop-nav-actions"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                flexShrink: 0,
+              }}
+            >
               {user ? (
                 <>
-                  <Link to="/dashboard" className="btn-sign-up">
+                  <Link
+                    to="/dashboard"
+                    style={{
+                      background: '#8B5CF6',
+                      color: '#FFFFFF',
+                      padding: '8px 20px',
+                      borderRadius: 9999,
+                      fontSize: 13.5,
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                      boxShadow: '0 0 16px rgba(139, 92, 246, 0.4)',
+                    }}
+                  >
                     Dashboard
                   </Link>
                   <button
-                    className="btn-sign-in"
                     onClick={() => { logout(); navigate('/'); }}
-                    style={{ background: '#000000' }}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      color: '#F5F5F7',
+                      padding: '8px 18px',
+                      borderRadius: 9999,
+                      fontSize: 13.5,
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
                   >
                     Sign Out
                   </button>
                 </>
               ) : (
                 <>
-                  <Link to="/signup" className="btn-sign-up">
-                    sign up
-                  </Link>
-                  <Link to="/login" className="btn-sign-in">
-                    sign In
-                  </Link>
+                  <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                    <Link
+                      to="/signup"
+                      style={{
+                        background: '#8B5CF6',
+                        color: '#FFFFFF',
+                        padding: '9px 24px',
+                        borderRadius: 9999,
+                        fontSize: 14,
+                        fontWeight: 700,
+                        textDecoration: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        letterSpacing: '0.01em',
+                      }}
+                    >
+                      Sign Up
+                    </Link>
+                  </motion.div>
+
+                  <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                    <Link
+                      to="/login"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.06)',
+                        border: '1px solid rgba(255, 255, 255, 0.14)',
+                        color: '#F5F5F7',
+                        padding: '9px 22px',
+                        borderRadius: 9999,
+                        fontSize: 14,
+                        fontWeight: 600,
+                        textDecoration: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'background 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)')}
+                    >
+                      Sign In
+                    </Link>
+                  </motion.div>
                 </>
               )}
             </div>
 
-            {/* Mobile Toggle */}
+            {/* Mobile Toggle Button */}
             <button
-              className="nav-mobile-toggle"
+              className="mobile-nav-toggle-btn"
               onClick={() => setMobileOpen((o) => !o)}
-              aria-label="Toggle menu"
+              aria-label="Toggle Navigation Menu"
+              style={{
+                display: 'none',
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                color: '#F5F5F7',
+                borderRadius: 8,
+                padding: '7px 12px',
+                fontSize: 18,
+                cursor: 'pointer',
+              }}
             >
-              {mobileOpen ? (
-                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 12h18M3 6h18M3 18h18" />
-                </svg>
-              )}
+              {mobileOpen ? '✕' : '☰'}
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Drawer */}
-      <div className={`mobile-drawer${mobileOpen ? ' open' : ''}`}>
-        {NAV_LINKS.map((link) =>
-          link.isExternal ? (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="nav-link"
-            >
-              {link.label} ↗
-            </a>
-          ) : (
-            <Link
-              key={link.label}
-              to={link.href}
-              onClick={() => handleNavClick(link.href, link.isExternal)}
-              className={`nav-link${isActive(link) ? ' active' : ''}`}
-            >
-              {link.label}
-            </Link>
-          )
+      {/* Mobile Drawer Menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              top: 62,
+              background: 'rgba(10, 10, 15, 0.98)',
+              backdropFilter: 'blur(24px)',
+              zIndex: 999,
+              padding: '32px 24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 20,
+            }}
+          >
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                to={link.href}
+                onClick={() => { handleNavClick(link.href, link.isExternal); setMobileOpen(false); }}
+                style={{
+                  fontSize: 18,
+                  fontWeight: 600,
+                  color: isActive(link) ? '#8B5CF6' : '#F5F5F7',
+                  textDecoration: 'none',
+                  padding: '8px 0',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+                }}
+              >
+                {link.label} {link.isExternal && '↗'}
+              </Link>
+            ))}
+
+            <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <Link
+                to="/signup"
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  background: '#8B5CF6',
+                  color: '#FFFFFF',
+                  textAlign: 'center',
+                  padding: '13px',
+                  borderRadius: 12,
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                }}
+              >
+                Sign Up
+              </Link>
+              <Link
+                to="/login"
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  color: '#F5F5F7',
+                  textAlign: 'center',
+                  padding: '13px',
+                  borderRadius: 12,
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                }}
+              >
+                Sign In
+              </Link>
+            </div>
+          </motion.div>
         )}
-        <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
-          {user ? (
-            <>
-              <Link to="/dashboard" className="btn-sign-up" style={{ flex: 1, textAlign: 'center' }}>
-                Dashboard
-              </Link>
-              <button className="btn-sign-in" onClick={() => { logout(); navigate('/'); }} style={{ flex: 1 }}>
-                Sign Out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/signup" className="btn-sign-up" style={{ flex: 1, textAlign: 'center' }}>
-                sign up
-              </Link>
-              <Link to="/login" className="btn-sign-in" style={{ flex: 1, textAlign: 'center' }}>
-                sign In
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
+      </AnimatePresence>
     </>
   );
 }

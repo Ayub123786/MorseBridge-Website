@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import MorsebridgeLogo from '../components/MorsebridgeLogo';
 
 /* ── Shared Auth Card Wrapper ── */
 function AuthWrap({ children }) {
@@ -14,37 +15,30 @@ function AuthWrap({ children }) {
         justifyContent: 'center',
         padding: '80px 20px',
         position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      {/* Soft Light Theme Glow */}
-      <div className="hero-glow-light" />
+      {/* Ambient Mesh Glow */}
+      <div className="ambient-mesh-glow" />
 
       <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 460 }}>
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <span
-              style={{
-                fontFamily: "'Montserrat', Arial, sans-serif",
-                fontSize: 22,
-                fontWeight: 400,
-                color: 'var(--text-primary)',
-                letterSpacing: '0.04em',
-              }}
-            >
-              MORSE<span style={{ fontWeight: 900 }}>BRIDGE</span>
-              <span style={{ color: 'var(--gold)', fontWeight: 900 }}>.</span>
-            </span>
+          <Link to="/" style={{ textDecoration: 'none', display: 'inline-flex' }}>
+            <MorsebridgeLogo fontSize="26px" />
           </Link>
         </div>
-        {/* Card */}
+
+        {/* Dark Glass Card */}
         <div
           style={{
-            background: '#ffffff',
-            border: '1px solid var(--border-slate)',
-            borderRadius: 20,
-            padding: '36px 32px',
-            boxShadow: 'var(--shadow-lg)',
+            background: '#14141B',
+            border: '1px solid rgba(255, 255, 255, 0.09)',
+            borderRadius: 22,
+            padding: '38px 34px',
+            boxShadow: '0 20px 48px rgba(0, 0, 0, 0.7)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
           }}
         >
           {children}
@@ -83,9 +77,10 @@ export function LoginPage() {
           fontSize: '1.9rem',
           fontWeight: 900,
           fontStyle: 'italic',
-          color: 'var(--text-primary)',
+          color: '#F5F5F7',
           textAlign: 'center',
           marginBottom: 8,
+          letterSpacing: '-0.02em',
         }}
       >
         Welcome Back
@@ -97,9 +92,9 @@ export function LoginPage() {
       {error && (
         <div
           style={{
-            background: '#fef2f2',
-            border: '1px solid #fecaca',
-            color: '#dc2626',
+            background: 'rgba(239, 68, 68, 0.12)',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            color: '#F87171',
             padding: '12px 16px',
             borderRadius: 10,
             fontSize: 13.5,
@@ -111,8 +106,10 @@ export function LoginPage() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="form-label">Email Address</label>
+        <div className="form-group" style={{ marginBottom: 18 }}>
+          <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13.5, fontWeight: 600, marginBottom: 8 }}>
+            Email Address
+          </label>
           <input
             className="form-input"
             type="email"
@@ -120,10 +117,23 @@ export function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            style={{
+              width: '100%',
+              padding: '13px 16px',
+              borderRadius: 12,
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              color: '#F5F5F7',
+              fontSize: 14.5,
+              outline: 'none',
+            }}
           />
         </div>
-        <div className="form-group">
-          <label className="form-label">Password</label>
+
+        <div className="form-group" style={{ marginBottom: 16 }}>
+          <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13.5, fontWeight: 600, marginBottom: 8 }}>
+            Password
+          </label>
           <input
             className="form-input"
             type="password"
@@ -131,13 +141,23 @@ export function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            style={{
+              width: '100%',
+              padding: '13px 16px',
+              borderRadius: 12,
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              color: '#F5F5F7',
+              fontSize: 14.5,
+              outline: 'none',
+            }}
           />
         </div>
 
-        <div style={{ textAlign: 'right', marginBottom: 24, marginTop: -10 }}>
+        <div style={{ textAlign: 'right', marginBottom: 24, marginTop: 4 }}>
           <Link
             to="/reset-password"
-            style={{ fontSize: 13, color: 'var(--purple-primary)', textDecoration: 'none', fontWeight: 600 }}
+            style={{ fontSize: 13, color: '#A78BFA', textDecoration: 'none', fontWeight: 600 }}
           >
             Forgot password?
           </Link>
@@ -145,14 +165,20 @@ export function LoginPage() {
 
         <button
           type="submit"
-          className="btn-purple"
           disabled={loading}
           style={{
             width: '100%',
-            justifyContent: 'center',
+            background: '#8B5CF6',
+            color: '#FFFFFF',
+            border: 'none',
+            borderRadius: 12,
             padding: '14px',
             fontSize: 15,
+            fontWeight: 700,
+            cursor: 'pointer',
+            boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)',
             opacity: loading ? 0.7 : 1,
+            transition: 'transform 0.2s ease, opacity 0.2s ease',
           }}
         >
           {loading ? 'Signing in...' : 'Sign In'}
@@ -161,7 +187,7 @@ export function LoginPage() {
 
       <p style={{ textAlign: 'center', marginTop: 24, color: 'var(--text-muted)', fontSize: 14 }}>
         Don't have an account?{' '}
-        <Link to="/signup" style={{ color: 'var(--purple-primary)', fontWeight: 700, textDecoration: 'none' }}>
+        <Link to="/signup" style={{ color: '#A78BFA', fontWeight: 700, textDecoration: 'none' }}>
           Sign Up
         </Link>
       </p>
@@ -186,9 +212,10 @@ export function ResetPasswordPage() {
           fontSize: '1.9rem',
           fontWeight: 900,
           fontStyle: 'italic',
-          color: 'var(--text-primary)',
+          color: '#F5F5F7',
           textAlign: 'center',
           marginBottom: 8,
+          letterSpacing: '-0.02em',
         }}
       >
         Reset Password
@@ -200,9 +227,9 @@ export function ResetPasswordPage() {
       {sent ? (
         <div
           style={{
-            background: '#f0fdf4',
-            border: '1px solid #bbf7d0',
-            color: '#16a34a',
+            background: 'rgba(34, 197, 94, 0.12)',
+            border: '1px solid rgba(34, 197, 94, 0.3)',
+            color: '#4ADE80',
             padding: '16px',
             borderRadius: 12,
             textAlign: 'center',
@@ -213,8 +240,10 @@ export function ResetPasswordPage() {
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">Email Address</label>
+          <div className="form-group" style={{ marginBottom: 20 }}>
+            <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13.5, fontWeight: 600, marginBottom: 8 }}>
+              Email Address
+            </label>
             <input
               className="form-input"
               type="email"
@@ -222,12 +251,32 @@ export function ResetPasswordPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              style={{
+                width: '100%',
+                padding: '13px 16px',
+                borderRadius: 12,
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                color: '#F5F5F7',
+                fontSize: 14.5,
+                outline: 'none',
+              }}
             />
           </div>
           <button
             type="submit"
-            className="btn-purple"
-            style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: 15 }}
+            style={{
+              width: '100%',
+              background: '#8B5CF6',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: 12,
+              padding: '14px',
+              fontSize: 15,
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)',
+            }}
           >
             Send Reset Link
           </button>
@@ -235,7 +284,7 @@ export function ResetPasswordPage() {
       )}
 
       <p style={{ textAlign: 'center', marginTop: 24, color: 'var(--text-muted)', fontSize: 14 }}>
-        <Link to="/login" style={{ color: 'var(--purple-primary)', fontWeight: 600, textDecoration: 'none' }}>
+        <Link to="/login" style={{ color: '#A78BFA', fontWeight: 600, textDecoration: 'none' }}>
           ← Back to Sign In
         </Link>
       </p>
@@ -248,10 +297,15 @@ export function UpdatePasswordPage() {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [done, setDone] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === confirm) setDone(true);
+    if (password !== confirm) {
+      setError('Passwords do not match');
+      return;
+    }
+    setDone(true);
   };
 
   return (
@@ -261,9 +315,10 @@ export function UpdatePasswordPage() {
           fontSize: '1.9rem',
           fontWeight: 900,
           fontStyle: 'italic',
-          color: 'var(--text-primary)',
+          color: '#F5F5F7',
           textAlign: 'center',
           marginBottom: 8,
+          letterSpacing: '-0.02em',
         }}
       >
         Set New Password
@@ -272,27 +327,47 @@ export function UpdatePasswordPage() {
         Choose a secure password for your account.
       </p>
 
+      {error && (
+        <div
+          style={{
+            background: 'rgba(239, 68, 68, 0.12)',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            color: '#F87171',
+            padding: '12px 16px',
+            borderRadius: 10,
+            fontSize: 13.5,
+            marginBottom: 20,
+          }}
+        >
+          {error}
+        </div>
+      )}
+
       {done ? (
         <div
           style={{
-            background: '#f0fdf4',
-            border: '1px solid #bbf7d0',
-            color: '#16a34a',
+            background: 'rgba(34, 197, 94, 0.12)',
+            border: '1px solid rgba(34, 197, 94, 0.3)',
+            color: '#4ADE80',
             padding: '16px',
             borderRadius: 12,
             textAlign: 'center',
             fontSize: 14,
           }}
         >
-          ✓ Password updated successfully.{' '}
-          <Link to="/login" style={{ color: 'var(--purple-primary)', fontWeight: 700 }}>
-            Sign In now →
-          </Link>
+          ✓ Password updated successfully!
+          <div style={{ marginTop: 12 }}>
+            <Link to="/login" style={{ color: '#8B5CF6', fontWeight: 700 }}>
+              Sign in with your new password →
+            </Link>
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">New Password</label>
+          <div className="form-group" style={{ marginBottom: 18 }}>
+            <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13.5, fontWeight: 600, marginBottom: 8 }}>
+              New Password
+            </label>
             <input
               className="form-input"
               type="password"
@@ -300,28 +375,66 @@ export function UpdatePasswordPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              style={{
+                width: '100%',
+                padding: '13px 16px',
+                borderRadius: 12,
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                color: '#F5F5F7',
+                fontSize: 14.5,
+                outline: 'none',
+              }}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label">Confirm Password</label>
+          <div className="form-group" style={{ marginBottom: 24 }}>
+            <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13.5, fontWeight: 600, marginBottom: 8 }}>
+              Confirm New Password
+            </label>
             <input
               className="form-input"
               type="password"
-              placeholder="Confirm new password"
+              placeholder="Repeat password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
               required
+              style={{
+                width: '100%',
+                padding: '13px 16px',
+                borderRadius: 12,
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                color: '#F5F5F7',
+                fontSize: 14.5,
+                outline: 'none',
+              }}
             />
           </div>
           <button
             type="submit"
-            className="btn-purple"
-            style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: 15 }}
+            style={{
+              width: '100%',
+              background: '#8B5CF6',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: 12,
+              padding: '14px',
+              fontSize: 15,
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)',
+            }}
           >
             Update Password
           </button>
         </form>
       )}
+
+      <p style={{ textAlign: 'center', marginTop: 24, color: 'var(--text-muted)', fontSize: 14 }}>
+        <Link to="/login" style={{ color: '#A78BFA', fontWeight: 600, textDecoration: 'none' }}>
+          ← Back to Sign In
+        </Link>
+      </p>
     </AuthWrap>
   );
 }

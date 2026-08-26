@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import MorsebridgeLogo from '../components/MorsebridgeLogo';
 
 export default function SignupPage() {
   const [tab, setTab] = useState('startup'); // 'startup' | 'investor'
@@ -36,9 +37,10 @@ export default function SignupPage() {
         justifyContent: 'center',
         padding: '80px 20px',
         position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div className="hero-glow-light" />
+      <div className="ambient-mesh-glow" />
 
       <div
         style={{
@@ -50,30 +52,21 @@ export default function SignupPage() {
       >
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <span
-              style={{
-                fontFamily: "'Montserrat', Arial, sans-serif",
-                fontSize: 22,
-                fontWeight: 400,
-                color: 'var(--text-primary)',
-                letterSpacing: '0.04em',
-              }}
-            >
-              MORSE<span style={{ fontWeight: 900 }}>BRIDGE</span>
-              <span style={{ color: 'var(--gold)', fontWeight: 900 }}>.</span>
-            </span>
+          <Link to="/" style={{ textDecoration: 'none', display: 'inline-flex' }}>
+            <MorsebridgeLogo fontSize="26px" />
           </Link>
         </div>
 
-        {/* Card */}
+        {/* Dark Glass Card */}
         <div
           style={{
-            background: '#ffffff',
-            border: '1px solid var(--border-slate)',
+            background: '#14141B',
+            border: '1px solid rgba(255, 255, 255, 0.09)',
             borderRadius: 24,
             padding: '40px 36px',
-            boxShadow: 'var(--shadow-lg)',
+            boxShadow: '0 20px 48px rgba(0, 0, 0, 0.7)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
           }}
         >
           <h1
@@ -81,9 +74,10 @@ export default function SignupPage() {
               fontSize: '1.9rem',
               fontWeight: 900,
               fontStyle: 'italic',
-              color: 'var(--text-primary)',
+              color: '#F5F5F7',
               textAlign: 'center',
               marginBottom: 8,
+              letterSpacing: '-0.02em',
             }}
           >
             Create Your Account
@@ -98,10 +92,10 @@ export default function SignupPage() {
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               gap: 8,
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-slate)',
-              borderRadius: 12,
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
               padding: 4,
+              borderRadius: 14,
               marginBottom: 24,
             }}
           >
@@ -110,45 +104,46 @@ export default function SignupPage() {
               onClick={() => setTab('startup')}
               style={{
                 padding: '10px',
-                borderRadius: 8,
+                borderRadius: 10,
                 border: 'none',
-                cursor: 'pointer',
-                background: tab === 'startup' ? '#ffffff' : 'transparent',
-                color: tab === 'startup' ? 'var(--purple-primary)' : 'var(--text-muted)',
+                background: tab === 'startup' ? '#8B5CF6' : 'transparent',
+                color: tab === 'startup' ? '#ffffff' : '#A3A3B0',
                 fontWeight: 700,
-                fontSize: 14,
-                boxShadow: tab === 'startup' ? 'var(--shadow-xs)' : 'none',
-                transition: 'all 0.2s',
+                fontSize: 13.5,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: tab === 'startup' ? '0 0 16px rgba(139, 92, 246, 0.4)' : 'none',
               }}
             >
               🚀 I am a Startup
             </button>
+
             <button
               type="button"
               onClick={() => setTab('investor')}
               style={{
                 padding: '10px',
-                borderRadius: 8,
+                borderRadius: 10,
                 border: 'none',
-                cursor: 'pointer',
-                background: tab === 'investor' ? '#ffffff' : 'transparent',
-                color: tab === 'investor' ? 'var(--gold)' : 'var(--text-muted)',
+                background: tab === 'investor' ? '#F5B400' : 'transparent',
+                color: tab === 'investor' ? '#0A0A0F' : '#A3A3B0',
                 fontWeight: 700,
-                fontSize: 14,
-                boxShadow: tab === 'investor' ? 'var(--shadow-xs)' : 'none',
-                transition: 'all 0.2s',
+                fontSize: 13.5,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: tab === 'investor' ? '0 0 16px rgba(245, 180, 0, 0.4)' : 'none',
               }}
             >
-              💰 I am an Investor
+              💼 I am an Investor
             </button>
           </div>
 
           {error && (
             <div
               style={{
-                background: '#fef2f2',
-                border: '1px solid #fecaca',
-                color: '#dc2626',
+                background: 'rgba(239, 68, 68, 0.12)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                color: '#F87171',
                 padding: '12px 16px',
                 borderRadius: 10,
                 fontSize: 13.5,
@@ -160,73 +155,127 @@ export default function SignupPage() {
           )}
 
           <form onSubmit={submit}>
-            <div className="form-group">
-              <label className="form-label">Full Name</label>
+            <div style={{ marginBottom: 18 }}>
+              <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13.5, fontWeight: 600, marginBottom: 8 }}>
+                Full Name
+              </label>
               <input
-                className="form-input"
+                type="text"
                 name="name"
+                placeholder="Alex Mercer"
                 value={form.name}
                 onChange={handle}
                 required
-                placeholder="John Doe"
+                style={{
+                  width: '100%',
+                  padding: '13px 16px',
+                  borderRadius: 12,
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  color: '#F5F5F7',
+                  fontSize: 14.5,
+                  outline: 'none',
+                }}
               />
             </div>
-            <div className="form-group">
-              <label className="form-label">Work Email</label>
+
+            <div style={{ marginBottom: 18 }}>
+              <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13.5, fontWeight: 600, marginBottom: 8 }}>
+                Work Email
+              </label>
               <input
-                className="form-input"
                 type="email"
                 name="email"
+                placeholder="alex@company.com"
                 value={form.email}
                 onChange={handle}
                 required
-                placeholder="you@company.com"
+                style={{
+                  width: '100%',
+                  padding: '13px 16px',
+                  borderRadius: 12,
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  color: '#F5F5F7',
+                  fontSize: 14.5,
+                  outline: 'none',
+                }}
               />
             </div>
-            <div className="form-group">
-              <label className="form-label">{tab === 'startup' ? 'Startup Name' : 'Firm / Angel Name'}</label>
+
+            <div style={{ marginBottom: 18 }}>
+              <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13.5, fontWeight: 600, marginBottom: 8 }}>
+                {tab === 'startup' ? 'Startup / Company Name' : 'Fund / Firm Name'}
+              </label>
               <input
-                className="form-input"
+                type="text"
                 name="company"
+                placeholder={tab === 'startup' ? 'Acme AI, Inc.' : 'Horizon Capital'}
                 value={form.company}
                 onChange={handle}
                 required
-                placeholder={tab === 'startup' ? 'e.g. Acme Health' : 'e.g. Atlas Ventures'}
+                style={{
+                  width: '100%',
+                  padding: '13px 16px',
+                  borderRadius: 12,
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  color: '#F5F5F7',
+                  fontSize: 14.5,
+                  outline: 'none',
+                }}
               />
             </div>
-            <div className="form-group">
-              <label className="form-label">Password</label>
+
+            <div style={{ marginBottom: 26 }}>
+              <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13.5, fontWeight: 600, marginBottom: 8 }}>
+                Password
+              </label>
               <input
-                className="form-input"
                 type="password"
                 name="password"
+                placeholder="Min. 8 characters"
                 value={form.password}
                 onChange={handle}
                 required
-                placeholder="Min. 8 characters"
+                style={{
+                  width: '100%',
+                  padding: '13px 16px',
+                  borderRadius: 12,
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  color: '#F5F5F7',
+                  fontSize: 14.5,
+                  outline: 'none',
+                }}
               />
             </div>
 
             <button
               type="submit"
-              className="btn-purple"
               disabled={loading}
               style={{
                 width: '100%',
-                justifyContent: 'center',
+                background: tab === 'startup' ? '#8B5CF6' : '#F5B400',
+                color: tab === 'startup' ? '#FFFFFF' : '#0A0A0F',
+                border: 'none',
+                borderRadius: 12,
                 padding: '14px',
                 fontSize: 15,
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: tab === 'startup' ? '0 0 20px rgba(139, 92, 246, 0.4)' : '0 0 20px rgba(245, 180, 0, 0.4)',
                 opacity: loading ? 0.7 : 1,
-                marginTop: 8,
+                transition: 'all 0.2s ease',
               }}
             >
-              {loading ? 'Creating Account...' : 'Create Account ↗'}
+              {loading ? 'Creating account...' : `Sign Up as ${tab === 'startup' ? 'Startup' : 'Investor'}`}
             </button>
           </form>
 
           <p style={{ textAlign: 'center', marginTop: 24, color: 'var(--text-muted)', fontSize: 14 }}>
             Already have an account?{' '}
-            <Link to="/login" style={{ color: 'var(--purple-primary)', fontWeight: 700, textDecoration: 'none' }}>
+            <Link to="/login" style={{ color: '#A78BFA', fontWeight: 700, textDecoration: 'none' }}>
               Sign In
             </Link>
           </p>

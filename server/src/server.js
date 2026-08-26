@@ -2,7 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import { initialBlogs, initialResources, initialEvents, initialPricing, initialFaqs } from './data/seedData.js';
+import {
+  initialBlogs,
+  initialResources,
+  initialEvents,
+  initialPricing,
+  initialFaqs,
+  initialPodcasts,
+  initialPartners,
+  initialPastEvents,
+  initialTestimonialShorts
+} from './data/seedData.js';
 
 dotenv.config();
 
@@ -33,6 +43,10 @@ let db = {
   events: [...initialEvents],
   pricing: [...initialPricing],
   faqs: [...initialFaqs],
+  podcasts: [...initialPodcasts],
+  partners: [...initialPartners],
+  pastEvents: [...initialPastEvents],
+  testimonials: [...initialTestimonialShorts],
   submissions: [],
   advisoryBookings: [],
   subscribers: []
@@ -51,7 +65,15 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// ================= API ROUTES =================
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    service: 'Morsebridge MERN API Server',
+    frontendUrl: 'http://localhost:5173',
+    documentation: 'Access endpoints under /api (e.g. /api/health, /api/events, /api/podcasts, /api/partners, /api/past-events, /api/testimonials)'
+  });
+});
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -228,9 +250,25 @@ app.get('/api/resources', (req, res) => {
   res.json(results);
 });
 
-// --- Events Routes ---
+// --- Events, Podcasts, Partners & Media Routes ---
 app.get('/api/events', (req, res) => {
   res.json(db.events);
+});
+
+app.get('/api/podcasts', (req, res) => {
+  res.json(db.podcasts);
+});
+
+app.get('/api/partners', (req, res) => {
+  res.json(db.partners);
+});
+
+app.get('/api/past-events', (req, res) => {
+  res.json(db.pastEvents);
+});
+
+app.get('/api/testimonials', (req, res) => {
+  res.json(db.testimonials);
 });
 
 app.post('/api/events/rsvp', (req, res) => {

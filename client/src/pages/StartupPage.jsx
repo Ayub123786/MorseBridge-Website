@@ -1,141 +1,301 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, CheckCircle, Sparkles, Shield, Rocket, Target, FileText, Users } from 'lucide-react';
 import Footer from '../components/Footer';
+import SignalDivider from '../components/3d/SignalDivider';
 
 const BENEFITS = [
-  { icon: '🎯', title: 'Investor Matching', desc: 'Get introduced to pre-vetted investors aligned to your sector, stage, and geography.' },
-  { icon: '📊', title: 'CFO Financial Model', desc: 'Access the 5-Minute CFO Model — the exact template used to raise institutional rounds.' },
-  { icon: '📄', title: 'Pitch Deck Review', desc: 'Get feedback on your deck from experienced investors and advisors before you pitch.' },
-  { icon: '🎪', title: 'Events & Summits', desc: 'Attend our exclusive startup summits, demo days, and networking events across MENA.' },
-  { icon: '🧭', title: 'Mentorship Access', desc: 'Connect with 100+ mentors who have built and funded companies across the region.' },
-  { icon: '✨', title: 'Get Featured', desc: 'Have your startup spotlighted to our entire investor and partner network.' },
+  { icon: Target, title: 'Investor Matching', desc: 'Get introduced to pre-vetted institutional VCs and angel syndicates aligned to your sector, stage, and geography.' },
+  { icon: FileText, title: 'CFO Financial Model', desc: 'Access the 5-Minute CFO Model — the institutional 3-statement template used to raise institutional rounds.' },
+  { icon: Sparkles, title: 'Pitch Deck Review', desc: 'Receive structured narrative audits and deck feedback from experienced venture partners before live pitching.' },
+  { icon: Rocket, title: 'Events & Summits', desc: 'Secured pitch showcase slots at our exclusive startup summits, roundtables, and demo days across MENA.' },
+  { icon: Users, title: 'Mentorship Access', desc: 'Connect with 100+ active mentors who have built, scaled, and funded high-growth tech ventures.' },
+  { icon: Shield, title: 'Data Room Structuring', desc: 'Build investor-ready due diligence data rooms with standardized cap tables and legal SAFE note templates.' },
 ];
 
 const PROCESS_STEPS = [
-  { step: '01', title: 'Apply as a Startup', desc: 'Fill out our startup intake form with your company details, stage, and fundraising goals.' },
-  { step: '02', title: 'Profile Review', desc: 'Our team reviews your profile within 48 hours and schedules an onboarding call.' },
-  { step: '03', title: 'Get Matched', desc: 'We match you with aligned investors from our curated network and make warm introductions.' },
-  { step: '04', title: 'Connect & Close', desc: 'Meet your investors, iterate on your pitch, and close your fundraising round.' },
+  { step: '01', title: 'Apply as a Startup', desc: 'Submit your startup intake details, stage, sector, metrics, and target round size.' },
+  { step: '02', title: 'Profile & Narrative Audit', desc: 'Our advisory team reviews your metrics within 48 hours and conducts a positioning session.' },
+  { step: '03', title: 'Targeted Investor Matching', desc: 'We match your deck with active fund theses in our verified network and initiate warm introductions.' },
+  { step: '04', title: 'Pitch, Negotiate & Close', desc: 'Meet aligned investors at private roundtables and close your institutional fundraising round.' },
 ];
 
 export default function StartupPage() {
   return (
-    <div style={{ background: 'var(--bg-canvas)', minHeight: '100vh', paddingTop: 68 }}>
-      {/* Hero */}
-      <section style={{ padding: '80px 0 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div className="hero-glow-light" />
+    <div style={{ background: 'var(--bg-canvas)', minHeight: '100vh', paddingTop: 90, color: '#F5F5F7' }}>
+      
+      {/* ====================================================================
+          HERO SECTION
+          ==================================================================== */}
+      <section style={{ padding: '60px 0 50px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div className="ambient-mesh-glow" />
+
         <div className="container container-narrow" style={{ position: 'relative', zIndex: 1 }}>
-          <span className="mb-badge mb-badge-gold" style={{ marginBottom: 20, display: 'inline-flex' }}>
-            🚀 For Founders &amp; Startups
-          </span>
-          <h1 style={{
-            fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
-            fontWeight: 900, fontStyle: 'italic',
-            color: 'var(--text-primary)', lineHeight: 1.1, marginBottom: 20,
-          }}>
-            Your Path to <span style={{ color: 'var(--purple-primary)' }}>Funding Starts Here</span>
+          {/* Badge */}
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '6px 18px',
+              borderRadius: 9999,
+              background: 'rgba(139, 92, 246, 0.15)',
+              border: '1px solid rgba(139, 92, 246, 0.35)',
+              marginBottom: 24,
+            }}
+          >
+            <span className="pulse-dot-red" style={{ background: '#8B5CF6', boxShadow: '0 0 8px rgba(139, 92, 246, 0.8)' }} />
+            <span className="font-data" style={{ fontSize: 12.5, color: '#C4B5FD', letterSpacing: '0.06em' }}>
+              FOR FOUNDERS &amp; STARTUPS
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1
+            style={{
+              fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
+              fontWeight: 900,
+              fontStyle: 'italic',
+              lineHeight: 1.12,
+              letterSpacing: '-0.03em',
+              marginBottom: 20,
+              background: 'linear-gradient(180deg, #FFFFFF 0%, #E2E2E8 70%, #A3A3B0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Your Path to <span style={{ color: '#8B5CF6', WebkitTextFillColor: '#8B5CF6' }}>Funding Starts Here</span>
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 16.5, lineHeight: 1.7, marginBottom: 36 }}>
-            Join 700+ startups already leveraging MorseBridge to access investors, resources,
-            and the MENA ecosystem.
+
+          <p style={{ color: '#A3A3B0', fontSize: 16.5, maxWidth: 640, margin: '0 auto 38px', lineHeight: 1.65 }}>
+            Join over 700+ startups leveraging MorseBridge to access institutional capital, CFO-grade financial models, and warm investor introductions across MENA and global tech hubs.
           </p>
+
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/startup-intake" className="btn-purple" style={{ padding: '14px 36px', fontSize: 16 }}>
-              Apply as a Startup ↗
+            <Link
+              to="/signup"
+              className="btn-magnetic-signal"
+              style={{
+                background: '#8B5CF6',
+                color: '#FFFFFF',
+                padding: '14px 34px',
+                fontSize: 15.5,
+              }}
+            >
+              <span>Apply for Capital Support</span>
+              <ArrowUpRight size={17} />
+              <div className="btn-light-sweep" />
             </Link>
-            <Link to="/membership-plans" className="btn-purple-outline" style={{ padding: '14px 36px', fontSize: 16 }}>
-              View Plans
-            </Link>
+
+            <a
+              href="https://cal.com/morsebridge/30-min-intro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-magnetic-signal"
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#F5F5F7',
+                border: '1px solid var(--border-subtle)',
+                padding: '14px 32px',
+                fontSize: 15.5,
+              }}
+            >
+              <span>Schedule 30-Min Intro</span>
+              <ArrowUpRight size={17} />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section style={{ position: 'relative', zIndex: 1, padding: '0 0 60px' }}>
+      {/* ====================================================================
+          STATS BAR
+          ==================================================================== */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '0 0 50px' }}>
         <div className="container">
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 20, background: '#ffffff',
-            border: '1px solid var(--border-slate)', borderRadius: 20, padding: '32px 24px',
-            textAlign: 'center', boxShadow: 'var(--shadow-md)',
-          }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: 20,
+              background: '#14141B',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 20,
+              padding: '32px 28px',
+              textAlign: 'center',
+              boxShadow: '0 12px 36px rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
             {[
               { val: '700+', label: 'Startups Supported' },
               { val: '$45M+', label: 'Capital Facilitated' },
-              { val: '100+', label: 'Active Investors' },
-              { val: '48h', label: 'Response Time' },
-            ].map((s) => (
-              <div key={s.label}>
-                <div style={{ fontSize: '2.2rem', fontWeight: 900, fontStyle: 'italic', color: 'var(--purple-primary)', marginBottom: 4 }}>
+              { val: '100+', label: 'Active Institutional VCs' },
+              { val: '48h', label: 'Fast Track Response Time' },
+            ].map((s, idx) => (
+              <div key={idx} style={{ padding: '8px 12px' }}>
+                <div
+                  className="font-data"
+                  style={{
+                    fontSize: '2.4rem',
+                    fontWeight: 900,
+                    color: '#C4B5FD',
+                    marginBottom: 6,
+                    lineHeight: 1.1,
+                  }}
+                >
                   {s.val}
                 </div>
-                <div style={{ color: 'var(--text-muted)', fontSize: 13.5, fontWeight: 600 }}>{s.label}</div>
+                <div style={{ color: '#A3A3B0', fontSize: 13.5, fontWeight: 600 }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="section" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-slate)', borderBottom: '1px solid var(--border-slate)' }}>
+      <SignalDivider />
+
+      {/* ====================================================================
+          BENEFITS GRID
+          ==================================================================== */}
+      <section className="section">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 className="section-title">What You Get as a Member</h2>
-            <p className="section-subtitle">Everything you need to accelerate your fundraising journey.</p>
+            <p className="section-subtitle">Everything you need to accelerate your fundraising journey with clarity and speed.</p>
           </div>
-          <div className="grid-3">
-            {BENEFITS.map((b) => (
-              <div key={b.title} className="service-card">
-                <div style={{ fontSize: 32, marginBottom: 16 }}>{b.icon}</div>
-                <h3 className="service-title">{b.title}</h3>
-                <p className="service-desc">{b.desc}</p>
-              </div>
-            ))}
+
+          <div className="grid-3" style={{ gap: 24 }}>
+            {BENEFITS.map((b, idx) => {
+              const IconComp = b.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.25 }}
+                  style={{
+                    background: '#14141B',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 18,
+                    padding: 28,
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      background: 'rgba(139, 92, 246, 0.15)',
+                      border: '1px solid rgba(139, 92, 246, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#C4B5FD',
+                      marginBottom: 4,
+                    }}
+                  >
+                    <IconComp size={24} />
+                  </div>
+                  <h3 style={{ fontSize: 18.5, fontWeight: 700, color: '#F5F5F7', margin: 0 }}>{b.title}</h3>
+                  <p style={{ color: '#A3A3B0', fontSize: 14, lineHeight: 1.65, margin: 0 }}>{b.desc}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Process */}
+      <SignalDivider />
+
+      {/* ====================================================================
+          PROCESS STEPS
+          ==================================================================== */}
       <section className="section">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 className="section-title">How It Works</h2>
-            <p className="section-subtitle">A straightforward 4-step path to investor introductions.</p>
+            <p className="section-subtitle">A streamlined 4-step execution framework from application to closed round.</p>
           </div>
-          <div className="grid-4">
-            {PROCESS_STEPS.map((s) => (
-              <div key={s.step} className="mb-card" style={{ textAlign: 'center' }}>
-                <div style={{
-                  fontSize: '2.5rem', fontWeight: 900, fontStyle: 'italic',
-                  color: 'var(--gold)', marginBottom: 12,
-                }}>
-                  {s.step}
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: 22,
+            }}
+          >
+            {PROCESS_STEPS.map((step, idx) => (
+              <div
+                key={idx}
+                style={{
+                  background: '#14141B',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 18,
+                  padding: 26,
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                <div
+                  className="font-data"
+                  style={{
+                    fontSize: '2rem',
+                    fontWeight: 900,
+                    color: '#8B5CF6',
+                    opacity: 0.8,
+                    marginBottom: 12,
+                  }}
+                >
+                  {step.step}
                 </div>
-                <h3 style={{ color: 'var(--text-primary)', fontSize: 17, fontWeight: 800, marginBottom: 8 }}>{s.title}</h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: 13.5, lineHeight: 1.6 }}>{s.desc}</p>
+                <h3 style={{ fontSize: 17.5, fontWeight: 700, color: '#F5F5F7', marginBottom: 8 }}>{step.title}</h3>
+                <p style={{ color: '#A3A3B0', fontSize: 13.5, lineHeight: 1.6, margin: 0 }}>{step.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ====================================================================
+          FINAL CTA
+          ==================================================================== */}
       <section className="section" style={{ textAlign: 'center', paddingBottom: 100 }}>
         <div className="container container-narrow">
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid var(--border-slate)',
-            borderRadius: 24, padding: '52px 36px',
-            boxShadow: 'var(--shadow-lg)',
-          }}>
-            <h2 style={{ fontSize: '2.2rem', fontWeight: 900, fontStyle: 'italic', color: 'var(--text-primary)', marginBottom: 12 }}>
-              Ready to Accelerate Your <span style={{ color: 'var(--purple-primary)' }}>Fundraise</span>?
+          <div
+            style={{
+              background: '#14141B',
+              border: '1px solid rgba(139, 92, 246, 0.3)',
+              borderRadius: 24,
+              padding: '54px 36px',
+              boxShadow: '0 16px 48px rgba(139, 92, 246, 0.15)',
+            }}
+          >
+            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', fontWeight: 900, color: '#F5F5F7', marginBottom: 14 }}>
+              Ready to Accelerate Your Round?
             </h2>
-            <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15.5 }}>
-              Complete the startup intake form to get reviewed and matched with investors.
+            <p style={{ color: '#A3A3B0', fontSize: 15.5, maxWidth: 520, margin: '0 auto 32px', lineHeight: 1.6 }}>
+              Get vetted, audited, and matched with active venture funds ready to back exceptional builders.
             </p>
-            <Link to="/startup-intake" className="btn-purple" style={{ padding: '14px 40px', fontSize: 16 }}>
-              Apply as a Startup ↗
-            </Link>
+            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link
+                to="/signup"
+                className="btn-magnetic-signal"
+                style={{
+                  background: '#8B5CF6',
+                  color: '#FFFFFF',
+                  padding: '13px 32px',
+                  fontSize: 15,
+                }}
+              >
+                <span>Get Started as a Founder</span>
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

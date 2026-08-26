@@ -1,239 +1,66 @@
+// ==========================================
+// MORSEBRIDGE BACKEND SEED DATA
+// ==========================================
+
 export const initialBlogs = [
   {
-    slug: "how-to-think-about-startup-ideas-the-yc-way",
-    title: "How to Think About Startup Ideas: The YC Way",
-    description: "A comprehensive breakdown of how Y Combinator evaluates early-stage startup ideas, identifying organic problem spaces, founder-market fit, and unfair advantages.",
-    category: "Fundraising & YC",
-    readTime: "7 min read",
-    date: "Jan 12, 2026",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=1200&q=80",
-    tags: ["YC", "Startup Ideas", "Validation", "Founders"],
+    id: 1,
+    slug: 'raising-institutional-seed-in-mena-2026',
+    title: 'The 2026 MENA Seed Fundraising Benchmark Report',
+    summary: 'An empirical analysis of 140+ early-stage funding rounds in the UAE and Saudi Arabia.',
+    category: 'Fundraising',
+    readTime: '6 min read',
+    date: 'Jan 15, 2026',
+    author: 'Morsebridge Advisory',
+    authorRole: 'Venture Partners',
+    heroImage: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=80',
+    tags: ['Seed Rounds', 'Venture Capital', 'MENA', 'Valuation'],
     content: [
       {
-        heading: "1. The Organic Idea vs. The Fabricated Idea",
-        body: "The best startup ideas are rarely invented in a conference room brainstorming session. They emerge naturally from the founder's own daily frustrations or unique domain expertise. YC partners frequently emphasize that 'problems you encounter yourself' carry authentic depth that fabricated ideas lack. When you solve your own problem, you inherently understand the nuances, the existing broken workarounds, and the willingness to pay."
+        heading: '1. The Flight to Quality Unit Economics',
+        body: 'Over the last 18 months, seed valuations in Riyadh and Dubai have stabilized around rigorous milestone checks. Investors are prioritizing positive unit economics over raw customer acquisition volume.'
       },
       {
-        heading: "2. The Anatomy of a Scalable Problem",
-        body: "YC looks for three key characteristics in any problem statement:\n• Frequency: How often does the user experience this pain point? (Daily > Weekly > Yearly)\n• Urgency: Is this hair-on-fire urgent, or a 'nice-to-have' luxury?\n• Market Growth: Is the underlying market expanding rapidly? Even a modest 10% market share in a market growing at 50% YoY yields venture-scale outcomes."
-      },
-      {
-        heading: "3. Founder-Market Fit & Unfair Advantages",
-        body: "Why you? Why now? An idea in isolation has zero market value without execution leverage. Your unfair advantage could be deep technological mastery, unique regulatory access, 10,000 hours in an unsexy legacy industry, or structural distribution advantages that competitors cannot replicate easily."
-      },
-      {
-        heading: "4. The Tarpit Ideas to Avoid",
-        body: "Every batch of founders falls into well-known 'tarpit' traps: social apps for local nightlife, generic peer-to-peer rental platforms, and unmoored marketplace concepts where chicken-and-egg acquisition costs dwarf lifetime customer value. Understanding why hundreds before you have failed at the exact same premise is critical before writing a single line of code."
+        heading: '2. Sovereign Capital Integration',
+        body: 'Co-investing alongside government-backed venture funds and sovereign accelerators provides institutional credibility and accelerated commercial procurement opportunities.'
       }
     ]
   },
   {
-    slug: "does-your-pitch-deck-meet-yc-standards-mena",
-    title: "Does Your Pitch Deck Meet YC Standards? (MENA Edition)",
-    description: "Evaluating regional startup pitch decks against Silicon Valley and Y Combinator benchmarks with specific insights for Middle Eastern founders.",
-    category: "Fundraising",
-    readTime: "6 min read",
-    date: "Jan 08, 2026",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Pitch Deck", "MENA", "Fundraising", "YC"],
+    id: 2,
+    slug: 'agentic-ai-roadmap-for-founders-and-builders',
+    title: 'Agentic AI Roadmap for Founders and Builders',
+    summary: 'Navigating autonomous agents, tool orchestration, and defensible enterprise moats.',
+    category: 'AI & Tech',
+    readTime: '9 min read',
+    date: 'Nov 27, 2025',
+    author: 'Morsebridge Advisory',
+    authorRole: 'Venture Partners',
+    heroImage: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=1200&q=80',
+    tags: ['Agentic AI', 'LLMs', 'Architecture'],
     content: [
       {
-        heading: "1. Clarity Trumps Complexity",
-        body: "Investors in Silicon Valley and MENA review hundreds of decks weekly. If your first slide fails to state what your product does in plain, simple English within 5 seconds, you lose the deal. Avoid buzzword salad and state clearly: 'We build X for Y that delivers Z value'."
-      },
-      {
-        heading: "2. The 10-Slide Standard Format",
-        body: "1. Problem (The acute pain)\n2. Solution (Your elegant product)\n3. Traction (Revenue, MoM growth, retention cohorts)\n4. Unique Insight (What do you know that others don't?)\n5. Market Size (TAM/SAM/SOM grounded in bottom-up math)\n6. Business Model (Unit economics, pricing, gross margins)\n7. Go-To-Market (Customer acquisition loops)\n8. Competition (Honest 2x2 matrix or feature grid)\n9. Team (Relevant pedigree and achievements)\n10. The Ask & Milestones."
-      },
-      {
-        heading: "3. MENA-Specific Considerations",
-        body: "For MENA founders expanding across GCC markets (UAE, KSA, Egypt), investors look closely at cross-border regulatory compliance, payment gateways, localization, and entity structuring (DIFC, ADGM, or Delaware flip)."
+        heading: '1. Beyond Single-Prompt Wrappers',
+        body: 'The competitive moat in AI is not access to standard foundation APIs. Moats are constructed through proprietary fine-tuning, domain evaluation benchmarks, and tight human-in-the-loop operational feedback.'
       }
     ]
   },
   {
-    slug: "vc-fund-performance-q3-2025-simple-summary",
-    title: "VC Fund Performance & Capital Allocation: Simple Summary",
-    description: "A clear breakdown of venture capital distributions, dry powder trends, and what the latest quarter metrics mean for seed and Series A founders.",
-    category: "Venture Capital",
-    readTime: "5 min read",
-    date: "Dec 28, 2025",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
-    tags: ["VC Trends", "Capital", "Metrics", "Valuations"],
+    id: 3,
+    slug: 'speed-is-the-new-validation-for-ai-founders',
+    title: 'Speed is the New Validation for AI Founders',
+    summary: 'Why iteration velocity and live customer telemetry beat extensive upfront research.',
+    category: 'AI & Tech',
+    readTime: '5 min read',
+    date: 'Nov 15, 2025',
+    author: 'Morsebridge Advisory',
+    authorRole: 'Venture Partners',
+    heroImage: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80',
+    tags: ['Speed', 'AI Startups', 'Product'],
     content: [
       {
-        heading: "1. The Flight to Quality & Capital Concentration",
-        body: "While overall deal count stabilized, capital is concentrating heavily in top-quartile founders with proven unit economics and demonstrable enterprise contracts. The era of growth-at-all-costs has firmly yielded to capital efficiency and sustainable gross margins."
-      },
-      {
-        heading: "2. Dry Powder & Deployment Velocity",
-        body: "Venture funds are sitting on substantial unallocated commitments, but diligence cycles have extended from 2 weeks to 6-10 weeks. Founders must prepare rigorous data rooms with auditable financial models, churn cohorts, and customer reference pipelines."
-      }
-    ]
-  },
-  {
-    slug: "family-office-fundraising-guide-for-founders",
-    title: "Family Office Fundraising: The Definitive Guide for Founders",
-    description: "How to approach, pitch, and secure strategic allocations from Single and Multi-Family Offices in North America, Europe, and the Gulf.",
-    category: "Fundraising",
-    readTime: "8 min read",
-    date: "Dec 19, 2025",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Family Offices", "LP", "Private Wealth", "Direct Deals"],
-    content: [
-      {
-        heading: "1. Understanding the Family Office Mindset",
-        body: "Unlike traditional institutional VCs that operate on a rigid 10-year fund lifecycle with 2-and-20 fee structures, Family Offices invest evergreen capital. They value downside risk mitigation, generational alignment, and strategic synergies with their core operating industrial conglomerates."
-      },
-      {
-        heading: "2. Warm Intros and Relationship Capital",
-        body: "Cold outreach to family offices has virtually zero conversion. Success requires trusted intermediaries, legal counsel introductions, or syndicate leads who can vouch for the founder's character and fiduciary integrity."
-      }
-    ]
-  },
-  {
-    slug: "fundraising-in-mena-how-vcs-think-about-deal-flow",
-    title: "Fundraising in MENA: How VCs Evaluate Deal Flow",
-    description: "Behind the scenes of regional venture committees across Riyadh, Dubai, and Cairo evaluating pre-seed to Series B pipelines.",
-    category: "Venture Capital",
-    readTime: "6 min read",
-    date: "Dec 10, 2025",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
-    tags: ["MENA", "Dubai", "Riyadh", "Venture Capital"],
-    content: [
-      {
-        heading: "1. The Regional Expansion Playbook",
-        body: "A startup that succeeds solely in its home market rarely satisfies regional venture math. VCs look for a clear, repeatable playbook for entering Saudi Arabia (KSA) and scaling across the broader GCC."
-      },
-      {
-        heading: "2. Strategic Sovereign Wealth & Co-Investment",
-        body: "Co-investing alongside government-backed venture funds and sovereign accelerators provides institutional credibility and accelerated commercial procurement opportunities."
-      }
-    ]
-  },
-  {
-    slug: "agentic-ai-roadmap-for-founders-and-builders",
-    title: "Agentic AI Roadmap for Founders and Builders",
-    description: "Navigating autonomous agents, tool orchestration, multi-modal workflows, and the shift from simple wrappers to defensible systems.",
-    category: "AI & Tech",
-    readTime: "9 min read",
-    date: "Nov 27, 2025",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Agentic AI", "LLMs", "Autonomous Agents", "Architecture"],
-    content: [
-      {
-        heading: "1. Beyond Single-Prompt Wrappers",
-        body: "The competitive moat in AI is not access to standard foundation APIs. Moats are constructed through proprietary fine-tuning, domain-specific evaluation benchmarks, multi-agent state machines, and tight human-in-the-loop operational feedback loops."
-      },
-      {
-        heading: "2. The Agent Execution Architecture",
-        body: "Modern agent architectures rely on structured tool calling, deterministic validation harnesses, persistent memory graphs, and fallback recovery strategies to achieve enterprise-grade reliability."
-      }
-    ]
-  },
-  {
-    slug: "speed-is-the-new-validation-for-ai-founders",
-    title: "Speed is the New Validation for AI Founders",
-    description: "Why iteration velocity, continuous customer shipping, and rapid telemetry beats extensive upfront academic research in early-stage startups.",
-    category: "AI & Tech",
-    readTime: "5 min read",
-    date: "Nov 15, 2025",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Speed", "AI Startups", "Iteration", "Product"],
-    content: [
-      {
-        heading: "1. The 48-Hour Feedback Loop",
-        body: "In high-velocity AI sectors, the company that ships 5 product iterations in the time a competitor takes to schedule an architectural review wins the distribution battle. Live telemetry on actual user prompt failures informs engineering far better than theoretical planning."
-      }
-    ]
-  },
-  {
-    slug: "founders-winning-in-2025-beyond-ai-tools",
-    title: "Founders Winning in 2025: Beyond AI Tools",
-    description: "How top-performing founders combine modern technological tooling with classic operational discipline, sales rigor, and customer intimacy.",
-    category: "Founders",
-    readTime: "6 min read",
-    date: "Nov 02, 2025",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Founders", "Operations", "Sales Rigor", "Culture"],
-    content: [
-      {
-        heading: "1. The Timeless Core of Company Building",
-        body: "While AI has collapsed software prototyping costs to near zero, customer trust, executive sales, enterprise procurement, and retention remain deeply human disciplines. The founders achieving 8-figure ARR are those who master enterprise sales motions."
-      }
-    ]
-  },
-  {
-    slug: "unlocking-startup-funding-opportunities-in-the-uae",
-    title: "Unlocking Startup Funding Opportunities in the UAE",
-    description: "A practical guide to navigating government grants, accelerator ecosystems, free zones, and institutional capital across the Emirates.",
-    category: "Fundraising",
-    readTime: "7 min read",
-    date: "Oct 21, 2025",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
-    tags: ["UAE", "Dubai", "Grants", "Ecosystem"],
-    content: [
-      {
-        heading: "1. The UAE Innovation Infrastructure",
-        body: "From Hub71 in Abu Dhabi to DIFC Innovation Hub and Dubai Internet City, the UAE provides tax-friendly ecosystems, regulatory sandboxes, and streamlined visa frameworks designed to attract global technical founders."
-      }
-    ]
-  },
-  {
-    slug: "how-founders-should-split-equity",
-    title: "How Founders Should Split Equity: Avoiding Early Mistakes",
-    description: "Best practices for co-founder equity splits, 4-year vesting schedules, 1-year cliffs, dynamic vesting models, and intellectual property assignments.",
-    category: "Founders",
-    readTime: "7 min read",
-    date: "Oct 09, 2025",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Equity", "Co-founders", "Vesting", "Legal"],
-    content: [
-      {
-        heading: "1. The 50/50 Myth and Transparent Valuation of Contribution",
-        body: "An equal split is often an avoidance of uncomfortable early conversations. Co-founders should assess full-time commitment, capital contribution, domain expertise, and executive accountability openly before standardizing cap tables."
-      },
-      {
-        heading: "2. The Non-Negotiable 4-Year Vesting with 1-Year Cliff",
-        body: "Never grant unvested equity outright. Every institutional investor will mandate standard 4-year vesting with a 1-year cliff and acceleration clauses to protect the venture from early co-founder departures."
-      }
-    ]
-  },
-  {
-    slug: "founder-cofounder-communication-startup-survival",
-    title: "Founder-Cofounder Communication: The Key to Startup Survival",
-    description: "Preventing co-founder fallout through structured weekly syncs, executive coaching, alignment frameworks, and conflict resolution protocols.",
-    category: "Founders",
-    readTime: "6 min read",
-    date: "Sep 28, 2025",
-    author: "Morsebridge Advisory",
-    authorRole: "Venture Partners",
-    heroImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Leadership", "Co-founders", "Communication", "Culture"],
-    content: [
-      {
-        heading: "1. Why 65% of High-Potential Startups Fail Due to Co-Founder Friction",
-        body: "Startups are emotional pressure cookers. When unspoken resentments regarding work ethic, equity splits, or strategic direction fester, the company inevitably suffers. Establishing formal 1-on-1 operational alignment protocols early is essential."
+        heading: '1. The 48-Hour Feedback Loop',
+        body: 'In high-velocity AI sectors, the company that ships 5 product iterations in the time a competitor takes to schedule an architectural review wins the distribution battle.'
       }
     ]
   }
@@ -241,181 +68,333 @@ export const initialBlogs = [
 
 export const initialResources = [
   {
-    id: "res-1",
-    title: "The 5-Minute CFO Financial Model (Excel & Sheets)",
-    category: "Financial Models",
-    type: "XLSX / Google Sheets",
-    description: "Complete dynamic financial forecasting model including P&L, Cash Burn runway calculator, unit economics, CAC/LTV forecasting, and headcount planning.",
-    accessTier: "Free Member",
-    downloadCount: 1420,
-    size: "4.2 MB",
-    fileUrl: "#download-cfo-model"
+    id: 1,
+    title: 'The 5-Minute CFO Financial Model (v3.2)',
+    category: 'Financial Modeling',
+    type: 'XLSX / Google Sheets',
+    description: 'Institutional 3-statement forecast model, hiring planner, cohort retention engine, and automated burn/runway calculator.',
+    downloads: 1420,
+    featured: true,
+    fileUrl: '/assets/resources/5_Minute_CFO_Model_v3.xlsx'
   },
   {
-    id: "res-2",
-    title: "YC Standard Pitch Deck Figma & Keynote Template",
-    category: "Pitch Decks",
-    type: "Figma / Keynote",
-    description: "The 10-slide high-conversion pitch deck template audited by institutional investors and tailored for Seed and Series A pitches.",
-    accessTier: "Free Member",
-    downloadCount: 2890,
-    size: "18.5 MB",
-    fileUrl: "#download-pitch-deck"
+    id: 2,
+    title: 'Seed & Series A Due Diligence Data Room Checklist',
+    category: 'Fundraising',
+    type: 'PDF / Notion Template',
+    description: '45-point institutional due diligence checklist covering corporate governance, IP assignment, cap table hygiene, and material contracts.',
+    downloads: 980,
+    featured: false,
+    fileUrl: '/assets/resources/Due_Diligence_Checklist.pdf'
   },
   {
-    id: "res-3",
-    title: "Comprehensive Institutional Due Diligence Checklist",
-    category: "Legal & Diligence",
-    type: "Notion / PDF",
-    description: "120-point data room checklist covering corporate governance, cap table hygiene, IP assignments, customer contracts, and compliance.",
-    accessTier: "Pro Member",
-    downloadCount: 860,
-    size: "1.1 MB",
-    fileUrl: "#download-diligence-checklist"
-  },
-  {
-    id: "res-4",
-    title: "Investor Cold & Warm Email Scripts (High Open Rates)",
-    category: "Fundraising",
-    type: "Swipe File / Docs",
-    description: "Battle-tested email copy, update newsletters, forwardable blurb formats, and follow-up cadence templates.",
-    accessTier: "Free Member",
-    downloadCount: 3120,
-    size: "850 KB",
-    fileUrl: "#download-investor-scripts"
-  },
-  {
-    id: "res-5",
-    title: "Cap Table Simulator & SAFE Note Dilution Calculator",
-    category: "Financial Models",
-    type: "Interactive Tool / Sheet",
-    description: "Simulate multi-round SAFE notes (post-money vs pre-money), priced rounds, ESOP pools, and co-founder dilution over time.",
-    accessTier: "Pro Member",
-    downloadCount: 1980,
-    size: "2.8 MB",
-    fileUrl: "#download-cap-table"
-  },
-  {
-    id: "res-6",
-    title: "MENA & Global Family Office Outreach Directory (200+ Vetted)",
-    category: "Directories",
-    type: "Airtable / CSV",
-    description: "Curated contacts, investment focus, typical check size, and preferred geographic locations of active private wealth offices.",
-    accessTier: "Premium Member",
-    downloadCount: 640,
-    size: "3.4 MB",
-    fileUrl: "#download-family-offices"
+    id: 3,
+    title: 'Standard GCC Post-Money SAFE Agreement Template',
+    category: 'Legal',
+    type: 'DOCX / PDF',
+    description: 'ADGM & DIFC jurisdiction-compatible post-money Simple Agreement for Future Equity with standard MFN clauses and valuation caps.',
+    downloads: 1150,
+    featured: false,
+    fileUrl: '/assets/resources/GCC_SAFE_Agreement_Template.docx'
   }
 ];
 
 export const initialEvents = [
   {
-    id: "evt-1",
-    title: "Private Investor-Founder Dinner: AI & Enterprise SaaS",
-    location: "DIFC, Dubai (Private Venue)",
-    date: "March 18, 2026",
-    time: "7:00 PM - 10:30 PM GST",
-    type: "Private Dinner",
-    capacity: "24 Founders & 12 Institutional Angels",
-    status: "RSVP Open",
-    description: "An exclusive, intimate gathering connecting high-growth SaaS founders with leading venture partners and regional family offices.",
-    image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80"
+    id: 1,
+    badge: 'Cohort 3 Launch',
+    title: 'Global Fundraising BootCamp Launch',
+    image: '/assets/events/bootcamp.jpg',
+    date: 'Nov 12, 2025',
+    time: '4:00 PM – 8:00 PM GST',
+    location: 'In5 Tech, Dubai Internet City / Virtual Livestream',
+    description: 'Master pitch narratives, term sheet negotiation, institutional data room structuring, and GTM mechanics with top venture partners.',
+    seatsLeft: 12,
+    type: 'Hybrid',
+    tags: ['Bootcamp', 'Fundraising', 'Masterclass', 'Pitching'],
+    rsvpLink: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
+    calLink: 'https://cal.com/morsebridge/30-min-intro'
   },
   {
-    id: "evt-2",
-    title: "Pitch Teardown Live & CFO Modeling Masterclass",
-    location: "Online (Global Live Stream)",
-    date: "March 26, 2026",
-    time: "5:00 PM - 7:00 PM GMT",
-    type: "Virtual Workshop",
-    capacity: "250 Registered",
-    status: "Registering",
-    description: "Live teardowns of 4 founder pitch decks and a hands-on walkthrough of the 5-Minute CFO dynamic financial model.",
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"
+    id: 2,
+    badge: 'Flagship Summit',
+    title: 'Riyadh Rising 2026 — Startups & Investor Summit',
+    image: '/assets/events/riyadh_rising.jpg',
+    date: 'Jan 21–22, 2026',
+    time: '9:00 AM – 6:00 PM AST',
+    location: 'Riyadh Front Exhibition & Conference Center, KSA',
+    description: '200+ global startups, 100+ active institutional investors, 20+ workshops, desert night meet, and VIP investor lounge.',
+    seatsLeft: 18,
+    type: 'In-Person',
+    tags: ['Riyadh Summit', 'VCs', 'Founders', 'Networking'],
+    rsvpLink: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
+    calLink: 'https://cal.com/morsebridge/30-min-intro'
   },
   {
-    id: "evt-3",
-    title: "Morsebridge Annual Venture Showcase 2026",
-    location: "Riyadh & Dubai (Hybrid)",
-    date: "April 15-16, 2026",
-    time: "Full Day Summit",
-    type: "Flagship Summit",
-    capacity: "500+ Attendees",
-    status: "Early Bird",
-    description: "Our premier summit showcasing 20 vetted top-tier startups pitching to a curated panel of global venture capitalists.",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80"
+    id: 3,
+    badge: 'Flagship Event',
+    title: 'Dubai Rising 2026 — Investor Roundtable & Demo Day',
+    image: '/assets/events/dubai_rising.jpg',
+    date: 'Nov 24, 2025',
+    time: '2:00 PM – 7:00 PM GST',
+    location: 'Dubai International Financial Centre (DIFC), UAE',
+    description: 'Bespoke investor networking event bringing together 40+ high-growth startups and 25+ institutional VCs and family offices across MENA.',
+    seatsLeft: 8,
+    type: 'In-Person',
+    tags: ['Investors', 'Founders', 'Networking', 'Demo Day'],
+    rsvpLink: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
+    calLink: 'https://cal.com/morsebridge/30-min-intro'
+  },
+  {
+    id: 4,
+    badge: 'Live Pitch Competition',
+    title: 'Startup Pitch Fest 2025',
+    image: '/assets/events/bootcamp.jpg',
+    date: 'Dec 05, 2025',
+    time: '3:00 PM – 6:30 PM GST',
+    location: 'In5 Tech Dubai / Virtual Livestream',
+    description: '12 curated seed-stage tech startups pitch live in front of active Saudi and UAE angel syndicates and Tier-1 regional funds.',
+    seatsLeft: 15,
+    type: 'Hybrid',
+    tags: ['Pitch Fest', 'Seed Capital', 'Angel Syndicates'],
+    rsvpLink: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
+    calLink: 'https://cal.com/morsebridge/30-min-intro'
   }
 ];
 
 export const initialPricing = [
   {
-    tier: "Community (Free)",
-    priceMonthly: 0,
-    priceYearly: 0,
-    description: "Essential tools, knowledge base guides, and community resources for early founders.",
+    id: 'starter',
+    name: 'Founder Starter',
+    price: '$0',
+    interval: 'forever free',
+    description: 'Essential resources and directory access for early ideation stage founders.',
     features: [
-      "Access to all 11+ Knowledge Hub in-depth guides",
-      "The 5-Minute CFO basic model (lite version)",
-      "Standard pitch deck presentation framework",
-      "Public webinar and workshop registrations",
-      "Bi-weekly venture newsletter & market insights"
+      'Access to open knowledge hub guides',
+      'Community demo day livestream spectator access',
+      'Public venture pitch deck templates',
+      'Quarterly ecosystem market reports'
     ],
-    ctaText: "Get Started Free",
-    popular: false
+    cta: 'Get Started Free',
+    highlighted: false
   },
   {
-    tier: "Founder Pro",
-    priceMonthly: 49,
-    priceYearly: 39,
-    description: "Full suite of institutional templates, model sheets, and private event passes.",
+    id: 'growth',
+    name: 'Venture Accelerator',
+    price: '$299',
+    interval: 'per month',
+    description: 'Hands-on fundraising enablement, CFO financial model audit, and warm introductions.',
     features: [
-      "Everything in Community Free",
-      "Complete 5-Minute CFO dynamic master model (All 8 modules)",
-      "Full Cap Table Dilution Simulator & SAFE tools",
-      "Access to Member Resources library & legal templates",
-      "Priority RSVP to private founder-investor dinners",
-      "Startup Spotlight consideration in Morsebridge newsletter"
+      'The 5-Minute CFO Financial Model full suite',
+      '1-on-1 Pitch Deck & Narrative audit',
+      'Warm introductions to 10+ verified active investors',
+      'Priority showcase slot at private summits',
+      'Data room structure & SAFE agreement reviews'
     ],
-    ctaText: "Upgrade to Pro",
-    popular: true
-  },
-  {
-    tier: "Advisory & Syndicate",
-    priceMonthly: 199,
-    priceYearly: 159,
-    description: "Direct 1-on-1 strategic advisory, pitch deck teardown, and curated investor introductions.",
-    features: [
-      "Everything in Founder Pro",
-      "1-on-1 monthly strategic advisory session with Venture Partner",
-      "Comprehensive pitch deck & financial model audit",
-      "Direct introductions to curated angels & family offices",
-      "VIP access pass to Flagship Venture Showcases",
-      "Dedicated Slack channel with Morsebridge team"
-    ],
-    ctaText: "Apply for Advisory",
-    popular: false
+    cta: 'Join Accelerator',
+    highlighted: true
   }
 ];
 
 export const initialFaqs = [
   {
-    question: "What is Morsebridge and who is it designed for?",
-    answer: "Morsebridge is a premier venture platform bridging visionary founders and institutional capital. We provide high-impact financial modeling products (like The 5-Minute CFO Model), pitch audits, knowledge frameworks, and bespoke investor networking events for tech founders and strategic investors."
+    q: "I'm a VC — can you help train our portfolio companies on GTM?",
+    a: "Yes, we deliver custom GTM bootcamps, revenue model audits, and hands-on positioning sprints for VC and accelerator portfolios across MENA and globally."
   },
   {
-    question: "How does The 5-Minute CFO Model work?",
-    answer: "The 5-Minute CFO Model is an institutional-grade financial modeling system pre-configured for high-growth tech companies. It automates revenue builds, headcount planning, unit economics, runway scenarios, and investor-ready visual charts in minutes without requiring complex spreadsheet formulas."
+    q: 'Do you offer GTM funnel audits for VC portfolio companies?',
+    a: 'Absolutely. We conduct deep-dive revenue funnel audits analyzing pricing tiering, unit economics, conversion friction, and customer acquisition efficiency.'
   },
   {
-    question: "How are startups selected for your private investor dinners?",
-    answer: "We curate our private dinners with a strict 2:1 founder-to-investor ratio. Startups are selected based on validated traction, product maturity, and fundraising readiness to ensure high-conviction deal discussions."
+    q: 'What is MorseBridge and how does it help founders?',
+    a: 'MorseBridge is a premier venture enablement platform. We prepare founders for institutional capital through financial modeling products, pitch deck audits, and warm introductions to active investors.'
   },
   {
-    question: "Can I upgrade or cancel my membership plan at any time?",
-    answer: "Yes, you can manage your subscription anytime from your member dashboard with zero lock-in contracts or hidden fees."
+    q: 'How does The 5-Minute CFO Model work?',
+    a: 'The 5-Minute CFO Model is an institutional-grade financial modeling framework designed for high-growth startups. It automates revenue builds, headcount plans, and runway scenarios in minutes.'
+  }
+];
+
+export const initialPodcasts = [
+  {
+    id: 1,
+    title: "How to Build & Scale Multi-Million Dollar Tech Companies",
+    guest: "Erik Mendelson",
+    guestRole: "Venture Partner & Web3 Pioneer",
+    youtubeUrl: "https://www.youtube.com/watch?v=FbnIgzwafD4",
+    videoId: "FbnIgzwafD4",
+    duration: "42 min",
+    category: "Scale & Growth"
   },
   {
-    question: "Do you invest directly or syndicate deals?",
-    answer: "We facilitate both direct co-investment allocations through our strategic network and direct introductions between vetted founders and qualified angels, family offices, and institutional venture funds."
+    id: 2,
+    title: "Mastering Valuation, Diligence & Term Sheets in 2026",
+    guest: "Sultan Al-Husseini",
+    guestRole: "MENA Seed Fund Partner",
+    youtubeUrl: "https://www.youtube.com/watch?v=2l7s12IIu7s",
+    videoId: "2l7s12IIu7s",
+    duration: "38 min",
+    category: "Fundraising"
+  },
+  {
+    id: 3,
+    title: "B2B SaaS GTM Playbook & Revenue Loops in Dubai",
+    guest: "Rashid Al-Nuaimi",
+    guestRole: "Principal, Gulf Tech Ventures",
+    youtubeUrl: "https://www.youtube.com/watch?v=PM383MoSQPM",
+    videoId: "PM383MoSQPM",
+    duration: "51 min",
+    category: "Revenue & GTM"
+  },
+  {
+    id: 4,
+    title: "From Pre-Seed to Series A: The Founder Mindset",
+    guest: "Zaid Al-Bawardi",
+    guestRole: "Managing Director, Oasis Capital",
+    youtubeUrl: "https://www.youtube.com/watch?v=7gjQPHrBeG0",
+    videoId: "7gjQPHrBeG0",
+    duration: "45 min",
+    category: "Venture Strategy"
+  }
+];
+
+export const initialPartners = [
+  { id: 1, name: 'inlabels', logo: '/assets/logos/1.png' },
+  { id: 2, name: 'SCOPE fusion', logo: '/assets/logos/2.png' },
+  { id: 3, name: 'Client 3', logo: '/assets/logos/3.png' },
+  { id: 4, name: 'Client 4', logo: '/assets/logos/4.png' },
+  { id: 5, name: 'Client 5', logo: '/assets/logos/5.png' },
+  { id: 6, name: 'Client 6', logo: '/assets/logos/6.png' },
+  { id: 7, name: 'Client 7', logo: '/assets/logos/7.png' },
+  { id: 8, name: 'Client 8', logo: '/assets/logos/8.png' },
+  { id: 9, name: 'Client 9', logo: '/assets/logos/9.png' },
+  { id: 10, name: 'Client 10', logo: '/assets/logos/10.png' },
+  { id: 11, name: 'Client 11', logo: '/assets/logos/11.png' },
+  { id: 12, name: 'Client 12', logo: '/assets/logos/12.png' },
+  { id: 13, name: 'Client 13', logo: '/assets/logos/13.png' },
+  { id: 14, name: 'Client 14', logo: '/assets/logos/14.png' },
+];
+
+export const initialPastEvents = [
+  {
+    id: 1,
+    title: "What Investors Really Think About Startups Outside the US",
+    youtubeUrl: "https://www.youtube.com/shorts/z1UMcbF7i9A",
+    videoId: "z1UMcbF7i9A",
+    category: "Startup Fundraising"
+  },
+  {
+    id: 2,
+    title: "Top VC Firms Don't Win by Seeing More Deals",
+    youtubeUrl: "https://www.youtube.com/shorts/lPuPA9M2zsQ",
+    videoId: "lPuPA9M2zsQ",
+    category: "Startup Fundraising"
+  },
+  {
+    id: 3,
+    title: "Startup Innovation Meetup | Founder & Investor Connect",
+    youtubeUrl: "https://www.youtube.com/shorts/6F1UNtMalJ4",
+    videoId: "6F1UNtMalJ4",
+    category: "Community"
+  },
+  {
+    id: 4,
+    title: "Global Fundraising Bootcamp Cohort 3 — Master Pitch Decks & GTM",
+    youtubeUrl: "https://www.youtube.com/shorts/FbnIgzwafD4",
+    videoId: "FbnIgzwafD4",
+    category: "Workshops"
+  },
+  {
+    id: 5,
+    title: "Expand North Star 2025: Investors Roundtable & Demo Day",
+    youtubeUrl: "https://www.youtube.com/shorts/2l7s12IIu7s",
+    videoId: "2l7s12IIu7s",
+    category: "Community"
+  },
+  {
+    id: 6,
+    title: "AI Meets Blockchain: Erik Mendelson at Frontier Capital Roundtable",
+    youtubeUrl: "https://www.youtube.com/shorts/PM383MoSQPM",
+    videoId: "PM383MoSQPM",
+    category: "Workshops"
+  },
+  {
+    id: 7,
+    title: "The Investors Roundtable + Demo Day",
+    youtubeUrl: "https://www.youtube.com/shorts/7gjQPHrBeG0",
+    videoId: "7gjQPHrBeG0",
+    category: "Startup Fundraising"
+  },
+  {
+    id: 8,
+    title: "Inside the Investors Roundtable + Demo Day",
+    youtubeUrl: "https://www.youtube.com/shorts/kTNOAtNIJr0",
+    videoId: "kTNOAtNIJr0",
+    category: "Community"
+  },
+  {
+    id: 9,
+    title: "Investors Roundtable + Demo Day + After Party",
+    youtubeUrl: "https://www.youtube.com/shorts/ncTZX7T8Etc",
+    videoId: "ncTZX7T8Etc",
+    category: "Community"
+  },
+  {
+    id: 10,
+    title: "Inside the Global Fundraising Bootcamp | Founders Journey",
+    youtubeUrl: "https://www.youtube.com/shorts/gIw3kw30wgc",
+    videoId: "gIw3kw30wgc",
+    category: "Workshops"
+  }
+];
+
+export const initialTestimonialShorts = [
+  {
+    id: 1,
+    title: "Startup Voices from MorseBridge | Real Reactions",
+    youtubeUrl: "https://www.youtube.com/shorts/Cgl0gJpd268",
+    videoId: "Cgl0gJpd268"
+  },
+  {
+    id: 2,
+    title: "Mo Khaldi on Why Every Founder Should Join the Bootcamp",
+    youtubeUrl: "https://www.youtube.com/shorts/TAGRO208seA",
+    videoId: "TAGRO208seA"
+  },
+  {
+    id: 3,
+    title: "Inside the Global Fundraising Bootcamp | Founder Journey",
+    youtubeUrl: "https://www.youtube.com/shorts/gIw3kw30wgc",
+    videoId: "gIw3kw30wgc"
+  },
+  {
+    id: 4,
+    title: "MyGatePass Founder on Scaling in UAE & Bootcamp Experience",
+    youtubeUrl: "https://www.youtube.com/shorts/dLgAo8CekmE",
+    videoId: "dLgAo8CekmE"
+  },
+  {
+    id: 5,
+    title: "Pitch Fast, Negotiate Smart | Startup Demo Day Reactions",
+    youtubeUrl: "https://www.youtube.com/shorts/PNKRx4EwrBk",
+    videoId: "PNKRx4EwrBk"
+  },
+  {
+    id: 6,
+    title: "How Startups Can Fix Pitch Decks, Numbers & GTM",
+    youtubeUrl: "https://www.youtube.com/shorts/2200y9BUmac",
+    videoId: "2200y9BUmac"
+  },
+  {
+    id: 7,
+    title: "Fundraise Ready: Legal Masterclass with Top GCC Counsel",
+    youtubeUrl: "https://www.youtube.com/shorts/OXquRPVm_7E",
+    videoId: "OXquRPVm_7E"
+  },
+  {
+    id: 8,
+    title: "Inside the B2B SaaS Sales Workshop & GTM Strategy",
+    youtubeUrl: "https://www.youtube.com/shorts/ZzAFGdNmXsI",
+    videoId: "ZzAFGdNmXsI"
   }
 ];

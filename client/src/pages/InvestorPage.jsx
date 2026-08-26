@@ -1,111 +1,256 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, Search, ShieldCheck, Globe, Mic, BarChart2, Users } from 'lucide-react';
 import Footer from '../components/Footer';
+import SignalDivider from '../components/3d/SignalDivider';
 
 const INVESTOR_BENEFITS = [
-  { icon: '🔍', title: 'Curated Deal Flow', desc: 'Receive pre-screened startup deal flow aligned to your investment thesis — no cold pitches.' },
-  { icon: '📋', title: 'Diligence Support', desc: 'Access our due diligence vault with financial models, pitch decks, and data rooms.' },
-  { icon: '🌍', title: 'MENA Network', desc: 'Tap into our exclusive network of co-investors, family offices, and strategic partners across MENA.' },
-  { icon: '🎤', title: 'Speaking Opportunities', desc: 'Feature on panels at our summits and events to grow your visibility as a thought leader.' },
-  { icon: '📊', title: 'Portfolio Support', desc: "Get access to resources and advisors to help your portfolio companies grow post-investment." },
-  { icon: '🤝', title: 'Co-Investment', desc: 'Collaborate with other investors in our network for syndicate deals and larger rounds.' },
+  { icon: Search, title: 'Curated Deal Flow', desc: 'Receive pre-screened startup deal flow with audited unit economics and metrics aligned to your fund thesis.' },
+  { icon: ShieldCheck, title: 'Diligence Vault', desc: 'Access comprehensive due diligence data rooms including the 5-Minute CFO model, verified traction, and SAFE terms.' },
+  { icon: Globe, title: 'MENA & Global Network', desc: 'Co-invest alongside leading sovereign funds, family offices, and verified angel syndicates across the GCC.' },
+  { icon: Mic, title: 'Summits & Showcases', desc: 'Receive VIP private investor dinner invitations and speaking slots at flagship summits in Dubai and Riyadh.' },
+  { icon: BarChart2, title: 'Portfolio Support', desc: 'Leverage our institutional GTM bootcamps, financial audit frameworks, and advisory for your portfolio companies.' },
+  { icon: Users, title: 'Syndicate Co-Investment', desc: 'Form syndicates and collaborate with fellow general partners for oversubscribed seed and Series A rounds.' },
 ];
 
 const INVESTOR_TYPES = [
-  { type: 'Angel Investors', desc: 'Individual high-net-worth investors making early-stage bets in MENA startups.' },
-  { type: 'Family Offices', desc: 'Private wealth managers looking for direct startup investment opportunities with high returns.' },
-  { type: 'Venture Capital', desc: 'Institutional VC funds seeking curated deal flow and co-investment opportunities.' },
-  { type: 'Corporate Investors', desc: 'Strategic corporate investors looking for innovation, acqui-hire, or partnership opportunities.' },
+  { type: 'Angel Investors', desc: 'Individual high-net-worth investors and syndicates backing early-stage tech ventures with high conviction.' },
+  { type: 'Family Offices', desc: 'Private wealth managers seeking direct, audited equity investments and strategic coinvestment opportunities.' },
+  { type: 'Venture Capital', desc: 'Institutional micro-funds and Tier-1 VCs seeking filtered, institutional-ready seed and Series A deal flow.' },
+  { type: 'Corporate Venture', desc: 'Strategic corporate venture arms looking for ecosystem innovation, commercial pilot partners, or M&A pipeline.' },
 ];
 
 export default function InvestorPage() {
   return (
-    <div style={{ background: 'var(--bg-canvas)', minHeight: '100vh', paddingTop: 68 }}>
-      {/* Hero */}
-      <section style={{ padding: '80px 0 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div className="hero-glow-light" />
+    <div style={{ background: 'var(--bg-canvas)', minHeight: '100vh', paddingTop: 90, color: '#F5F5F7' }}>
+      
+      {/* ====================================================================
+          HERO SECTION
+          ==================================================================== */}
+      <section style={{ padding: '60px 0 50px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div className="ambient-mesh-glow" />
+
         <div className="container container-narrow" style={{ position: 'relative', zIndex: 1 }}>
-          <span className="mb-badge mb-badge-gold" style={{ marginBottom: 20, display: 'inline-flex' }}>
-            💰 For Investors &amp; VCs
-          </span>
-          <h1 style={{
-            fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
-            fontWeight: 900, fontStyle: 'italic',
-            color: 'var(--text-primary)', lineHeight: 1.1, marginBottom: 20,
-          }}>
-            Access High-Quality <span style={{ color: 'var(--purple-primary)' }}>MENA Deal Flow</span>
+          {/* Badge */}
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '6px 18px',
+              borderRadius: 9999,
+              background: 'rgba(245, 180, 0, 0.15)',
+              border: '1px solid rgba(245, 180, 0, 0.35)',
+              marginBottom: 24,
+            }}
+          >
+            <span className="pulse-dot-red" style={{ background: '#F5B400', boxShadow: '0 0 8px rgba(245, 180, 0, 0.8)' }} />
+            <span className="font-data" style={{ fontSize: 12.5, color: '#FDE1A0', letterSpacing: '0.06em' }}>
+              FOR INVESTORS &amp; CAPITAL ALLOCATORS
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1
+            style={{
+              fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
+              fontWeight: 900,
+              fontStyle: 'italic',
+              lineHeight: 1.12,
+              letterSpacing: '-0.03em',
+              marginBottom: 20,
+              background: 'linear-gradient(180deg, #FFFFFF 0%, #E2E2E8 70%, #A3A3B0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Access High-Quality <span style={{ color: '#F5B400', WebkitTextFillColor: '#F5B400' }}>MENA Deal Flow</span>
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 16.5, lineHeight: 1.7, marginBottom: 36 }}>
-            Join 100+ active investors already using MorseBridge to discover, evaluate, and back
-            high-potential startups across MENA.
+
+          <p style={{ color: '#A3A3B0', fontSize: 16.5, maxWidth: 640, margin: '0 auto 38px', lineHeight: 1.65 }}>
+            Join 100+ active institutional funds, family offices, and verified angel syndicates discovering, evaluating, and backing high-potential startups across MENA and global tech ecosystems.
           </p>
+
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/signup" className="btn-purple" style={{ padding: '14px 36px', fontSize: 16 }}>
-              Join as Investor ↗
+            <Link
+              to="/signup"
+              className="btn-magnetic-signal"
+              style={{
+                background: '#F5B400',
+                color: '#0A0A0F',
+                padding: '14px 34px',
+                fontSize: 15.5,
+                fontWeight: 700,
+              }}
+            >
+              <span>Join Investor Syndicate</span>
+              <ArrowUpRight size={17} />
+              <div className="btn-light-sweep" />
             </Link>
-            <Link to="/what-we-do" className="btn-purple-outline" style={{ padding: '14px 36px', fontSize: 16 }}>
-              Learn More
-            </Link>
+
+            <a
+              href="https://cal.com/morsebridge/30-min-intro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-magnetic-signal"
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#F5F5F7',
+                border: '1px solid var(--border-subtle)',
+                padding: '14px 32px',
+                fontSize: 15.5,
+              }}
+            >
+              <span>Book Allocation Call</span>
+              <ArrowUpRight size={17} />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Investor Types */}
-      <section style={{ position: 'relative', zIndex: 1, padding: '0 0 60px' }}>
+      {/* ====================================================================
+          INVESTOR PROFILES
+          ==================================================================== */}
+      <section style={{ position: 'relative', zIndex: 1, padding: '0 0 50px' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <h2 className="section-title">Who We Work With</h2>
-            <p className="section-subtitle">Tailored deal flow and community for all investor profiles.</p>
+            <h2 className="section-title">Who We Partner With</h2>
+            <p className="section-subtitle">Tailored deal flow and private syndicate access for active capital allocators.</p>
           </div>
-          <div className="grid-4">
-            {INVESTOR_TYPES.map((t) => (
-              <div key={t.type} className="mb-card">
-                <h3 style={{ color: 'var(--purple-primary)', fontSize: 18, fontWeight: 900, fontStyle: 'italic', marginBottom: 8 }}>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: 22,
+            }}
+          >
+            {INVESTOR_TYPES.map((t, idx) => (
+              <motion.div
+                key={t.type}
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.25 }}
+                style={{
+                  background: '#14141B',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 18,
+                  padding: 26,
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+                }}
+              >
+                <h3
+                  style={{
+                    color: '#F5B400',
+                    fontSize: 18,
+                    fontWeight: 800,
+                    marginBottom: 10,
+                    letterSpacing: '-0.01em',
+                  }}
+                >
                   {t.type}
                 </h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: 13.5, lineHeight: 1.6 }}>{t.desc}</p>
-              </div>
+                <p style={{ color: '#A3A3B0', fontSize: 13.5, lineHeight: 1.6, margin: 0 }}>
+                  {t.desc}
+                </p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="section" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-slate)', borderBottom: '1px solid var(--border-slate)' }}>
+      <SignalDivider />
+
+      {/* ====================================================================
+          BENEFITS GRID
+          ==================================================================== */}
+      <section className="section">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 className="section-title">Why Partner with MorseBridge</h2>
-            <p className="section-subtitle">A curated platform for institutional and angel investors.</p>
+            <p className="section-subtitle">Institutional-grade curation, standardized financial models, and warm introductions.</p>
           </div>
-          <div className="grid-3">
-            {INVESTOR_BENEFITS.map((b) => (
-              <div key={b.title} className="service-card">
-                <div style={{ fontSize: 32, marginBottom: 16 }}>{b.icon}</div>
-                <h3 className="service-title">{b.title}</h3>
-                <p className="service-desc">{b.desc}</p>
-              </div>
-            ))}
+
+          <div className="grid-3" style={{ gap: 24 }}>
+            {INVESTOR_BENEFITS.map((b, idx) => {
+              const IconComp = b.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.25 }}
+                  style={{
+                    background: '#14141B',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 18,
+                    padding: 28,
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      background: 'rgba(245, 180, 0, 0.15)',
+                      border: '1px solid rgba(245, 180, 0, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#F5B400',
+                      marginBottom: 4,
+                    }}
+                  >
+                    <IconComp size={24} />
+                  </div>
+                  <h3 style={{ fontSize: 18.5, fontWeight: 700, color: '#F5F5F7', margin: 0 }}>{b.title}</h3>
+                  <p style={{ color: '#A3A3B0', fontSize: 14, lineHeight: 1.65, margin: 0 }}>{b.desc}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ====================================================================
+          FINAL CTA
+          ==================================================================== */}
       <section className="section" style={{ textAlign: 'center', paddingBottom: 100 }}>
         <div className="container container-narrow">
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid var(--border-slate)',
-            borderRadius: 24, padding: '52px 36px',
-            boxShadow: 'var(--shadow-lg)',
-          }}>
-            <h2 style={{ fontSize: '2.2rem', fontWeight: 900, fontStyle: 'italic', color: 'var(--text-primary)', marginBottom: 12 }}>
-              Ready to Expand Your <span style={{ color: 'var(--purple-primary)' }}>Portfolio</span>?
+          <div
+            style={{
+              background: '#14141B',
+              border: '1px solid rgba(245, 180, 0, 0.3)',
+              borderRadius: 24,
+              padding: '54px 36px',
+              boxShadow: '0 16px 48px rgba(245, 180, 0, 0.12)',
+            }}
+          >
+            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', fontWeight: 900, color: '#F5F5F7', marginBottom: 14 }}>
+              Ready to Join the Syndicate?
             </h2>
-            <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15.5 }}>
-              Register your investment thesis to start receiving screened deal flow.
+            <p style={{ color: '#A3A3B0', fontSize: 15.5, maxWidth: 520, margin: '0 auto 32px', lineHeight: 1.6 }}>
+              Receive filtered, high-conviction deal flow directly to your inbox with zero spam.
             </p>
-            <Link to="/signup" className="btn-purple" style={{ padding: '14px 40px', fontSize: 16 }}>
-              Join Our Investor Network ↗
-            </Link>
+            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link
+                to="/signup"
+                className="btn-magnetic-signal"
+                style={{
+                  background: '#F5B400',
+                  color: '#0A0A0F',
+                  padding: '13px 32px',
+                  fontSize: 15,
+                  fontWeight: 700,
+                }}
+              >
+                <span>Join Investor Network</span>
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
