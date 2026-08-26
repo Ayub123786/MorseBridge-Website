@@ -1,5 +1,6 @@
 export default function MorsebridgeLogo({ isDark = false, fontSize = '21px' }) {
-  const textColor = isDark ? '#ffffff' : '#000000';
+  const morseColor = isDark ? '#ffffff' : '#000000';
+  const bridgeColor = isDark ? '#C084FC' : '#7C3AED';
 
   return (
     <div
@@ -10,21 +11,20 @@ export default function MorsebridgeLogo({ isDark = false, fontSize = '21px' }) {
         userSelect: 'none',
       }}
     >
-      {/* Brand Text: MORSE (italic medium) + BRIDGE (italic black/bold) */}
+      {/* Brand Text: MORSE (italic medium) + BRIDGE (italic bold purple) */}
       <span
         style={{
           fontFamily: "'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif",
           fontSize,
           fontStyle: 'italic',
-          color: textColor,
           letterSpacing: '-0.025em',
           lineHeight: 1,
           display: 'inline-flex',
           alignItems: 'baseline',
         }}
       >
-        <span style={{ fontWeight: 400, marginRight: 1 }}>MORSE</span>
-        <span style={{ fontWeight: 900 }}>BRIDGE</span>
+        <span style={{ fontWeight: 400, color: morseColor, marginRight: 2 }}>MORSE</span>
+        <span style={{ fontWeight: 900, color: bridgeColor }}>BRIDGE</span>
       </span>
 
       {/* Trailing Gold Morse Dots & Purple Origami Paper Airplane */}

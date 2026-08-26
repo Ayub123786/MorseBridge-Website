@@ -207,6 +207,7 @@ const WHAT_WE_DO_DATA = [
   {
     title: 'Fundraising Enablement',
     image: '/assets/what-we-do/fundraising_enablement.png',
+    link: 'https://cal.com/morsebridge/30-min-intro',
     points: [
       'Strategic introductions to vetted institutional investors',
       'Access to exclusive summits & live pitch opportunities',
@@ -216,6 +217,7 @@ const WHAT_WE_DO_DATA = [
   {
     title: 'Revenue Strategy & Systems',
     image: '/assets/what-we-do/revenue_strategy.png',
+    link: 'https://cal.com/morsebridge/30-min-intro',
     points: [
       'Advising on revenue models and pricing',
       'Helping build scalable revenue-generating systems (e.g. sales processes, monetization strategy, go-to-market)',
@@ -225,6 +227,7 @@ const WHAT_WE_DO_DATA = [
   {
     title: 'Fundraising Playbook',
     image: '/assets/what-we-do/fundraising_playbook.jpg',
+    link: 'https://morsebridge.substack.com/s/fundraising-playbook',
     points: [
       'Investor-ready data room structuring & diligence prep',
       'High-converting outreach sequences & warm intro templates',
@@ -267,59 +270,141 @@ const DIFFERENCE_CARDS = [
   },
 ];
 
-/* ── Past Events Video Tabs ── */
-const PAST_EVENTS = {
-  Workshops: [
-    { title: 'Fundraising Workshop with Global VCs', date: 'Dubai · 2025', duration: '45 min' },
-    { title: 'Financial Modeling & Cap Table Strategy', date: 'Online Masterclass', duration: '50 min' },
-    { title: 'Structuring Data Rooms for Diligence', date: 'Riyadh · 2025', duration: '35 min' },
-  ],
-  'Startup Fundraising': [
-    { title: 'Pitching to Family Offices in GCC', date: 'Dubai Summit', duration: '55 min' },
-    { title: 'Early Stage Term Sheet Breakdown', date: 'Online Session', duration: '40 min' },
-    { title: 'How Top MENA Startups Raised Seed Rounds', date: 'Fireside Chat', duration: '60 min' },
-  ],
-  Community: [
-    { title: 'Founder–Investor Mixer & Demo Night', date: 'Abu Dhabi', duration: '30 min' },
-    { title: 'Ecosystem Builders Roundtable', date: 'Riyadh Hub', duration: '45 min' },
-    { title: 'Tech Founders Networking Evening', date: 'Dubai Hub', duration: '35 min' },
-  ],
-};
+/* ── Helper: Extract YouTube Embed URL from any link (Shorts, Watch, youtu.be, or ID) ── */
+function getYouTubeEmbedUrl(input) {
+  if (!input || !input.trim()) return '';
+  const str = input.trim();
+  
+  if (str.includes('/shorts/')) {
+    const id = str.split('/shorts/')[1]?.split('?')[0]?.split('&')[0];
+    return id ? `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1` : '';
+  }
+  if (str.includes('youtu.be/')) {
+    const id = str.split('youtu.be/')[1]?.split('?')[0]?.split('&')[0];
+    return id ? `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1` : '';
+  }
+  if (str.includes('watch?v=')) {
+    const id = str.split('watch?v=')[1]?.split('&')[0];
+    return id ? `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1` : '';
+  }
+  if (str.includes('embed/')) {
+    return str;
+  }
+  return `https://www.youtube-nocookie.com/embed/${str}?rel=0&modestbranding=1`;
+}
 
-/* ── Testimonials ── */
-const TESTIMONIALS_ROW_1 = [
+/* ── PAST EVENTS YOUTUBE VIDEOS & SHORTS (10 SLOTS — 2x5 GRID) ──
+   Paste your YouTube Shorts or Video link directly into 'youtubeUrl'.
+   Example formats:
+   - "https://www.youtube.com/shorts/YOUR_ID"
+   - "https://youtu.be/YOUR_ID"
+   - "https://www.youtube.com/watch?v=YOUR_ID"
+   - "YOUR_ID"
+───────────────────────────────────────────────────────────────── */
+const PAST_EVENT_VIDEOS = [
   {
-    name: 'Tariq Al-Saleh',
-    role: 'Founder & CEO, HealthTech UAE',
-    comment: 'MorseBridge streamlined our fundraising pipeline. Within 3 weeks of finalizing our data room, we were introduced to 4 qualified MENA angel syndicates.',
+    id: 1,
+    title: 'What Investors Really Think About Startups Outside the US',
+    youtubeUrl: 'https://www.youtube.com/shorts/z1UMcbF7i9A',
+    category: 'Startup Fundraising',
   },
   {
-    name: 'Sarah Montgomery',
-    role: 'Managing Partner, MENA Seed Fund',
-    comment: 'The deal flow curated by Muhammad Ayub and the MorseBridge team is consistently high-signal. Startups come in pre-vetted with institutional-grade financials.',
+    id: 2,
+    title: "Top VC Firms Don't Win by Seeing More Deals",
+    youtubeUrl: 'https://www.youtube.com/shorts/lPuPA9M2zsQ',
+    category: 'Startup Fundraising',
   },
   {
-    name: 'Karim Nabil',
-    role: 'Co-Founder, Logistics B2B',
-    comment: 'The 5-Minute CFO model and positioning sessions helped us answer hard investor questions on unit economics effortlessly during our Seed round.',
+    id: 3,
+    title: 'Startup Innovation Meetup | Founder & Investor Connect',
+    youtubeUrl: 'https://www.youtube.com/shorts/6F1UNtMalJ4',
+    category: 'Community',
+  },
+  {
+    id: 4,
+    title: 'Global Fundraising Bootcamp Cohort 3 — Master Pitch Decks & GTM',
+    youtubeUrl: 'https://www.youtube.com/shorts/FbnIgzwafD4',
+    category: 'Workshops',
+  },
+  {
+    id: 5,
+    title: 'Expand North Star 2025: Investors Roundtable & Demo Day',
+    youtubeUrl: 'https://www.youtube.com/shorts/2l7s12IIu7s',
+    category: 'Community',
+  },
+  {
+    id: 6,
+    title: 'AI Meets Blockchain: Erik Mendelson at Frontier Capital Roundtable',
+    youtubeUrl: 'https://www.youtube.com/shorts/PM383MoSQPM',
+    category: 'Workshops',
+  },
+  {
+    id: 7,
+    title: 'The Investors Roundtable + Demo Day',
+    youtubeUrl: 'https://www.youtube.com/shorts/7gjQPHrBeG0',
+    category: 'Startup Fundraising',
+  },
+  {
+    id: 8,
+    title: 'Inside the Investors Roundtable + Demo Day',
+    youtubeUrl: 'https://www.youtube.com/shorts/kTNOAtNIJr0',
+    category: 'Community',
+  },
+  {
+    id: 9,
+    title: 'Investors Roundtable + Demo Day + After Party',
+    youtubeUrl: 'https://www.youtube.com/shorts/ncTZX7T8Etc',
+    category: 'Community',
+  },
+  {
+    id: 10,
+    title: 'Inside the Global Fundraising Bootcamp | Founders Journey',
+    youtubeUrl: 'https://www.youtube.com/shorts/gIw3kw30wgc',
+    category: 'Workshops',
   },
 ];
 
-const TESTIMONIALS_ROW_2 = [
+/* ── Comments / Testimonials by Founders & Investors (YouTube Shorts) ── */
+const FOUNDER_COMMENT_SHORTS = [
   {
-    name: 'Fahad Al-Mutawa',
-    role: 'Family Office Principal, Riyadh',
-    comment: 'MorseBridge events are among the best for meeting serious founders in KSA and the UAE without the fluff. Highly recommended.',
+    id: 1,
+    title: 'Startup Voices from MorseBridge | Real Reactions',
+    youtubeUrl: 'https://www.youtube.com/shorts/Cgl0gJpd268',
   },
   {
-    name: 'Lina Kassem',
-    role: 'Founder, EdTech Platform',
-    comment: 'We participated in the demo day and received 3 follow-on term sheet discussions. The mentorship on pitching made all the difference.',
+    id: 2,
+    title: 'Mo Khaldi on Why Every Founder Should Join the Bootcamp',
+    youtubeUrl: 'https://www.youtube.com/shorts/TAGRO208seA',
   },
   {
-    name: 'Ziyad Othman',
-    role: 'Angel Investor & Advisor',
-    comment: 'A transformative platform for the regional startup ecosystem. Ayub has created a real bridge between founders and capital.',
+    id: 3,
+    title: 'Inside the Global Fundraising Bootcamp | Founder Journey',
+    youtubeUrl: 'https://www.youtube.com/shorts/gIw3kw30wgc',
+  },
+  {
+    id: 4,
+    title: 'MyGatePass Founder on Scaling in UAE & Bootcamp Experience',
+    youtubeUrl: 'https://www.youtube.com/shorts/dLgAo8CekmE',
+  },
+  {
+    id: 5,
+    title: 'Pitch Fast, Negotiate Smart | Startup Demo Day Reactions',
+    youtubeUrl: 'https://www.youtube.com/shorts/PNKRx4EwrBk',
+  },
+  {
+    id: 6,
+    title: 'How Startups Can Fix Pitch Decks, Numbers & GTM',
+    youtubeUrl: 'https://www.youtube.com/shorts/2200y9BUmac',
+  },
+  {
+    id: 7,
+    title: 'Fundraise Ready: Legal Masterclass with Top GCC Counsel',
+    youtubeUrl: 'https://www.youtube.com/shorts/OXquRPVm_7E',
+  },
+  {
+    id: 8,
+    title: 'Inside the B2B SaaS Sales Workshop & GTM Strategy',
+    youtubeUrl: 'https://www.youtube.com/shorts/ZzAFGdNmXsI',
   },
 ];
 
@@ -463,7 +548,7 @@ export default function HomePage() {
   useScrollReveal();
 
   const [eventOffset, setEventOffset] = useState(0);
-  const [activePastCategory, setActivePastCategory] = useState('Workshops');
+  const [activePastCategory, setActivePastCategory] = useState('All');
   const visibleEvents = 3;
 
   // Auto-play event cards subtle slide preview
@@ -782,9 +867,13 @@ export default function HomePage() {
 
           <div className="grid-3">
             {WHAT_WE_DO_DATA.map((item, idx) => (
-              <div
+              <a
                 key={idx}
-                className={`what-we-do-card reveal-on-scroll reveal-delay-${idx + 1}`}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`what-we-do-card hover-float reveal-on-scroll reveal-delay-${idx + 1}`}
+                style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}
               >
                 {item.image && (
                   <div className="what-we-do-img-wrap">
@@ -797,13 +886,16 @@ export default function HomePage() {
                     />
                   </div>
                 )}
-                <h3 className="what-we-do-title">{item.title}</h3>
-                <ul className="what-we-do-list">
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                  <h3 className="what-we-do-title" style={{ margin: '18px 0 14px' }}>{item.title}</h3>
+                  <span style={{ fontSize: 16, color: '#7C3AED', fontWeight: 800 }}>↗</span>
+                </div>
+                <ul className="what-we-do-list" style={{ flex: 1 }}>
                   {item.points.map((pt, pIdx) => (
                     <li key={pIdx}>{pt}</li>
                   ))}
                 </ul>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -857,34 +949,34 @@ export default function HomePage() {
       </section>
 
       {/* ====================================================================
-          3.7 — "OUR PAST EVENTS" (VIDEO CAROUSEL)
+          3.7 — "OUR PAST EVENTS" (VERTICAL YOUTUBE SHORTS & VIDEOS GRID)
           ==================================================================== */}
       <section className="section">
-        <div className="container">
+        <div className="container container-wide">
           <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 36 }}>
             <h2 className="section-title">Our Past Events</h2>
             <p className="section-subtitle">
-              Bringing founders, investors, and communities together across MENA and global tech hubs.
+              Watch summit highlights, live pitch sessions, and masterclasses from across MENA.
             </p>
           </div>
 
           {/* Category Tabs */}
-          <div className="reveal-on-scroll reveal-delay-1" style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 36 }}>
-            {['Workshops', 'Startup Fundraising', 'Community'].map((cat) => (
+          <div className="reveal-on-scroll reveal-delay-1" style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 36, flexWrap: 'wrap' }}>
+            {['All', 'Workshops', 'Startup Fundraising', 'Community'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActivePastCategory(cat)}
                 style={{
-                  padding: '8px 20px',
-                  borderRadius: 4,
+                  padding: '8px 22px',
+                  borderRadius: 9999,
                   border: `1px solid ${activePastCategory === cat ? '#000000' : 'var(--border-medium)'}`,
                   background: activePastCategory === cat ? '#000000' : '#ffffff',
                   color: activePastCategory === cat ? '#ffffff' : 'var(--text-secondary)',
                   fontSize: 13.5,
                   fontWeight: 600,
                   cursor: 'pointer',
-                  fontFamily: 'monospace',
                   transition: 'all 0.2s ease',
+                  boxShadow: activePastCategory === cat ? 'var(--shadow-xs)' : 'none',
                 }}
               >
                 {cat}
@@ -892,67 +984,42 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Video Cards Grid */}
-          <div className="grid-3">
-            {PAST_EVENTS[activePastCategory].map((v, idx) => (
-              <div
-                key={idx}
-                className={`mb-card hover-float reveal-on-scroll reveal-delay-${idx + 1} with-corner-brackets`}
-                style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}
-              >
+          {/* 10 Vertical YouTube Shorts / Videos Grid (2 rows x 5 columns) */}
+          <div className="past-events-grid">
+            {(activePastCategory === 'All'
+              ? PAST_EVENT_VIDEOS
+              : PAST_EVENT_VIDEOS.filter((v) => v.category === activePastCategory)
+            ).map((item, idx) => {
+              const embedUrl = getYouTubeEmbedUrl(item.youtubeUrl);
+              return (
                 <div
-                  style={{
-                    height: 180,
-                    background: 'var(--bg-tertiary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    borderBottom: '1px solid var(--border-medium)',
-                  }}
+                  key={item.id}
+                  className={`past-event-video-card reveal-on-scroll reveal-delay-${(idx % 5) + 1}`}
                 >
-                  <div
-                    style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: '50%',
-                      background: '#000000',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#ffffff',
-                      fontSize: 16,
-                    }}
-                  >
-                    ▶
-                  </div>
-                  <span
-                    style={{
-                      position: 'absolute',
-                      bottom: 12,
-                      right: 12,
-                      background: '#000000',
-                      padding: '3px 8px',
-                      borderRadius: 4,
-                      fontSize: 11,
-                      fontWeight: 600,
-                      color: '#ffffff',
-                      fontFamily: 'monospace',
-                    }}
-                  >
-                    {v.duration}
-                  </span>
+                  {embedUrl ? (
+                    <iframe
+                      src={embedUrl}
+                      title={item.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="past-event-iframe"
+                    />
+                  ) : (
+                    <div className="past-event-placeholder">
+                      <div className="past-event-yt-icon">▶</div>
+                      <div className="past-event-placeholder-title">{item.title}</div>
+                      <div className="past-event-placeholder-hint">
+                        + Paste link in <code>PAST_EVENT_VIDEOS</code>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div style={{ padding: 22 }}>
-                  <h4 style={{ color: '#000000', fontSize: 16, fontWeight: 700, marginBottom: 4 }}>{v.title}</h4>
-                  <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>{v.date}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* YouTube Link */}
-          <div className="reveal-on-scroll reveal-delay-2" style={{ textAlign: 'center', marginTop: 36 }}>
+          <div className="reveal-on-scroll reveal-delay-2" style={{ textAlign: 'center', marginTop: 40 }}>
             <a
               href="https://www.youtube.com/@foundermeetinvestor"
               target="_blank"
@@ -966,45 +1033,46 @@ export default function HomePage() {
       </section>
 
       {/* ====================================================================
-          3.8 — "COMMENTS BY FOUNDERS & INVESTORS" (TESTIMONIALS)
+          3.8 — "COMMENTS BY FOUNDERS & INVESTORS" (YOUTUBE SHORTS GRID)
           ==================================================================== */}
       <section className="section" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-medium)', borderBottom: '1px solid var(--border-medium)' }}>
-        <div className="container">
-          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 48 }}>
+        <div className="container container-wide">
+          <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: 40 }}>
             <h2 className="section-title">Comments By Founders &amp; Investors</h2>
             <p className="section-subtitle">
-              What founders and investors say about partnering with MorseBridge.
+              What those who've built and backed say about us.
             </p>
           </div>
 
-          {/* Row 1 */}
-          <div className="grid-3" style={{ marginBottom: 24 }}>
-            {TESTIMONIALS_ROW_1.map((t, i) => (
-              <div key={i} className={`mb-card hover-float reveal-on-scroll reveal-delay-${i + 1} with-corner-brackets`} style={{ padding: 28, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <p style={{ color: 'var(--text-body)', fontSize: 14.5, lineHeight: 1.7, marginBottom: 20 }}>
-                  "{t.comment}"
-                </p>
-                <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: 14 }}>
-                  <div style={{ color: '#000000', fontWeight: 700, fontSize: 14.5 }}>{t.name}</div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: 12.5, marginTop: 2 }}>{t.role}</div>
+          {/* 8 Vertical YouTube Shorts Grid (2 rows x 4 columns) */}
+          <div className="comments-shorts-grid">
+            {FOUNDER_COMMENT_SHORTS.map((item, idx) => {
+              const embedUrl = getYouTubeEmbedUrl(item.youtubeUrl);
+              return (
+                <div
+                  key={item.id}
+                  className={`past-event-video-card reveal-on-scroll reveal-delay-${(idx % 4) + 1}`}
+                >
+                  {embedUrl ? (
+                    <iframe
+                      src={embedUrl}
+                      title={item.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="past-event-iframe"
+                    />
+                  ) : (
+                    <div className="past-event-placeholder">
+                      <div className="past-event-yt-icon">▶</div>
+                      <div className="past-event-placeholder-title">{item.title}</div>
+                      <div className="past-event-placeholder-hint">
+                        + Paste link in <code>FOUNDER_COMMENT_SHORTS</code>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Row 2 */}
-          <div className="grid-3">
-            {TESTIMONIALS_ROW_2.map((t, i) => (
-              <div key={i} className={`mb-card hover-float reveal-on-scroll reveal-delay-${i + 1} with-corner-brackets`} style={{ padding: 28, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <p style={{ color: 'var(--text-body)', fontSize: 14.5, lineHeight: 1.7, marginBottom: 20 }}>
-                  "{t.comment}"
-                </p>
-                <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: 14 }}>
-                  <div style={{ color: '#000000', fontWeight: 700, fontSize: 14.5 }}>{t.name}</div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: 12.5, marginTop: 2 }}>{t.role}</div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
