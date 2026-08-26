@@ -1,0 +1,2 @@
+# Podcast Artwork
+Place podcast cover images & episode graphics here.
