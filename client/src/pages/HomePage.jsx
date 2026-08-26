@@ -14,6 +14,7 @@ import EventCard3D from '../components/3d/EventCard3D';
 import VideoCard3D from '../components/3d/VideoCard3D';
 import LogoMarquee from '../components/3d/LogoMarquee';
 import PodcastStack from '../components/3d/PodcastStack';
+import SubstackSection from '../components/3d/SubstackSection';
 import CountUpNumber from '../components/common/CountUpNumber';
 import ShimmerSkeleton from '../components/common/ShimmerSkeleton';
 
@@ -763,6 +764,14 @@ export default function HomePage() {
           3.9 — "PODCAST: FOUNDERS TALK WITH AYUB"
           ==================================================================== */}
       <PodcastStack podcasts={podcasts} loading={podcastsLoading} />
+
+      {/* Signal Divider */}
+      <SignalDivider />
+
+      {/* ====================================================================
+          3.10 — SUBSTACK INSIGHTS & PE AUTOMATIONS
+          ==================================================================== */}
+      <SubstackSection />
 
       {/* Signal Divider */}
       <SignalDivider />

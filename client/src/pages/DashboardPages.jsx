@@ -205,33 +205,33 @@ export function DashboardGetFeatured() {
         Submit your startup to be spotlighted across our investor newsletter and demo events.
       </p>
 
-      <div style={{ background: '#ffffff', border: '1px solid var(--border-slate)', borderRadius: 20, padding: 32, maxWidth: 640, boxShadow: 'var(--shadow-md)' }}>
+      <div style={{ background: '#14141B', border: '1px solid var(--border-subtle)', borderRadius: 20, padding: 32, maxWidth: 640, boxShadow: '0 12px 36px rgba(0, 0, 0, 0.4)' }}>
         {submitted ? (
           <div style={{ textAlign: 'center', padding: '32px 0' }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>🎉</div>
-            <h3 style={{ color: 'var(--purple-primary)', fontWeight: 800, fontSize: 18, marginBottom: 6 }}>Submission Received!</h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>Our team will review your profile and contact you within 48 hours.</p>
+            <h3 style={{ color: '#F5F5F7', fontWeight: 800, fontSize: 18, marginBottom: 6 }}>Submission Received!</h3>
+            <p style={{ color: '#A3A3B0', fontSize: 14 }}>Our team will review your profile and contact you within 48 hours.</p>
           </div>
         ) : (
           <form onSubmit={submit}>
-            <div className="form-group">
-              <label className="form-label">Startup Name</label>
-              <input className="form-input" name="startup" value={form.startup} onChange={handle} required placeholder="Acme Health" />
+            <div className="form-group" style={{ marginBottom: 16 }}>
+              <label style={{ display: 'block', color: '#F5F5F7', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Startup Name</label>
+              <input style={{ width: '100%', padding: '12px 16px', background: '#0A0A0F', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 10, color: '#F5F5F7', outline: 'none' }} name="startup" value={form.startup} onChange={handle} required placeholder="Acme Health" />
             </div>
-            <div className="form-group">
-              <label className="form-label">Website URL</label>
-              <input className="form-input" name="website" value={form.website} onChange={handle} required placeholder="https://acmehealth.com" />
+            <div className="form-group" style={{ marginBottom: 16 }}>
+              <label style={{ display: 'block', color: '#F5F5F7', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Website URL</label>
+              <input style={{ width: '100%', padding: '12px 16px', background: '#0A0A0F', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 10, color: '#F5F5F7', outline: 'none' }} name="website" value={form.website} onChange={handle} required placeholder="https://acmehealth.com" />
             </div>
-            <div className="form-group">
-              <label className="form-label">One-Line Pitch</label>
-              <input className="form-input" name="pitch" value={form.pitch} onChange={handle} required placeholder="What problem does your startup solve in 1 sentence?" />
+            <div className="form-group" style={{ marginBottom: 16 }}>
+              <label style={{ display: 'block', color: '#F5F5F7', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>One-Line Pitch</label>
+              <input style={{ width: '100%', padding: '12px 16px', background: '#0A0A0F', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 10, color: '#F5F5F7', outline: 'none' }} name="pitch" value={form.pitch} onChange={handle} required placeholder="What problem does your startup solve in 1 sentence?" />
             </div>
-            <div className="form-group">
-              <label className="form-label">Current Ask / Round Size</label>
-              <input className="form-input" name="ask" value={form.ask} onChange={handle} placeholder="e.g. Raising $750k Seed on SAFE" />
+            <div className="form-group" style={{ marginBottom: 24 }}>
+              <label style={{ display: 'block', color: '#F5F5F7', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Current Ask / Round Size</label>
+              <input style={{ width: '100%', padding: '12px 16px', background: '#0A0A0F', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 10, color: '#F5F5F7', outline: 'none' }} name="ask" value={form.ask} onChange={handle} placeholder="e.g. Raising $750k Seed on SAFE" />
             </div>
-            <button type="submit" className="btn-purple" style={{ width: '100%', padding: '12px', fontSize: 14 }}>
-              Submit for Feature ↗
+            <button type="submit" className="btn-magnetic-signal" style={{ width: '100%', padding: '13px', fontSize: 14.5, background: '#8B5CF6', color: '#FFFFFF', borderRadius: 12, border: 'none', cursor: 'pointer', justifyContent: 'center' }}>
+              <span>Submit for Feature</span>
             </button>
           </form>
         )}
@@ -244,22 +244,22 @@ export function DashboardGetFeatured() {
 export function DashboardAdvisory() {
   return (
     <DashboardLayout>
-      <h1 style={{ fontSize: '2rem', fontWeight: 900, fontStyle: 'italic', color: 'var(--text-primary)', marginBottom: 8 }}>Advisory Sessions</h1>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 32 }}>Book 1-on-1 strategic advisory sessions with ecosystem mentors.</p>
+      <h1 style={{ fontSize: '2rem', fontWeight: 900, fontStyle: 'italic', color: '#F5F5F7', marginBottom: 8 }}>Advisory Sessions</h1>
+      <p style={{ color: '#A3A3B0', marginBottom: 32 }}>Book 1-on-1 strategic advisory sessions with ecosystem mentors.</p>
 
-      <div style={{ background: '#ffffff', border: '1px solid var(--border-slate)', borderRadius: 20, padding: 36, maxWidth: 640, boxShadow: 'var(--shadow-md)' }}>
-        <h3 style={{ color: 'var(--text-primary)', fontSize: 18, fontWeight: 800, marginBottom: 12 }}>Schedule a Call with Muhammad Ayub</h3>
-        <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.6, marginBottom: 24 }}>
+      <div style={{ background: '#14141B', border: '1px solid var(--border-subtle)', borderRadius: 20, padding: 36, maxWidth: 640, boxShadow: '0 12px 36px rgba(0, 0, 0, 0.4)' }}>
+        <h3 style={{ color: '#F5F5F7', fontSize: 18, fontWeight: 800, marginBottom: 12 }}>Schedule a Call with Muhammad Ayub</h3>
+        <p style={{ color: '#A3A3B0', fontSize: 14, lineHeight: 1.6, marginBottom: 24 }}>
           Cover pitch narrative refinement, data room audit, investor targeting strategy, and market expansion into UAE and KSA.
         </p>
         <a
           href="https://cal.com/morsebridge/30-min-intro"
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-purple"
-          style={{ padding: '12px 28px', fontSize: 14 }}
+          className="btn-magnetic-signal"
+          style={{ display: 'inline-flex', padding: '12px 28px', fontSize: 14, background: '#8B5CF6', color: '#FFFFFF', borderRadius: 12 }}
         >
-          Book 30-Min Session on Cal.com ↗
+          <span>Book 30-Min Session on Cal.com ↗</span>
         </a>
       </div>
     </DashboardLayout>

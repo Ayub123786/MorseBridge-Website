@@ -9,7 +9,8 @@ const NAV_LINKS = [
   { label: 'What We Do', href: '/#what-we-do', isExternal: false },
   { label: 'Products', href: '/products', isExternal: false },
   { label: 'Events', href: '/custom-events', isExternal: false },
-  { label: 'Blog', href: 'https://morsebridge.substack.com/?utm_campaign=profile_chips', isExternal: true },
+  { label: 'Substack', href: '/#substack', isExternal: false },
+  { label: 'Blog', href: '/blog', isExternal: false },
   { label: 'Podcast', href: 'https://youtube.com/@FoundersTalkwithAyub', isExternal: true },
   { label: "FAQ's", href: '/#faqs', isExternal: false },
 ];
@@ -29,6 +30,12 @@ export default function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false);
+    if (location.hash) {
+      const el = document.getElementById(location.hash.slice(1));
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 80);
+      }
+    }
   }, [location.pathname, location.hash]);
 
   const handleNavClick = (href, isExternal) => {

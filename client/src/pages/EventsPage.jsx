@@ -1,134 +1,224 @@
-import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Calendar, ArrowUpRight, Sparkles, MapPin, Clock } from 'lucide-react';
+import Footer from '../components/Footer';
+import SignalDivider from '../components/3d/SignalDivider';
 
 const EVENTS_LIST = [
   {
     id: 1,
     title: 'Dubai Rising 2026',
-    sub: 'Coming This November!',
-    date: 'November 2026 · Dubai, UAE',
-    desc: 'The ultimate startup & investor summit in Dubai. Network with 100+ investors and 200+ founders across MENA.',
+    sub: 'Flagship Investor Roundtable & Demo Day',
+    date: 'Nov 24, 2026 · Dubai, UAE',
+    desc: 'The premier startup & investor summit in Dubai. Network with 100+ institutional VCs and 200+ founders across MENA.',
     tag: 'Flagship Summit',
+    tagColor: '#F5B400',
     link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
   },
   {
     id: 2,
     title: 'Riyadh Rising 2026',
     sub: 'The Ultimate Startups & Investor Summit',
-    date: '21–22 Jan 2026 · Riyadh, KSA',
-    desc: 'Join us to get funded, network and scale your startup in Saudi Arabia. 100+ investors, 50+ curated workshops.',
+    date: 'Jan 21–22, 2026 · Riyadh, KSA',
+    desc: 'Join us to get funded, network, and scale your startup in Saudi Arabia. 100+ investors, 20+ workshops, desert night meet.',
     tag: 'GCC Focus',
+    tagColor: '#8B5CF6',
     link: 'https://riyadhrising.net/',
   },
   {
     id: 3,
     title: 'Global Fundraising Boot Camp',
     sub: '5 workshops, 10 Startups, 25 Angels, VCs & Accelerators',
-    date: '22 Oct 2025 · Online Masterclass',
-    desc: 'Build a $1M–$5M GTM & capital strategy. Learn to pitch and connect directly with institutional lead partners.',
+    date: 'Nov 12, 2026 · Online Masterclass',
+    desc: 'Build a $1M–$5M GTM & capital strategy. Master term sheet negotiation and data room structuring directly with lead partners.',
     tag: 'Cohort',
+    tagColor: '#10B981',
     link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
   },
   {
     id: 4,
     title: 'Startup Spotlight Demo Day',
-    sub: 'Prepare a Winning Pitch Deck',
-    date: 'Recurring · Online',
-    desc: 'Monthly demo day giving startups a live stage to pitch to active investor syndicates.',
+    sub: 'Live Pitching to Active Angel Syndicates',
+    date: 'Dec 05, 2026 · Hybrid',
+    desc: 'Monthly demo day giving vetted startups a live stage to pitch to active investor syndicates and regional funds.',
     tag: 'Recurring Demo Day',
+    tagColor: '#38BDF8',
     link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
   },
 ];
 
 export default function EventsPage() {
   return (
-    <div style={{ background: 'var(--bg-canvas)', minHeight: '100vh', paddingTop: 68 }}>
+    <div style={{ background: 'var(--bg-canvas)', minHeight: '100vh', paddingTop: 90, color: '#F5F5F7' }}>
+      
       {/* Hero */}
-      <section style={{ padding: '80px 0 40px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div className="hero-glow-light" />
+      <section style={{ padding: '60px 0 50px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div className="ambient-mesh-glow" />
+
         <div className="container container-narrow" style={{ position: 'relative', zIndex: 1 }}>
-          <span className="mb-badge mb-badge-gold" style={{ marginBottom: 18, display: 'inline-flex' }}>
-            🎟️ Global Ecosystem
-          </span>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '6px 18px',
+              borderRadius: 9999,
+              background: 'rgba(139, 92, 246, 0.15)',
+              border: '1px solid rgba(139, 92, 246, 0.35)',
+              marginBottom: 24,
+            }}
+          >
+            <Calendar size={14} color="#C4B5FD" />
+            <span className="font-data" style={{ fontSize: 12.5, color: '#C4B5FD', letterSpacing: '0.06em' }}>
+              GLOBAL SUMMITS &amp; DEMO DAYS
+            </span>
+          </div>
+
           <h1
             style={{
               fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
               fontWeight: 900,
               fontStyle: 'italic',
-              color: 'var(--text-primary)',
-              lineHeight: 1.1,
-              marginBottom: 18,
+              lineHeight: 1.12,
+              letterSpacing: '-0.03em',
+              marginBottom: 20,
+              background: 'linear-gradient(180deg, #FFFFFF 0%, #E2E2E8 70%, #A3A3B0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
             }}
           >
-            Startup &amp; Investor <span style={{ color: 'var(--purple-primary)' }}>Events</span>
+            Startup &amp; Investor <span style={{ color: '#8B5CF6', WebkitTextFillColor: '#8B5CF6' }}>Events</span>
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 16.5, lineHeight: 1.7 }}>
-            Summits, pitch competitions, bootcamps, and networking mixers across MENA and online.
+
+          <p style={{ color: '#A3A3B0', fontSize: 16.5, maxWidth: 640, margin: '0 auto 36px', lineHeight: 1.65 }}>
+            Flagship summits, pitch competitions, masterclass bootcamps, and networking mixers across MENA and online.
           </p>
         </div>
       </section>
 
       {/* Events List */}
-      <section className="section" style={{ paddingTop: 20, paddingBottom: 80 }}>
+      <section className="section" style={{ paddingTop: 0, paddingBottom: 80 }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
-            {EVENTS_LIST.map((ev) => (
-              <div
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 26 }}>
+            {EVENTS_LIST.map((ev, idx) => (
+              <motion.div
                 key={ev.id}
-                className="service-card"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.08 }}
+                whileHover={{ y: -6 }}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  background: '#ffffff',
+                  background: '#14141B',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 22,
+                  padding: 30,
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.6)';
+                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(139, 92, 246, 0.25)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.4)';
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                    <span className="mb-badge">{ev.tag}</span>
-                    <span style={{ color: 'var(--text-subtle)', fontSize: 12.5, fontWeight: 600 }}>{ev.date}</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                    <span
+                      className="font-data"
+                      style={{
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        color: ev.tagColor || '#C4B5FD',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: `1px solid ${ev.tagColor ? `${ev.tagColor}40` : 'rgba(139, 92, 246, 0.3)'}`,
+                        padding: '4px 12px',
+                        borderRadius: 9999,
+                      }}
+                    >
+                      {ev.tag}
+                    </span>
+                    <span style={{ color: '#A3A3B0', fontSize: 12.5, fontWeight: 600 }}>{ev.date}</span>
                   </div>
-                  <h3 style={{ fontSize: '1.35rem', fontWeight: 900, fontStyle: 'italic', color: 'var(--text-primary)', marginBottom: 8 }}>
+
+                  <h3 style={{ fontSize: 21, fontWeight: 800, color: '#F5F5F7', marginBottom: 8, lineHeight: 1.3 }}>
                     {ev.title}
                   </h3>
-                  <p style={{ color: 'var(--gold)', fontWeight: 700, fontSize: 13.5, marginBottom: 12 }}>{ev.sub}</p>
-                  <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.6, marginBottom: 24 }}>{ev.desc}</p>
+
+                  <p style={{ color: '#F5B400', fontWeight: 700, fontSize: 13.5, marginBottom: 14 }}>{ev.sub}</p>
+                  <p style={{ color: '#A3A3B0', fontSize: 14, lineHeight: 1.6, marginBottom: 28 }}>{ev.desc}</p>
                 </div>
+
                 <a
                   href={ev.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-purple"
-                  style={{ width: '100%', justifyContent: 'center', padding: '12px', fontSize: 14 }}
+                  className="btn-magnetic-signal"
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    padding: '13px',
+                    fontSize: 14,
+                    fontWeight: 700,
+                    borderRadius: 12,
+                    background: '#8B5CF6',
+                    color: '#FFFFFF',
+                  }}
                 >
-                  View Details &amp; Register ↗
+                  <span>View Details &amp; Register</span>
+                  <ArrowUpRight size={16} />
+                  <div className="btn-light-sweep" />
                 </a>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      <SignalDivider />
 
       {/* Custom event banner */}
       <section className="section" style={{ textAlign: 'center', paddingBottom: 100 }}>
         <div className="container container-narrow">
           <div
             style={{
-              background: '#ffffff',
-              border: '1px solid var(--border-slate)',
+              background: 'linear-gradient(135deg, rgba(20, 20, 27, 0.95) 0%, rgba(38, 28, 60, 0.9) 100%)',
+              border: '1px solid rgba(139, 92, 246, 0.35)',
               borderRadius: 24,
-              padding: '48px 36px',
-              boxShadow: 'var(--shadow-lg)',
+              padding: '52px 36px',
+              boxShadow: '0 16px 48px rgba(139, 92, 246, 0.15)',
             }}
           >
-            <h2 style={{ fontSize: '2rem', fontWeight: 900, fontStyle: 'italic', color: 'var(--text-primary)', marginBottom: 12 }}>
-              Want to Host a <span style={{ color: 'var(--purple-primary)' }}>Custom Event</span>?
+            <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', fontWeight: 900, color: '#F5F5F7', marginBottom: 12 }}>
+              Want to Host a <span style={{ color: '#8B5CF6' }}>Custom Event</span>?
             </h2>
-            <p style={{ color: 'var(--text-muted)', marginBottom: 28, fontSize: 15 }}>
-              We partner with organizations, VC funds, and tech brands to design and deliver high-impact startup events.
+            <p style={{ color: '#A3A3B0', marginBottom: 30, fontSize: 15.5, maxWidth: 520, margin: '0 auto 30px', lineHeight: 1.6 }}>
+              We partner with tech brands, sovereign funds, and venture firms to design and deliver high-impact ecosystem summits.
             </p>
-            <Link to="/custom-events" className="btn-purple" style={{ padding: '14px 36px', fontSize: 15 }}>
-              Host with Us →
+            <Link
+              to="/custom-events"
+              className="btn-magnetic-signal"
+              style={{
+                display: 'inline-flex',
+                padding: '13px 36px',
+                fontSize: 15,
+                fontWeight: 700,
+                borderRadius: 12,
+                background: '#8B5CF6',
+                color: '#FFFFFF',
+              }}
+            >
+              <span>Host with Us</span>
+              <ArrowUpRight size={16} />
+              <div className="btn-light-sweep" />
             </Link>
           </div>
         </div>

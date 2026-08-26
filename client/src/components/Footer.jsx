@@ -164,14 +164,20 @@ export default function Footer() {
               {[
                 { label: '5-Minute CFO Model', to: '/the-5-minute-cFO-model' },
                 { label: 'Startup Look Book', to: '/products' },
-                { label: 'Investor Data Suite', to: '/products' },
+                { label: 'Investor Data Suite ↗', to: 'https://morsebridge.substack.com/s/investor-data', external: true },
                 { label: 'Pitch Deck Templates', to: '/products' },
                 { label: 'Fundraising Playbook', to: '/products' },
               ].map((l) => (
                 <li key={l.label}>
-                  <Link to={l.to} className="footer-link">
-                    {l.label}
-                  </Link>
+                  {l.external ? (
+                    <a href={l.to} target="_blank" rel="noopener noreferrer" className="footer-link">
+                      {l.label}
+                    </a>
+                  ) : (
+                    <Link to={l.to} className="footer-link">
+                      {l.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -190,6 +196,17 @@ export default function Footer() {
                   style={{ color: '#000000', fontWeight: 600 }}
                 >
                   Schedule a Call ↗
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://morsebridge.substack.com/s/investor-data"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-link"
+                  style={{ color: '#FF6719', fontWeight: 600 }}
+                >
+                  Investor Data Hub ↗
                 </a>
               </li>
               <li>

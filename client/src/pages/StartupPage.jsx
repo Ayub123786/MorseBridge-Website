@@ -165,7 +165,7 @@ export default function StartupPage() {
             <p className="section-subtitle">Everything you need to accelerate your fundraising journey with clarity and speed.</p>
           </div>
 
-          <div className="grid-3" style={{ gap: 24 }}>
+          <div className="grid-3" style={{ gap: 24, marginBottom: 40 }}>
             {BENEFITS.map((b, idx) => {
               const IconComp = b.icon;
               return (
@@ -205,6 +205,68 @@ export default function StartupPage() {
                 </motion.div>
               );
             })}
+          </div>
+
+          {/* Investor Data Spotlight Banner */}
+          <div
+            style={{
+              background: 'linear-gradient(135deg, rgba(20, 20, 27, 0.95) 0%, rgba(38, 28, 60, 0.9) 100%)',
+              border: '1px solid rgba(139, 92, 246, 0.4)',
+              borderRadius: 22,
+              padding: '36px 32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 24,
+              flexWrap: 'wrap',
+              boxShadow: '0 12px 36px rgba(139, 92, 246, 0.15)',
+            }}
+          >
+            <div style={{ maxWidth: 620 }}>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '4px 12px',
+                  borderRadius: 9999,
+                  background: 'rgba(245, 180, 0, 0.15)',
+                  border: '1px solid rgba(245, 180, 0, 0.35)',
+                  color: '#F5B400',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  marginBottom: 12,
+                }}
+              >
+                <Sparkles size={13} />
+                <span>EXCLUSIVE SUBSTACK DATABASE</span>
+              </div>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#FFFFFF', marginBottom: 8 }}>
+                Live Curated Investor Data &amp; Allocation Lists
+              </h3>
+              <p style={{ color: '#A3A3B0', fontSize: 14.5, lineHeight: 1.6, margin: 0 }}>
+                Access verified partner contacts, active ticket sizes, and investment theses for 100+ VCs, angel syndicates, and Middle East family offices.
+              </p>
+            </div>
+
+            <a
+              href="https://morsebridge.substack.com/s/investor-data"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-magnetic-signal"
+              style={{
+                background: '#8B5CF6',
+                color: '#FFFFFF',
+                padding: '13px 28px',
+                fontSize: 14.5,
+                fontWeight: 700,
+                borderRadius: 12,
+              }}
+            >
+              <span>Explore Investor Data Hub</span>
+              <ArrowUpRight size={16} />
+              <div className="btn-light-sweep" />
+            </a>
           </div>
         </div>
       </section>
