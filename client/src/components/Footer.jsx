@@ -166,7 +166,7 @@ export default function Footer() {
                 { label: 'Startup Look Book', to: '/products' },
                 { label: 'Investor Data Suite ↗', to: 'https://morsebridge.substack.com/s/investor-data', external: true },
                 { label: 'Pitch Deck Templates', to: '/products' },
-                { label: 'Fundraising Playbook', to: '/products' },
+                { label: 'Fundraising Playbook ↗', to: 'https://morsebridge.substack.com/s/fundraising-playbook', external: true },
               ].map((l) => (
                 <li key={l.label}>
                   {l.external ? (

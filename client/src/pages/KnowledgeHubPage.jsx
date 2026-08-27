@@ -13,10 +13,10 @@ const BLOG_POSTS = [
 
 const RESOURCES = [
   { title: 'Curated Investor Data Suite ↗', desc: 'Pre-vetted VCs, angels, and family offices based on stage, fit, and allocation', type: '📁 Database', path: 'https://morsebridge.substack.com/s/investor-data', isExternal: true },
+  { title: 'Fundraising Playbook ↗', desc: 'Actionable venture fundraising strategies, outreach sequences, and deal room checklists', type: '📘 Playbook', path: 'https://morsebridge.substack.com/s/fundraising-playbook', isExternal: true },
   { title: '5-Minute CFO Model', desc: 'Excel & Google Sheets template for pre-seed to Series A', type: '📊 Template', path: '/the-5-minute-cfo-model' },
   { title: 'YC-Standard Pitch Deck', desc: 'A pitch deck template aligned to Y Combinator standards', type: '📄 Template', path: '/products' },
   { title: 'Cap Table Template', desc: 'Track your equity ownership and dilution over time', type: '📈 Tool', path: '/products' },
-  { title: 'Investor Outreach Templates', desc: 'Cold email scripts and follow-up sequences', type: '✉️ Template', path: '/products' },
 ];
 
 export default function KnowledgeHubPage() {

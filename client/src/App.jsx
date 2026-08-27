@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import SignupModal from './components/SignupModal';
 
 // Public Pages
 import HomePage from './pages/HomePage';
@@ -35,15 +35,27 @@ import {
 
 export function App() {
   const location = useLocation();
-  const isDashboard = location.pathname.startsWith('/dashboard');
+
+  // Auto-open Sign Up Modal when the site loads
+  const [isSignupOpen, setIsSignupOpen] = useState(true);
+
+  useEffect(() => {
+    // If user explicitly navigates to /signup, let the full page handle it or open modal
+    const handleOpenModal = () => setIsSignupOpen(true);
+    window.addEventListener('openSignupModal', handleOpenModal);
+    return () => window.removeEventListener('openSignupModal', handleOpenModal);
+  }, []);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-canvas)' }}>
-      <Navbar />
+      <Navbar onOpenSignup={() => setIsSignupOpen(true)} />
+
+      {/* Auto-Open Sign Up Intake Modal */}
+      <SignupModal isOpen={isSignupOpen} onClose={() => setIsSignupOpen(false)} />
 
       <div style={{ flex: 1 }}>
         <Routes>
-          {/* Main Nav Routes — matching real site */}
+          {/* Main Nav Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/what-we-do" element={<WhatWeDoPage />} />
           <Route path="/products" element={<ProductsPage />} />
@@ -64,13 +76,13 @@ export function App() {
           <Route path="/startup-intake" element={<StartupIntakePage />} />
           <Route path="/membership-plans" element={<MembershipPlansPage />} />
 
-          {/* Auth */}
+          {/* Auth & Signup Pages */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/update-password" element={<UpdatePasswordPage />} />
 
-          {/* Member Dashboard */}
+          {/* Member Portal */}
           <Route path="/dashboard" element={<DashboardOverview />} />
           <Route path="/dashboard/resources" element={<DashboardResources />} />
           <Route path="/dashboard/get-featured" element={<DashboardGetFeatured />} />

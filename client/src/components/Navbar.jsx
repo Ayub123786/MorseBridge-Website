@@ -15,7 +15,7 @@ const NAV_LINKS = [
   { label: "FAQ's", href: '/#faqs', isExternal: false },
 ];
 
-export default function Navbar() {
+export default function Navbar({ onOpenSignup }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -230,8 +230,8 @@ export default function Navbar() {
               ) : (
                 <>
                   <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-                    <Link
-                      to="/signup"
+                    <button
+                      onClick={() => (onOpenSignup ? onOpenSignup() : navigate('/signup'))}
                       style={{
                         background: '#8B5CF6',
                         color: '#FFFFFF',
@@ -239,17 +239,17 @@ export default function Navbar() {
                         borderRadius: 9999,
                         fontSize: 14,
                         fontWeight: 700,
-                        textDecoration: 'none',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        cursor: 'pointer',
                         display: 'inline-flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)',
-                        border: '1px solid rgba(255, 255, 255, 0.15)',
                         letterSpacing: '0.01em',
                       }}
                     >
                       Sign Up
-                    </Link>
+                    </button>
                   </motion.div>
 
                   <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
@@ -341,9 +341,12 @@ export default function Navbar() {
             ))}
 
             <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <Link
-                to="/signup"
-                onClick={() => setMobileOpen(false)}
+              <button
+                onClick={() => {
+                  setMobileOpen(false);
+                  if (onOpenSignup) onOpenSignup();
+                  else navigate('/signup');
+                }}
                 style={{
                   background: '#8B5CF6',
                   color: '#FFFFFF',
@@ -351,11 +354,13 @@ export default function Navbar() {
                   padding: '13px',
                   borderRadius: 12,
                   fontWeight: 700,
-                  textDecoration: 'none',
+                  fontSize: 14.5,
+                  border: 'none',
+                  cursor: 'pointer',
                 }}
               >
                 Sign Up
-              </Link>
+              </button>
               <Link
                 to="/login"
                 onClick={() => setMobileOpen(false)}

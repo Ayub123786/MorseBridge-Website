@@ -2,6 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import { User, Submission, Subscriber } from './models.js';
 import {
   initialBlogs,
   initialResources,
@@ -16,28 +21,95 @@ import {
 
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const DATA_DIR = path.join(__dirname, 'data');
+
+const USERS_FILE = path.join(DATA_DIR, 'users.json');
+const SUBMISSIONS_FILE = path.join(DATA_DIR, 'submissions.json');
+const SUBSCRIBERS_FILE = path.join(DATA_DIR, 'subscribers.json');
+
+// File persistence fallback helpers
+function loadJsonFile(filepath, defaultValue) {
+  try {
+    if (fs.existsSync(filepath)) {
+      const content = fs.readFileSync(filepath, 'utf8');
+      if (content.trim()) {
+        return JSON.parse(content);
+      }
+    }
+  } catch (err) {
+    console.error(`Error loading ${filepath}:`, err);
+  }
+  try {
+    fs.writeFileSync(filepath, JSON.stringify(defaultValue, null, 2), 'utf8');
+  } catch (err) {
+    console.error(`Error writing ${filepath}:`, err);
+  }
+  return defaultValue;
+}
+
+function saveJsonFile(filepath, data) {
+  try {
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.error(`Error writing ${filepath}:`, err);
+  }
+}
+
+// Initial seed user
+const defaultUsers = [
+  {
+    id: 'usr-1',
+    name: 'Demo Founder',
+    email: 'founder@morsebridge.com',
+    password: 'password123',
+    role: 'startup',
+    company: 'Apex AI Systems',
+    stage: 'Seed',
+    targetRound: '$1M – $3M',
+    plan: 'Founder Pro',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    createdAt: new Date().toISOString()
+  }
+];
+
+let persistedUsers = loadJsonFile(USERS_FILE, defaultUsers);
+let persistedSubmissions = loadJsonFile(SUBMISSIONS_FILE, []);
+let persistedSubscribers = loadJsonFile(SUBSCRIBERS_FILE, []);
+
 const app = express();
 const PORT = process.env.PORT || 5000;
-const JWT_SECRET = process.env.JWT_SECRET || 'morsebridge_super_secure_secret_key_2026';
+const JWT_SECRET = process.env.JWT_SECRET || 'morsebridge_super_secure_jwt_secret_2026';
+const MONGODB_URI = process.env.MONGODB_URI || '';
+
+let isMongoConnected = false;
+
+// Connect to MongoDB if URI is present
+if (MONGODB_URI) {
+  mongoose
+    .connect(MONGODB_URI)
+    .then(() => {
+      isMongoConnected = true;
+      console.log('✅ Connected to MongoDB Atlas successfully!');
+    })
+    .catch((err) => {
+      console.error('⚠️ MongoDB connection error:', err.message);
+      console.log('🔄 Running on local JSON file persistence fallback.');
+    });
+} else {
+  console.log('ℹ️ No MONGODB_URI found in .env — using local JSON file persistence.');
+  console.log('👉 To connect MongoDB Atlas, add MONGODB_URI to server/.env');
+}
 
 app.use(cors());
 app.use(express.json());
 
-// In-Memory Database Store (with initial seed data)
+// In-Memory store fallback
 let db = {
-  users: [
-    {
-      id: 'usr-1',
-      name: 'Demo Founder',
-      email: 'founder@morsebridge.com',
-      password: 'password123',
-      role: 'founder',
-      company: 'Apex AI Systems',
-      plan: 'Founder Pro',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-      createdAt: new Date().toISOString()
-    }
-  ],
+  users: persistedUsers,
+  submissions: persistedSubmissions,
+  subscribers: persistedSubscribers,
   blogs: [...initialBlogs],
   resources: [...initialResources],
   events: [...initialEvents],
@@ -47,22 +119,7 @@ let db = {
   partners: [...initialPartners],
   pastEvents: [...initialPastEvents],
   testimonials: [...initialTestimonialShorts],
-  submissions: [],
-  advisoryBookings: [],
-  subscribers: []
-};
-
-// Helper middleware for JWT Authentication
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'Access token required' });
-
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ error: 'Invalid or expired token' });
-    req.user = user;
-    next();
-  });
+  advisoryBookings: []
 };
 
 // Root route
@@ -70,43 +127,266 @@ app.get('/', (req, res) => {
   res.json({
     status: 'online',
     service: 'Morsebridge MERN API Server',
-    frontendUrl: 'http://localhost:5173',
-    documentation: 'Access endpoints under /api (e.g. /api/health, /api/events, /api/podcasts, /api/partners, /api/past-events, /api/testimonials)'
+    databaseMode: isMongoConnected ? 'MongoDB Atlas (Live)' : 'Local File Persistence',
+    dataStorage: {
+      usersFile: USERS_FILE,
+      submissionsFile: SUBMISSIONS_FILE,
+      subscribersFile: SUBSCRIBERS_FILE,
+      totalUsers: isMongoConnected ? 'stored in MongoDB' : db.users.length,
+      totalSubmissions: isMongoConnected ? 'stored in MongoDB' : db.submissions.length
+    },
+    documentation: 'Access endpoints under /api (e.g. /api/users, /api/submissions, /api/events, /api/podcasts)'
   });
 });
 
 // Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', service: 'Morsebridge API', timestamp: new Date().toISOString() });
+app.get('/api/health', async (req, res) => {
+  let userCount = db.users.length;
+  let subCount = db.submissions.length;
+
+  if (isMongoConnected) {
+    try {
+      userCount = await User.countDocuments();
+      subCount = await Submission.countDocuments();
+    } catch (e) {}
+  }
+
+  res.json({
+    status: 'ok',
+    service: 'Morsebridge API',
+    database: isMongoConnected ? 'MongoDB Atlas' : 'Local JSON Files',
+    timestamp: new Date().toISOString(),
+    totalUsers: userCount,
+    totalSubmissions: subCount
+  });
 });
 
-// --- Authentication Routes ---
-app.post('/api/auth/login', (req, res) => {
+// --- Data Inspection Endpoints (Protected by Admin Key) ---
+app.get('/api/users', async (req, res) => {
+  const adminKey = req.headers['x-admin-key'] || req.query.key;
+  const expectedKey = process.env.ADMIN_KEY || 'morsebridge_admin_2026';
+
+  if (adminKey !== expectedKey && process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ error: 'Access denied: Valid x-admin-key header required.' });
+  }
+
+  if (isMongoConnected) {
+    try {
+      const users = await User.find().select('-password').sort({ createdAt: -1 });
+      return res.json({
+        count: users.length,
+        storageMode: 'MongoDB Atlas',
+        users
+      });
+    } catch (err) {
+      console.error('Error querying MongoDB users:', err);
+    }
+  }
+
+  const sanitizedUsers = db.users.map(({ password, ...rest }) => rest);
+  res.json({
+    count: sanitizedUsers.length,
+    storageMode: 'Local JSON File',
+    storageLocation: USERS_FILE,
+    users: sanitizedUsers
+  });
+});
+
+app.get('/api/submissions', async (req, res) => {
+  const adminKey = req.headers['x-admin-key'] || req.query.key;
+  const expectedKey = process.env.ADMIN_KEY || 'morsebridge_admin_2026';
+
+  if (adminKey !== expectedKey && process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ error: 'Access denied: Valid x-admin-key header required.' });
+  }
+
+  if (isMongoConnected) {
+    try {
+      const submissions = await Submission.find().sort({ createdAt: -1 });
+      return res.json({
+        count: submissions.length,
+        storageMode: 'MongoDB Atlas',
+        submissions
+      });
+    } catch (err) {
+      console.error('Error querying MongoDB submissions:', err);
+    }
+  }
+
+  res.json({
+    count: db.submissions.length,
+    storageMode: 'Local JSON File',
+    storageLocation: SUBMISSIONS_FILE,
+    submissions: db.submissions
+  });
+});
+
+// --- Registration & User Intake Route ---
+app.post('/api/auth/register', async (req, res) => {
+  const {
+    name,
+    email,
+    password,
+    company,
+    role,
+    stage,
+    sector,
+    targetRound,
+    checkSize,
+    investorType,
+    website,
+    linkedin,
+    notes
+  } = req.body;
+
+  if (!email || !name) {
+    return res.status(400).json({ error: 'Name and email are required' });
+  }
+
+  const userData = {
+    name,
+    email: email.toLowerCase().trim(),
+    company: company || (role === 'investor' ? 'Venture Fund' : 'Early Stage Startup'),
+    role: role || 'startup',
+    stage: stage || '',
+    sector: sector || '',
+    targetRound: targetRound || '',
+    checkSize: checkSize || '',
+    investorType: investorType || '',
+    website: website || '',
+    linkedin: linkedin || '',
+    notes: notes || '',
+    plan: 'Community (Free)',
+  };
+
+  // 1. Save to MongoDB if connected
+  if (isMongoConnected) {
+    try {
+      let mongoUser = await User.findOne({ email: userData.email });
+      if (mongoUser) {
+        Object.assign(mongoUser, userData);
+        await mongoUser.save();
+      } else {
+        mongoUser = await User.create(userData);
+      }
+
+      await Submission.create({
+        type: role === 'investor' ? 'INVESTOR_REGISTRATION' : 'STARTUP_REGISTRATION',
+        data: userData
+      });
+
+      return res.status(201).json({
+        message: 'Registration saved successfully to MongoDB Atlas.',
+        user: {
+          id: mongoUser._id,
+          name: mongoUser.name,
+          email: mongoUser.email,
+          role: mongoUser.role,
+          company: mongoUser.company,
+          stage: mongoUser.stage,
+          targetRound: mongoUser.targetRound,
+          checkSize: mongoUser.checkSize,
+          createdAt: mongoUser.createdAt
+        }
+      });
+    } catch (err) {
+      console.error('MongoDB register save error:', err);
+    }
+  }
+
+  // 2. Fallback to local JSON files
+  const existing = db.users.find((u) => u.email.toLowerCase() === userData.email);
+  if (existing) {
+    Object.assign(existing, userData);
+    existing.updatedAt = new Date().toISOString();
+    saveJsonFile(USERS_FILE, db.users);
+
+    return res.status(200).json({
+      message: 'User profile updated and recorded successfully.',
+      user: existing
+    });
+  }
+
+  const newUser = {
+    id: `usr-${Date.now()}`,
+    ...userData,
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
+    createdAt: new Date().toISOString()
+  };
+
+  db.users.push(newUser);
+  saveJsonFile(USERS_FILE, db.users);
+
+  const leadSubmission = {
+    id: `sub-${Date.now()}`,
+    type: role === 'investor' ? 'INVESTOR_REGISTRATION' : 'STARTUP_REGISTRATION',
+    data: newUser,
+    timestamp: new Date().toISOString()
+  };
+  db.submissions.push(leadSubmission);
+  saveJsonFile(SUBMISSIONS_FILE, db.submissions);
+
+  res.status(201).json({
+    message: 'Registration recorded successfully in the database.',
+    user: {
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email,
+      role: newUser.role,
+      company: newUser.company,
+      stage: newUser.stage,
+      targetRound: newUser.targetRound,
+      checkSize: newUser.checkSize,
+      createdAt: newUser.createdAt
+    }
+  });
+});
+
+// --- Login Route ---
+app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
-  let user = db.users.find(u => u.email.toLowerCase() === email.toLowerCase());
-  
-  // For easy testing, allow demo login or auto-create user if not found
+  const cleanEmail = email.toLowerCase().trim();
+  let user = null;
+
+  if (isMongoConnected) {
+    try {
+      user = await User.findOne({ email: cleanEmail });
+    } catch (e) {}
+  }
+
+  if (!user) {
+    user = db.users.find((u) => u.email.toLowerCase() === cleanEmail);
+  }
+
   if (!user) {
     user = {
       id: `usr-${Date.now()}`,
-      name: email.split('@')[0],
-      email: email.toLowerCase(),
-      password,
-      role: 'founder',
+      name: cleanEmail.split('@')[0],
+      email: cleanEmail,
+      role: 'startup',
       company: 'My Startup',
       plan: 'Community (Free)',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
       createdAt: new Date().toISOString()
     };
-    db.users.push(user);
+
+    if (isMongoConnected) {
+      try {
+        const created = await User.create(user);
+        user.id = created._id;
+      } catch (e) {}
+    } else {
+      db.users.push(user);
+      saveJsonFile(USERS_FILE, db.users);
+    }
   }
 
   const token = jwt.sign(
-    { id: user.id, email: user.email, name: user.name, role: user.role, plan: user.plan },
+    { id: user.id || user._id, email: user.email, name: user.name, role: user.role, plan: user.plan },
     JWT_SECRET,
     { expiresIn: '7d' }
   );
@@ -114,7 +394,7 @@ app.post('/api/auth/login', (req, res) => {
   res.json({
     token,
     user: {
-      id: user.id,
+      id: user.id || user._id,
       name: user.name,
       email: user.email,
       role: user.role,
@@ -125,93 +405,22 @@ app.post('/api/auth/login', (req, res) => {
   });
 });
 
-app.post('/api/auth/register', (req, res) => {
-  const { name, email, password, company, role } = req.body;
-  if (!email || !password || !name) {
-    return res.status(400).json({ error: 'Name, email, and password are required' });
-  }
-
-  const existing = db.users.find(u => u.email.toLowerCase() === email.toLowerCase());
-  if (existing) {
-    return res.status(400).json({ error: 'An account with this email already exists' });
-  }
-
-  const newUser = {
-    id: `usr-${Date.now()}`,
-    name,
-    email: email.toLowerCase(),
-    password,
-    company: company || 'Startup',
-    role: role || 'founder',
-    plan: 'Community (Free)',
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
-    createdAt: new Date().toISOString()
-  };
-
-  db.users.push(newUser);
-
-  const token = jwt.sign(
-    { id: newUser.id, email: newUser.email, name: newUser.name, role: newUser.role, plan: newUser.plan },
-    JWT_SECRET,
-    { expiresIn: '7d' }
-  );
-
-  res.status(201).json({
-    token,
-    user: {
-      id: newUser.id,
-      name: newUser.name,
-      email: newUser.email,
-      role: newUser.role,
-      company: newUser.company,
-      plan: newUser.plan,
-      avatar: newUser.avatar
-    }
-  });
-});
-
-app.post('/api/auth/reset-password', (req, res) => {
-  const { email } = req.body;
-  if (!email) return res.status(400).json({ error: 'Email is required' });
-  // Simulated email dispatch
-  res.json({ message: 'Password reset link has been dispatched to your email address.' });
-});
-
-app.post('/api/auth/update-password', (req, res) => {
-  const { token, newPassword } = req.body;
-  if (!newPassword) return res.status(400).json({ error: 'New password is required' });
-  res.json({ message: 'Password has been successfully updated.' });
-});
-
-app.get('/api/auth/me', authenticateToken, (req, res) => {
-  const user = db.users.find(u => u.id === req.user.id);
-  if (!user) return res.status(404).json({ error: 'User not found' });
-  res.json({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    company: user.company,
-    plan: user.plan,
-    avatar: user.avatar
-  });
-});
-
-// --- Blogs / Knowledge Hub Routes ---
+// --- Public Endpoints (Blogs, Resources, Events, Podcasts) ---
 app.get('/api/blogs', (req, res) => {
   const { category, search } = req.query;
   let results = [...db.blogs];
 
   if (category && category !== 'All') {
-    results = results.filter(b => b.category.toLowerCase() === category.toLowerCase());
+    results = results.filter((b) => b.category.toLowerCase() === category.toLowerCase());
   }
 
   if (search) {
     const q = search.toLowerCase();
-    results = results.filter(b =>
-      b.title.toLowerCase().includes(q) ||
-      b.description.toLowerCase().includes(q) ||
-      b.tags.some(t => t.toLowerCase().includes(q))
+    results = results.filter(
+      (b) =>
+        b.title.toLowerCase().includes(q) ||
+        b.description.toLowerCase().includes(q) ||
+        b.tags.some((t) => t.toLowerCase().includes(q))
     );
   }
 
@@ -219,38 +428,18 @@ app.get('/api/blogs', (req, res) => {
 });
 
 app.get('/api/blogs/:slug', (req, res) => {
-  const blog = db.blogs.find(b => b.slug === req.params.slug);
+  const blog = db.blogs.find((b) => b.slug === req.params.slug);
   if (!blog) return res.status(404).json({ error: 'Article not found' });
-  
-  // Find related articles
-  const related = db.blogs
-    .filter(b => b.slug !== blog.slug && b.category === blog.category)
-    .slice(0, 3);
+
+  const related = db.blogs.filter((b) => b.slug !== blog.slug && b.category === blog.category).slice(0, 3);
 
   res.json({ ...blog, related });
 });
 
-// --- Resources Routes ---
 app.get('/api/resources', (req, res) => {
-  const { category, search } = req.query;
-  let results = [...db.resources];
-
-  if (category && category !== 'All') {
-    results = results.filter(r => r.category.toLowerCase() === category.toLowerCase());
-  }
-
-  if (search) {
-    const q = search.toLowerCase();
-    results = results.filter(r =>
-      r.title.toLowerCase().includes(q) ||
-      r.description.toLowerCase().includes(q)
-    );
-  }
-
-  res.json(results);
+  res.json(db.resources);
 });
 
-// --- Events, Podcasts, Partners & Media Routes ---
 app.get('/api/events', (req, res) => {
   res.json(db.events);
 });
@@ -271,96 +460,6 @@ app.get('/api/testimonials', (req, res) => {
   res.json(db.testimonials);
 });
 
-app.post('/api/events/rsvp', (req, res) => {
-  const { eventId, name, email, company, role, linkedin } = req.body;
-  if (!eventId || !email || !name) {
-    return res.status(400).json({ error: 'Event ID, name, and email are required' });
-  }
-
-  const rsvp = {
-    id: `rsvp-${Date.now()}`,
-    eventId,
-    name,
-    email,
-    company,
-    role,
-    linkedin,
-    timestamp: new Date().toISOString()
-  };
-
-  db.submissions.push({ type: 'EVENT_RSVP', data: rsvp });
-  res.status(201).json({ message: 'RSVP received successfully! You will receive confirmation shortly.', rsvp });
-});
-
-// --- Advisory Booking Routes ---
-app.post('/api/advisory/book', (req, res) => {
-  const { name, email, startupName, roundTarget, message, preferredDate, stage } = req.body;
-  if (!name || !email || !startupName) {
-    return res.status(400).json({ error: 'Name, email, and startup name are required' });
-  }
-
-  const booking = {
-    id: `adv-${Date.now()}`,
-    name,
-    email,
-    startupName,
-    roundTarget,
-    stage: stage || 'Seed',
-    message,
-    preferredDate,
-    status: 'Pending Review',
-    createdAt: new Date().toISOString()
-  };
-
-  db.advisoryBookings.push(booking);
-  res.status(201).json({ message: 'Advisory consultation request received. Our partner team will reach out within 24 hours.', booking });
-});
-
-// --- Startup Intake & Spotlight Submission Routes ---
-app.post('/api/startups/apply', (req, res) => {
-  const { founderName, email, companyName, website, pitchDeckUrl, targetAmount, sector, country, description } = req.body;
-  if (!founderName || !email || !companyName) {
-    return res.status(400).json({ error: 'Founder name, email, and company name are required' });
-  }
-
-  const submission = {
-    id: `sub-${Date.now()}`,
-    founderName,
-    email,
-    companyName,
-    website,
-    pitchDeckUrl,
-    targetAmount,
-    sector,
-    country,
-    description,
-    status: 'Under Review',
-    submittedAt: new Date().toISOString()
-  };
-
-  db.submissions.push({ type: 'STARTUP_APPLICATION', data: submission });
-  res.status(201).json({ message: 'Application submitted successfully to Morsebridge venture committee.', submission });
-});
-
-app.post('/api/startups/get-featured', (req, res) => {
-  const { founderName, email, companyName, metricGrowth, hookHeadline, logoUrl } = req.body;
-  const featureRequest = {
-    id: `feat-${Date.now()}`,
-    founderName,
-    email,
-    companyName,
-    metricGrowth,
-    hookHeadline,
-    logoUrl,
-    status: 'Queued for Editorial',
-    createdAt: new Date().toISOString()
-  };
-
-  db.submissions.push({ type: 'GET_FEATURED', data: featureRequest });
-  res.status(201).json({ message: 'Spotlight feature request submitted.', featureRequest });
-});
-
-// --- Pricing & FAQs ---
 app.get('/api/pricing', (req, res) => {
   res.json(db.pricing);
 });
@@ -370,20 +469,38 @@ app.get('/api/faqs', (req, res) => {
 });
 
 // --- Newsletter Subscription ---
-app.post('/api/newsletter/subscribe', (req, res) => {
+app.post('/api/newsletter/subscribe', async (req, res) => {
   const { email } = req.body;
   if (!email || !email.includes('@')) {
     return res.status(400).json({ error: 'A valid email address is required' });
   }
 
-  if (!db.subscribers.includes(email.toLowerCase())) {
-    db.subscribers.push(email.toLowerCase());
+  const cleanEmail = email.toLowerCase().trim();
+
+  if (isMongoConnected) {
+    try {
+      await Subscriber.findOneAndUpdate({ email: cleanEmail }, { email: cleanEmail }, { upsert: true });
+    } catch (e) {}
   }
 
-  res.json({ message: 'Thank you for subscribing to Morsebridge Venture Dispatch.' });
-});
+  if (!db.subscribers.includes(cleanEmail)) {
+    db.subscribers.push(cleanEmail);
+    saveJsonFile(SUBSCRIBERS_FILE, db.subscribers);
+  }
+
+// Serve built frontend assets in production if client/dist exists
+const CLIENT_DIST = path.join(__dirname, '../../client/dist');
+if (fs.existsSync(CLIENT_DIST)) {
+  app.use(express.static(CLIENT_DIST));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(CLIENT_DIST, 'index.html'));
+  });
+}
 
 // Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Morsebridge MERN API Server is live on http://localhost:${PORT}`);
+  console.log(`📁 User database storage file: ${USERS_FILE}`);
+  console.log(`📁 Submissions storage file: ${SUBMISSIONS_FILE}`);
 });

@@ -41,3 +41,10 @@ Thumbs.db
 .system_generated/
 .user_uploaded/
 scratch/
+
+# User data & private database files
+server/src/data/users.json
+server/src/data/submissions.json
+server/src/data/subscribers.json
+server/src/data/*.json
+!server/src/data/seedData.js
