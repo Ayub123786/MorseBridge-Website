@@ -348,28 +348,26 @@ export default function HomePage() {
           </p>
 
           {/* Founder Avatar & Signal Quote */}
-          <div style={{ marginTop: 52, textAlign: 'center' }}>
-            <div style={{ position: 'relative', display: 'inline-block' }}>
-              <img
-                src="/assets/investors/1.png"
-                alt="Muhammad Ayub"
-                style={{
-                  width: 58,
-                  height: 58,
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  display: 'block',
-                  margin: '0 auto 12px',
-                  border: '2px solid #8B5CF6',
-                  boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)',
-                }}
-                onError={(e) => { e.currentTarget.style.display = 'none'; }}
-              />
-            </div>
-            <p style={{ fontWeight: 700, color: '#F5F5F7', fontSize: 16, marginBottom: 4 }}>
+          <div style={{ marginTop: 56, textAlign: 'center' }}>
+            <img
+              src="/assets/founder/ayub-founder.png"
+              alt="Muhammad Ayub"
+              style={{
+                width: 116,
+                height: 116,
+                borderRadius: '50%',
+                objectFit: 'cover',
+                display: 'block',
+                margin: '0 auto 16px',
+                border: 'none',
+                boxShadow: 'none',
+              }}
+              onError={(e) => { e.currentTarget.src = '/assets/founder/ayub-founder.png'; }}
+            />
+            <p style={{ fontWeight: 800, color: '#F5F5F7', fontSize: 18, marginBottom: 5, letterSpacing: '-0.01em' }}>
               Muhammad Ayub — CEO &amp; Founder
             </p>
-            <p style={{ color: 'var(--text-muted)', fontSize: 14.5, fontStyle: 'italic' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: 15, fontStyle: 'italic', maxWidth: 480, margin: '0 auto' }}>
               "Every founder starts with a spark — we help it fly."
             </p>
           </div>
