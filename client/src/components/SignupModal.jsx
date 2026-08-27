@@ -404,7 +404,7 @@ export default function SignupModal({ isOpen, onClose }) {
               )}
 
               <form onSubmit={submit}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 14 }}>
                   <div>
                     <label style={{ display: 'block', color: '#E2E2E8', fontSize: 12.5, fontWeight: 600, marginBottom: 5 }}>
                       Full Name *
@@ -454,7 +454,7 @@ export default function SignupModal({ isOpen, onClose }) {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 14 }}>
                   <div>
                     <label style={{ display: 'block', color: '#E2E2E8', fontSize: 12.5, fontWeight: 600, marginBottom: 5 }}>
                       {tab === 'startup' ? 'Startup Name *' : 'Fund / Firm Name *'}
@@ -504,7 +504,7 @@ export default function SignupModal({ isOpen, onClose }) {
                 </div>
 
                 {tab === 'startup' ? (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 14 }}>
                     <div>
                       <label style={{ display: 'block', color: '#E2E2E8', fontSize: 12.5, fontWeight: 600, marginBottom: 5 }}>
                         Current Stage
@@ -560,7 +560,7 @@ export default function SignupModal({ isOpen, onClose }) {
                     </div>
                   </div>
                 ) : (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 14 }}>
                     <div>
                       <label style={{ display: 'block', color: '#E2E2E8', fontSize: 12.5, fontWeight: 600, marginBottom: 5 }}>
                         Entity Type

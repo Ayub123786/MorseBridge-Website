@@ -305,48 +305,115 @@ export default function Navbar({ onOpenSignup }) {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
             style={{
               position: 'fixed',
-              inset: 0,
-              top: 62,
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: '100vh',
+              maxHeight: '100dvh',
               background: 'rgba(10, 10, 15, 0.98)',
-              backdropFilter: 'blur(24px)',
-              zIndex: 999,
-              padding: '32px 24px',
+              backdropFilter: 'blur(28px)',
+              WebkitBackdropFilter: 'blur(28px)',
+              zIndex: 9999,
               display: 'flex',
               flexDirection: 'column',
-              gap: 20,
+              padding: '16px 20px 32px',
+              overflowY: 'auto',
+              WebkitOverflowScrolling: 'touch',
             }}
           >
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                to={link.href}
-                onClick={() => { handleNavClick(link.href, link.isExternal); setMobileOpen(false); }}
+            {/* Header with Logo & Close Button */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingBottom: 14,
+                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                marginBottom: 10,
+                flexShrink: 0,
+              }}
+            >
+              <Link to="/" onClick={() => setMobileOpen(false)} style={{ textDecoration: 'none' }}>
+                <MorsebridgeLogo fontSize="20px" />
+              </Link>
+              <button
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close Navigation"
                 style={{
-                  fontSize: 18,
-                  fontWeight: 600,
-                  color: isActive(link) ? '#8B5CF6' : '#F5F5F7',
-                  textDecoration: 'none',
-                  padding: '8px 0',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  color: '#F5F5F7',
+                  borderRadius: 10,
+                  width: 36,
+                  height: 36,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 16,
+                  cursor: 'pointer',
                 }}
               >
-                {link.label} {link.isExternal && '↗'}
-              </Link>
-            ))}
+                ✕
+              </button>
+            </div>
 
-            <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {/* Links List */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, minHeight: 0 }}>
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  onClick={() => {
+                    handleNavClick(link.href, link.isExternal);
+                    setMobileOpen(false);
+                  }}
+                  style={{
+                    fontSize: 16.5,
+                    fontWeight: isActive(link) ? 700 : 600,
+                    color: isActive(link) ? '#8B5CF6' : '#F5F5F7',
+                    textDecoration: 'none',
+                    padding: '11px 12px',
+                    borderRadius: 10,
+                    background: isActive(link) ? 'rgba(139, 92, 246, 0.12)' : 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.04)',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <span>{link.label}</span>
+                  {link.isExternal && <span style={{ fontSize: 12, opacity: 0.6 }}>↗</span>}
+                </Link>
+              ))}
+            </div>
+
+            {/* Action Buttons at Bottom */}
+            <div
+              style={{
+                marginTop: 18,
+                paddingTop: 16,
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 10,
+                flexShrink: 0,
+              }}
+            >
               <button
                 onClick={() => {
                   setMobileOpen(false);
                   if (onOpenSignup) onOpenSignup();
                   else navigate('/signup');
                 }}
+                className="btn-magnetic-signal"
                 style={{
                   background: '#8B5CF6',
                   color: '#FFFFFF',
@@ -354,24 +421,29 @@ export default function Navbar({ onOpenSignup }) {
                   padding: '13px',
                   borderRadius: 12,
                   fontWeight: 700,
-                  fontSize: 14.5,
+                  fontSize: 15,
                   border: 'none',
                   cursor: 'pointer',
+                  justifyContent: 'center',
+                  boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)',
                 }}
               >
-                Sign Up
+                <span>Sign Up</span>
+                <div className="btn-light-sweep" />
               </button>
+
               <Link
                 to="/login"
                 onClick={() => setMobileOpen(false)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.08)',
+                  background: 'rgba(255, 255, 255, 0.06)',
                   border: '1px solid rgba(255, 255, 255, 0.12)',
                   color: '#F5F5F7',
                   textAlign: 'center',
-                  padding: '13px',
+                  padding: '12px',
                   borderRadius: 12,
                   fontWeight: 600,
+                  fontSize: 14.5,
                   textDecoration: 'none',
                 }}
               >

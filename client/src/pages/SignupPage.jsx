@@ -407,7 +407,7 @@ export default function SignupPage() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 16 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 16 }}>
                   <div>
                     <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
                       {tab === 'startup' ? 'Startup / Company Name *' : 'Fund / Firm Name *'}
@@ -458,7 +458,7 @@ export default function SignupPage() {
 
                 {tab === 'startup' ? (
                   /* Startup Specific Fields */
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 16 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 16 }}>
                     <div>
                       <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
                         Current Stage
@@ -515,7 +515,7 @@ export default function SignupPage() {
                   </div>
                 ) : (
                   /* Investor Specific Fields */
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 16 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 16 }}>
                     <div>
                       <label style={{ display: 'block', color: '#E2E2E8', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
                         Investor Entity Type

@@ -1381,6 +1381,15 @@ button, input, textarea, select {
 /* ==========================================================================
    RESPONSIVE BREAKPOINTS
    ========================================================================== */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+@media (max-width: 1200px) {
+  .container { padding: 0 20px; }
+}
+
 @media (max-width: 1024px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
@@ -1388,16 +1397,25 @@ button, input, textarea, select {
 
 @media (max-width: 960px) {
   .desktop-nav-menu, .desktop-nav-actions { display: none !important; }
-  .mobile-nav-toggle-btn { display: block !important; }
+  .mobile-nav-toggle-btn { display: flex !important; align-items: center; justify-content: center; }
 }
 
 @media (max-width: 768px) {
   .nav-menu, .nav-actions { display: none; }
   .nav-mobile-toggle { display: block; }
-  .grid-3, .grid-2 { grid-template-columns: 1fr; }
-  .section { padding: 60px 0; }
-  .hero-section { padding-top: 100px; padding-bottom: 50px; }
-  .footer-bottom { flex-direction: column; text-align: center; }
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr !important; }
+  .section { padding: 48px 0 !important; }
+  .hero-section { padding-top: 85px !important; padding-bottom: 40px !important; }
+  .footer-bottom { flex-direction: column !important; text-align: center !important; gap: 12px !important; }
+  .container { padding: 0 16px !important; }
+  h1 { font-size: clamp(2rem, 7vw, 2.8rem) !important; }
+  h2 { font-size: clamp(1.6rem, 5.5vw, 2.2rem) !important; }
+}
+
+@media (max-width: 480px) {
+  .section { padding: 36px 0 !important; }
+  .btn-magnetic-signal, button { min-height: 44px; }
+  input, select, textarea { font-size: 16px !important; } /* Prevents iOS auto-zoom */
 }
 
 /* ==========================================================================
