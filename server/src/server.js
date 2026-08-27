@@ -493,6 +493,9 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
     saveJsonFile(SUBSCRIBERS_FILE, db.subscribers);
   }
 
+  res.json({ message: 'Thank you for subscribing to Morsebridge Venture Dispatch.' });
+});
+
 // Serve built frontend assets in production if client/dist exists
 const CLIENT_DIST = path.join(__dirname, '../../client/dist');
 if (fs.existsSync(CLIENT_DIST)) {
