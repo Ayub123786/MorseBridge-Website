@@ -29,6 +29,11 @@ const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const SUBMISSIONS_FILE = path.join(DATA_DIR, 'submissions.json');
 const SUBSCRIBERS_FILE = path.join(DATA_DIR, 'subscribers.json');
 
+// Ensure data directory exists on cloud hosts
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
 // File persistence fallback helpers
 function loadJsonFile(filepath, defaultValue) {
   try {
@@ -499,8 +504,8 @@ if (fs.existsSync(CLIENT_DIST)) {
 }
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`🚀 Morsebridge MERN API Server is live on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Morsebridge MERN API Server is live on http://0.0.0.0:${PORT}`);
   console.log(`📁 User database storage file: ${USERS_FILE}`);
   console.log(`📁 Submissions storage file: ${SUBMISSIONS_FILE}`);
 });
