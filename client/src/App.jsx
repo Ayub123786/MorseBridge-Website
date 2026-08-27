@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import SignupModal from './components/SignupModal';
+import ScrollToTop from './components/ScrollToTop';
 
 // Public Pages
 import HomePage from './pages/HomePage';
@@ -48,6 +49,7 @@ export function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-canvas)' }}>
+      <ScrollToTop />
       <Navbar onOpenSignup={() => setIsSignupOpen(true)} />
 
       {/* Auto-Open Sign Up Intake Modal */}
