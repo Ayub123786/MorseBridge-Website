@@ -73,6 +73,8 @@ const FALLBACK_PAST_EVENTS = [
   },
 ];
 
+import { API_BASE } from '../config/api';
+
 export function usePastEvents() {
   const [pastEvents, setPastEvents] = useState(FALLBACK_PAST_EVENTS);
   const [loading, setLoading] = useState(true);
@@ -80,7 +82,7 @@ export function usePastEvents() {
 
   useEffect(() => {
     let isMounted = true;
-    fetch('http://localhost:5000/api/past-events')
+    fetch(`${API_BASE}/api/past-events`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();

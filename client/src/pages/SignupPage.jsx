@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, CheckCircle2, Sparkles, Building, Briefcase, Mail, User, Globe, DollarSign, Rocket } from 'lucide-react';
 import MorsebridgeLogo from '../components/MorsebridgeLogo';
+import { API_BASE } from '../config/api';
 
 const STAGE_OPTIONS = ['Pre-Seed / Ideation', 'Early Revenue ($10k–$50k MRR)', 'Growth Stage ($50k+ MRR)', 'Series A+'];
 const TARGET_ROUNDS = ['Under $250K', '$250K – $500K', '$500K – $1M', '$1M – $3M', '$3M+'];
@@ -51,7 +52,7 @@ export default function SignupPage() {
         notes: form.notes,
       };
 
-      const res = await fetch('/api/auth/register', {
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowUpRight, BookOpen, Clock, Calendar, Sparkles } from 'lucide-react';
+import { API_BASE } from '../config/api';
 import Footer from '../components/Footer';
 
 const BLOG_DATA = {
@@ -43,7 +44,7 @@ export default function BlogPostPage() {
       setPost(BLOG_DATA[slug]);
       return;
     }
-    fetch(`/api/blogs/${slug}`)
+    fetch(`${API_BASE}/api/blogs/${slug}`)
       .then((r) => r.json())
       .then((data) => setPost(data))
       .catch(() => setPost(null));

@@ -63,6 +63,8 @@ const FALLBACK_EVENTS = [
   },
 ];
 
+import { API_BASE } from '../config/api';
+
 export function useEvents() {
   const [events, setEvents] = useState(FALLBACK_EVENTS);
   const [loading, setLoading] = useState(false);
@@ -70,7 +72,7 @@ export function useEvents() {
 
   useEffect(() => {
     let isMounted = true;
-    fetch('http://localhost:5000/api/events')
+    fetch(`${API_BASE}/api/events`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();

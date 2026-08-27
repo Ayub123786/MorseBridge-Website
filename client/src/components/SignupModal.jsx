@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, Sparkles, Rocket, Briefcase, ArrowUpRight } from 'lucide-react';
 import MorsebridgeLogo from './MorsebridgeLogo';
+import { API_BASE } from '../config/api';
 
 const STAGE_OPTIONS = [
   'Pre-Seed / Ideation',
@@ -71,7 +72,7 @@ export default function SignupModal({ isOpen, onClose }) {
         notes: form.notes,
       };
 
-      const res = await fetch('/api/auth/register', {
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

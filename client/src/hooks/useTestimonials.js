@@ -51,6 +51,8 @@ const FALLBACK_TESTIMONIALS = [
   },
 ];
 
+import { API_BASE } from '../config/api';
+
 export function useTestimonials() {
   const [testimonials, setTestimonials] = useState(FALLBACK_TESTIMONIALS);
   const [loading, setLoading] = useState(true);
@@ -58,7 +60,7 @@ export function useTestimonials() {
 
   useEffect(() => {
     let isMounted = true;
-    fetch('http://localhost:5000/api/testimonials')
+    fetch(`${API_BASE}/api/testimonials`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();

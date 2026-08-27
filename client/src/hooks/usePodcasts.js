@@ -39,6 +39,8 @@ const FALLBACK_PODCASTS = [
   },
 ];
 
+import { API_BASE } from '../config/api';
+
 export function usePodcasts() {
   const [podcasts, setPodcasts] = useState(FALLBACK_PODCASTS);
   const [loading, setLoading] = useState(true);
@@ -46,7 +48,7 @@ export function usePodcasts() {
 
   useEffect(() => {
     let isMounted = true;
-    fetch('http://localhost:5000/api/podcasts')
+    fetch(`${API_BASE}/api/podcasts`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
