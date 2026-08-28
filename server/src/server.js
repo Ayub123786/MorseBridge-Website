@@ -62,7 +62,7 @@ function saveJsonFile(filepath, data) {
   }
 }
 
-// Initial seed user
+// Initial seed User
 const defaultUsers = [
   {
     id: 'usr-1',
