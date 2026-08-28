@@ -8,10 +8,10 @@ const EVENTS_LIST = [
   {
     id: 1,
     title: 'Dubai Rising 2026',
-    sub: 'Flagship Investor Roundtable & Demo Day',
-    date: 'Nov 24, 2026 · Dubai, UAE',
+    sub: 'The Ultimate Startups & Investor Summit',
+    date: 'Coming This November (Nov 2026) · Dubai, UAE',
     desc: 'The premier startup & investor summit in Dubai. Network with 100+ institutional VCs and 200+ founders across MENA.',
-    tag: 'Flagship Summit',
+    tag: 'Coming This November!',
     tagColor: '#F5B400',
     link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
   },
@@ -27,11 +27,11 @@ const EVENTS_LIST = [
   },
   {
     id: 3,
-    title: 'Global Fundraising Boot Camp',
+    title: 'Global Fundraising Boot Camp Launch',
     sub: '5 workshops, 10 Startups, 25 Angels, VCs & Accelerators',
-    date: 'Nov 12, 2026 · Online Masterclass',
+    date: 'Oct 22, 2026 · Online Masterclass & in5 Dubai',
     desc: 'Build a $1M–$5M GTM & capital strategy. Master term sheet negotiation and data room structuring directly with lead partners.',
-    tag: 'Cohort',
+    tag: 'Cohort 3',
     tagColor: '#10B981',
     link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
   },
@@ -173,7 +173,7 @@ export default function EventsPage() {
                     color: '#FFFFFF',
                   }}
                 >
-                  <span>View Details &amp; Register</span>
+                  <span>View Event Website</span>
                   <ArrowUpRight size={16} />
                   <div className="btn-light-sweep" />
                 </a>

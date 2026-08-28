@@ -116,13 +116,6 @@ export default function EventCard3D({ event, index = 0 }) {
             <MapPin size={15} color="#F5B400" style={{ flexShrink: 0, marginTop: 2 }} />
             <span>{event.location}</span>
           </div>
-
-          {event.seatsLeft && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#F87171', fontSize: 12.5, fontWeight: 600 }}>
-              <span className="pulse-dot-red" />
-              <span className="font-data">ONLY {event.seatsLeft} SEATS REMAINING</span>
-            </div>
-          )}
         </div>
 
         {/* Description */}
@@ -141,10 +134,10 @@ export default function EventCard3D({ event, index = 0 }) {
           </div>
         )}
 
-        {/* Action Button with Light Sweep */}
+        {/* Action Button linking to official event website */}
         <div style={{ marginTop: 'auto', display: 'flex', gap: 10 }}>
           <a
-            href={event.calLink || 'https://cal.com/morsebridge/30-min-intro'}
+            href={event.rsvpLink || event.link || 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043'}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-magnetic-signal"
@@ -155,9 +148,10 @@ export default function EventCard3D({ event, index = 0 }) {
               fontSize: 14,
               background: '#8B5CF6',
               color: '#FFFFFF',
+              textDecoration: 'none',
             }}
           >
-            <span>RSVP Now</span>
+            <span>View Event Website</span>
             <ArrowUpRight size={16} />
             <div className="btn-light-sweep" />
           </a>
