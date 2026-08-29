@@ -496,6 +496,146 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
   res.json({ message: 'Thank you for subscribing to Morsebridge Venture Dispatch.' });
 });
 
+// ============================================================================
+// ADMIN PANEL API ENDPOINTS
+// ============================================================================
+const ADMIN_KEY = process.env.ADMIN_KEY || 'morsebridge_admin_2026';
+
+function verifyAdminAuth(req, res, next) {
+  const key = req.headers['x-admin-key'] || req.query.adminKey;
+  const authHeader = req.headers.authorization;
+  if (key && key === ADMIN_KEY) return next();
+  if (authHeader) {
+    try {
+      const token = authHeader.replace('Bearer ', '');
+      const decoded = jwt.verify(token, JWT_SECRET);
+      if (decoded && (decoded.role === 'admin' || decoded.email.includes('admin'))) return next();
+    } catch (e) {}
+  }
+  return res.status(401).json({ error: 'Unauthorized: Valid Admin Key Required' });
+}
+
+// 1. Verify Admin Passcode
+app.post('/api/admin/verify', (req, res) => {
+  const { key } = req.body;
+  if (key === ADMIN_KEY) {
+    return res.json({ success: true, message: 'Admin authentication verified' });
+  }
+  return res.status(401).json({ success: false, error: 'Invalid admin passcode' });
+});
+
+// 2. Admin Real-Time Overview & Stats
+app.get('/api/admin/stats', verifyAdminAuth, async (req, res) => {
+  try {
+    let allUsers = [];
+    let allSubmissions = [];
+    let allSubscribers = [];
+
+    if (isMongoConnected) {
+      allUsers = await User.find({}).sort({ createdAt: -1 }).lean();
+      allSubmissions = await Submission.find({}).sort({ createdAt: -1 }).lean();
+      allSubscribers = await Subscriber.find({}).sort({ createdAt: -1 }).lean();
+    } else {
+      allUsers = db.users || [];
+      allSubmissions = db.submissions || [];
+      allSubscribers = (db.subscribers || []).map(s => typeof s === 'string' ? { email: s } : s);
+    }
+
+    const totalUsers = allUsers.length;
+    const startups = allUsers.filter(u => (u.role || '').toLowerCase() === 'startup');
+    const investors = allUsers.filter(u => (u.role || '').toLowerCase() === 'investor');
+    const totalSubmissions = allSubmissions.length;
+    const totalSubscribers = allSubscribers.length;
+
+    // Stage breakdown
+    const stageCounts = {};
+    startups.forEach(s => {
+      const st = s.stage || 'Unspecified';
+      stageCounts[st] = (stageCounts[st] || 0) + 1;
+    });
+
+    // Check size breakdown
+    const checkSizeCounts = {};
+    investors.forEach(i => {
+      const cs = i.checkSize || i.ticketSize || 'Unspecified';
+      checkSizeCounts[cs] = (checkSizeCounts[cs] || 0) + 1;
+    });
+
+    res.json({
+      totalUsers,
+      totalStartups: startups.length,
+      totalInvestors: investors.length,
+      totalSubmissions,
+      totalSubscribers,
+      stageCounts,
+      checkSizeCounts,
+      database: isMongoConnected ? 'MongoDB Atlas Cloud' : 'Local JSON Store'
+    });
+  } catch (err) {
+    console.error('Admin stats error:', err);
+    res.status(500).json({ error: 'Failed to aggregate admin statistics' });
+  }
+});
+
+// 3. Admin Get All Users
+app.get('/api/admin/users', verifyAdminAuth, async (req, res) => {
+  try {
+    if (isMongoConnected) {
+      const users = await User.find({}).sort({ createdAt: -1 }).lean();
+      return res.json(users);
+    }
+    res.json(db.users || []);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch users from database' });
+  }
+});
+
+// 4. Admin Get All Form Submissions / Lead Intakes
+app.get('/api/admin/submissions', verifyAdminAuth, async (req, res) => {
+  try {
+    if (isMongoConnected) {
+      const submissions = await Submission.find({}).sort({ createdAt: -1 }).lean();
+      return res.json(submissions);
+    }
+    res.json(db.submissions || []);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch form submissions from database' });
+  }
+});
+
+// 5. Admin Get All Subscribers
+app.get('/api/admin/subscribers', verifyAdminAuth, async (req, res) => {
+  try {
+    if (isMongoConnected) {
+      const subs = await Subscriber.find({}).sort({ createdAt: -1 }).lean();
+      return res.json(subs);
+    }
+    const subs = (db.subscribers || []).map((s, idx) => ({
+      _id: `sub-${idx}`,
+      email: typeof s === 'string' ? s : s.email,
+      createdAt: new Date().toISOString()
+    }));
+    res.json(subs);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch subscribers' });
+  }
+});
+
+// 6. Admin Delete User
+app.delete('/api/admin/users/:id', verifyAdminAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (isMongoConnected) {
+      await User.findByIdAndDelete(id);
+    }
+    db.users = db.users.filter(u => (u._id || u.id) !== id);
+    saveJsonFile(USERS_FILE, db.users);
+    res.json({ success: true, message: 'User record deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
 // Serve built frontend assets in production if client/dist exists
 const CLIENT_DIST = path.join(__dirname, '../../client/dist');
 if (fs.existsSync(CLIENT_DIST)) {
@@ -509,6 +649,9 @@ if (fs.existsSync(CLIENT_DIST)) {
 // Start Server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Morsebridge MERN API Server is live on http://0.0.0.0:${PORT}`);
-  console.log(`📁 User database storage file: ${USERS_FILE}`);
-  console.log(`📁 Submissions storage file: ${SUBMISSIONS_FILE}`);
+  if (MONGODB_URI) {
+    console.log(`🍃 Database: MongoDB Atlas Cloud (Collections: users, submissions, subscribers)`);
+  } else {
+    console.log(`📁 Local Storage: ${USERS_FILE}`);
+  }
 });

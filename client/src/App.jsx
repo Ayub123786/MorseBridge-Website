@@ -21,6 +21,7 @@ import BlogListPage from './pages/BlogListPage';
 import PodcastPage from './pages/PodcastPage';
 import FaqsPage from './pages/FaqsPage';
 import SignupPage from './pages/SignupPage';
+import AdminPage from './pages/AdminPage';
 
 // Auth Pages
 import { LoginPage, ResetPasswordPage, UpdatePasswordPage } from './pages/AuthPages';
@@ -52,8 +53,8 @@ export function App() {
       <ScrollToTop />
       <Navbar onOpenSignup={() => setIsSignupOpen(true)} />
 
-      {/* Auto-Open Sign Up Intake Modal */}
-      <SignupModal isOpen={isSignupOpen} onClose={() => setIsSignupOpen(false)} />
+      {/* Auto-Open Sign Up Intake Modal (suppressed on /admin) */}
+      <SignupModal isOpen={isSignupOpen && !location.pathname.startsWith('/admin')} onClose={() => setIsSignupOpen(false)} />
 
       <div style={{ flex: 1 }}>
         <Routes>
@@ -83,6 +84,10 @@ export function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/update-password" element={<UpdatePasswordPage />} />
+
+          {/* Admin Management Portal */}
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/portal" element={<AdminPage />} />
 
           {/* Member Portal */}
           <Route path="/dashboard" element={<DashboardOverview />} />
