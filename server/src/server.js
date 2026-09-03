@@ -108,7 +108,8 @@ if (MONGODB_URI) {
 }
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // In-Memory store fallback
 let db = {
@@ -241,7 +242,11 @@ app.post('/api/auth/register', async (req, res) => {
     investorType,
     website,
     linkedin,
-    notes
+    notes,
+    pitchDeckName,
+    pitchDeckData,
+    pitchDeckSize,
+    pitchDeckType
   } = req.body;
 
   if (!email || !name) {
@@ -261,6 +266,10 @@ app.post('/api/auth/register', async (req, res) => {
     website: website || '',
     linkedin: linkedin || '',
     notes: notes || '',
+    pitchDeckName: pitchDeckName || '',
+    pitchDeckData: pitchDeckData || '',
+    pitchDeckSize: pitchDeckSize || '',
+    pitchDeckType: pitchDeckType || '',
     plan: 'Community (Free)',
   };
 

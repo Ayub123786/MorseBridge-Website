@@ -15,6 +15,10 @@ const UserSchema = new mongoose.Schema(
     website: { type: String, default: '' },
     linkedin: { type: String, default: '' },
     notes: { type: String, default: '' },
+    pitchDeckName: { type: String, default: '' },
+    pitchDeckData: { type: String, default: '' },
+    pitchDeckSize: { type: String, default: '' },
+    pitchDeckType: { type: String, default: '' },
     plan: { type: String, default: 'Community (Free)' },
     avatar: { type: String, default: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80' }
   },

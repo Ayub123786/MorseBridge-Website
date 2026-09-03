@@ -150,6 +150,8 @@ export default function AdminPage() {
       'Company / Fund',
       'Stage / Ticket Size',
       'Target Round / Focus',
+      'Pitch Deck File',
+      'Pitch / Notes / Link',
       'Website / LinkedIn',
       'Registered Date',
     ];
@@ -161,6 +163,8 @@ export default function AdminPage() {
       `"${u.company || ''}"`,
       `"${u.stage || u.checkSize || ''}"`,
       `"${u.targetRound || u.investorType || ''}"`,
+      `"${u.pitchDeckName || ''}"`,
+      `"${(u.notes || '').replace(/"/g, '""')}"`,
       `"${u.website || ''}"`,
       `"${u.createdAt ? new Date(u.createdAt).toLocaleDateString() : ''}"`,
     ]);
@@ -697,8 +701,18 @@ export default function AdminPage() {
                           </td>
 
                           {/* Company */}
-                          <td style={{ padding: '14px 18px', color: '#E2E2E8', fontWeight: 600 }}>
-                            {u.company || u.fundName || '—'}
+                          <td style={{ padding: '14px 18px' }}>
+                            <div style={{ color: '#E2E2E8', fontWeight: 600 }}>
+                              {u.company || u.fundName || '—'}
+                            </div>
+                            {(u.pitchDeckName || u.pitchDeckData) && (
+                              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 4, padding: '2px 8px', borderRadius: 6, background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.3)', color: '#C4B5FD', fontSize: 11, fontWeight: 700 }}>
+                                <FileText size={11} />
+                                <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                  {u.pitchDeckName || 'Pitch Deck'}
+                                </span>
+                              </div>
+                            )}
                           </td>
 
                           {/* Stage / Ticket Size */}
@@ -1044,6 +1058,64 @@ export default function AdminPage() {
                         <span>{selectedUser.website}</span>
                         <ExternalLink size={13} />
                       </a>
+                    </div>
+                  )}
+
+                  {/* Pitch Deck File Download / View */}
+                  {(selectedUser.pitchDeckName || selectedUser.pitchDeckData) && (
+                    <div style={{ gridColumn: '1 / -1', background: 'rgba(139, 92, 246, 0.1)', border: '1px solid rgba(139, 92, 246, 0.35)', borderRadius: 12, padding: '14px 16px' }}>
+                      <span style={{ color: '#C4B5FD', fontSize: 11.5, fontWeight: 700, display: 'block', marginBottom: 8, letterSpacing: '0.04em' }}>
+                        📎 ATTACHED PITCH DECK
+                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                          <FileText size={22} color="#A78BFA" />
+                          <div>
+                            <div style={{ fontWeight: 700, fontSize: 13.5, color: '#F5F5F7' }}>
+                              {selectedUser.pitchDeckName || 'Pitch_Deck.pdf'}
+                            </div>
+                            {selectedUser.pitchDeckSize && (
+                              <span style={{ fontSize: 11.5, color: '#A3A3B0' }}>{selectedUser.pitchDeckSize}</span>
+                            )}
+                          </div>
+                        </div>
+                        {selectedUser.pitchDeckData && (
+                          <a
+                            href={selectedUser.pitchDeckData}
+                            download={selectedUser.pitchDeckName || 'Pitch_Deck.pdf'}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 6,
+                              padding: '8px 14px',
+                              borderRadius: 8,
+                              background: '#8B5CF6',
+                              color: '#FFFFFF',
+                              fontSize: 12.5,
+                              fontWeight: 700,
+                              textDecoration: 'none',
+                              boxShadow: '0 0 12px rgba(139, 92, 246, 0.3)',
+                            }}
+                          >
+                            <Download size={14} />
+                            <span>Download Deck</span>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Pitch Notes & Elevator Summary */}
+                  {selectedUser.notes && (
+                    <div style={{ gridColumn: '1 / -1', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 12, padding: '14px 16px' }}>
+                      <span style={{ color: '#A3A3B0', fontSize: 11.5, fontWeight: 700, display: 'block', marginBottom: 6, letterSpacing: '0.04em' }}>
+                        📝 PITCH NOTES &amp; DETAILS
+                      </span>
+                      <p style={{ margin: 0, fontSize: 13, color: '#E2E2E8', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                        {selectedUser.notes}
+                      </p>
                     </div>
                   )}
 

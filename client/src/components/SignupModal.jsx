@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2, Sparkles, Rocket, Briefcase, ArrowUpRight } from 'lucide-react';
+import { X, CheckCircle2, Sparkles, Rocket, Briefcase, ArrowUpRight, UploadCloud, FileText } from 'lucide-react';
 import MorsebridgeLogo from './MorsebridgeLogo';
 import { API_BASE } from '../config/api';
 
@@ -47,11 +47,43 @@ export default function SignupModal({ isOpen, onClose }) {
     notes: '',
   });
 
+  const [deckFile, setDeckFile] = useState(null); // { name, size, data, type }
+  const [fileError, setFileError] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handle = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+  const handleFileUpload = (e) => {
+    setFileError('');
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 25 * 1024 * 1024) {
+      setFileError('File size exceeds 25MB. Please upload a smaller file or provide a DocSend/Drive link below.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const formatSize = (bytes) => {
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+      };
+
+      setDeckFile({
+        name: file.name,
+        size: formatSize(file.size),
+        data: reader.result,
+        type: file.type || 'application/octet-stream',
+      });
+    };
+    reader.onerror = () => {
+      setFileError('Failed to read file. Please try again.');
+    };
+    reader.readAsDataURL(file);
+  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -70,6 +102,10 @@ export default function SignupModal({ isOpen, onClose }) {
         investorType: tab === 'investor' ? form.investorType : '',
         checkSize: tab === 'investor' ? form.checkSize : '',
         notes: form.notes,
+        pitchDeckName: deckFile?.name || '',
+        pitchDeckData: deckFile?.data || '',
+        pitchDeckSize: deckFile?.size || '',
+        pitchDeckType: deckFile?.type || '',
       };
 
       const res = await fetch(`${API_BASE}/api/auth/register`, {
@@ -617,10 +653,110 @@ export default function SignupModal({ isOpen, onClose }) {
                   </div>
                 )}
 
-                <div style={{ marginBottom: 20 }}>
-                  <label style={{ display: 'block', color: '#E2E2E8', fontSize: 12.5, fontWeight: 600, marginBottom: 5 }}>
-                    {tab === 'startup' ? 'Short Pitch / Elevator Summary' : 'Sector Focus & Investment Criteria'}
+                <div style={{ marginBottom: 18 }}>
+                  <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#E2E2E8', fontSize: 12.5, fontWeight: 600, marginBottom: 6 }}>
+                    <span>{tab === 'startup' ? 'Insert Pitch Deck' : 'Sector Focus & Investment Criteria'}</span>
+                    {tab === 'startup' && (
+                      <span style={{ color: '#8B5CF6', fontSize: 11, fontWeight: 500 }}>
+                        PDF, PPT, PPTX or Link
+                      </span>
+                    )}
                   </label>
+
+                  {tab === 'startup' && (
+                    <div style={{ marginBottom: 10 }}>
+                      {!deckFile ? (
+                        <label
+                          htmlFor="pitch-deck-file-modal"
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 6,
+                            padding: '12px 14px',
+                            borderRadius: 10,
+                            border: '1.5px dashed rgba(139, 92, 246, 0.45)',
+                            background: 'rgba(139, 92, 246, 0.05)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                            textAlign: 'center',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = '#8B5CF6';
+                            e.currentTarget.style.background = 'rgba(139, 92, 246, 0.12)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.45)';
+                            e.currentTarget.style.background = 'rgba(139, 92, 246, 0.05)';
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <UploadCloud size={18} color="#A78BFA" />
+                            <span style={{ fontSize: 12.5, fontWeight: 600, color: '#F5F5F7' }}>
+                              Click to attach Pitch Deck file
+                            </span>
+                          </div>
+                          <span style={{ fontSize: 11, color: '#A3A3B0' }}>
+                            Supported: PDF, PPT, PPTX, DOCX (Max 25MB)
+                          </span>
+                          <input
+                            id="pitch-deck-file-modal"
+                            type="file"
+                            accept=".pdf,.ppt,.pptx,.doc,.docx"
+                            onChange={handleFileUpload}
+                            style={{ display: 'none' }}
+                          />
+                        </label>
+                      ) : (
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '10px 14px',
+                            borderRadius: 10,
+                            background: 'rgba(139, 92, 246, 0.15)',
+                            border: '1px solid rgba(139, 92, 246, 0.5)',
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+                            <FileText size={18} color="#A78BFA" style={{ flexShrink: 0 }} />
+                            <div style={{ minWidth: 0 }}>
+                              <div style={{ fontSize: 12.5, fontWeight: 700, color: '#F5F5F7', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {deckFile.name}
+                              </div>
+                              <div style={{ fontSize: 11, color: '#C4B5FD' }}>{deckFile.size} • Attached</div>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setDeckFile(null)}
+                            title="Remove attached file"
+                            style={{
+                              background: 'rgba(239, 68, 68, 0.15)',
+                              border: '1px solid rgba(239, 68, 68, 0.3)',
+                              color: '#F87171',
+                              cursor: 'pointer',
+                              padding: 5,
+                              borderRadius: 6,
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      )}
+
+                      {fileError && (
+                        <p style={{ color: '#F87171', fontSize: 11.5, marginTop: 5, marginBottom: 0 }}>
+                          {fileError}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
                   <textarea
                     name="notes"
                     value={form.notes}
@@ -628,7 +764,7 @@ export default function SignupModal({ isOpen, onClose }) {
                     rows="2"
                     placeholder={
                       tab === 'startup'
-                        ? 'Brief overview of your product, MRR, and key milestones...'
+                        ? 'Or paste Pitch Deck link (Google Drive / DocSend / Loom) & elevator summary...'
                         : 'e.g. Seeking Pre-Seed to Seed AI & Fintech founders in MENA / Global...'
                     }
                     style={{
