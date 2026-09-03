@@ -5,7 +5,13 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dns from 'node:dns';
 import mongoose from 'mongoose';
+
+// Fix for Windows / ISP router querySrv ECONNREFUSED when querying MongoDB Atlas SRV records
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (err) {}
 import { User, Submission, Subscriber } from './models.js';
 import {
   initialBlogs,
