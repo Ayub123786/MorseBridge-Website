@@ -511,6 +511,141 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
   res.json({ message: 'Thank you for subscribing to Morsebridge Venture Dispatch.' });
 });
 
+// --- Program Applications (Accelerator & Bootcamp) ---
+app.post('/api/programs/apply', async (req, res) => {
+  const {
+    program,
+    name,
+    email,
+    phone,
+    company,
+    website,
+    stage,
+    targetRaise,
+    traction,
+    whyJoin,
+    deckFileName,
+    pitchDeckName,
+    pitchDeckData
+  } = req.body;
+
+  if (!email || !email.includes('@')) {
+    return res.status(400).json({ error: 'A valid email address is required' });
+  }
+
+  const applicationId = `MB-APP-${Date.now().toString().slice(-6)}`;
+  const applicationData = {
+    id: applicationId,
+    type: 'PROGRAM_APPLICATION',
+    program: program || 'Revenue First AI Accelerator',
+    name: name || 'Applicant',
+    email: email.toLowerCase().trim(),
+    phone: phone || '',
+    company: company || 'Stealth AI',
+    website: website || '',
+    stage: stage || 'Early Revenue',
+    targetRaise: targetRaise || '$500K – $1M',
+    traction: traction || '',
+    whyJoin: whyJoin || '',
+    deckFileName: deckFileName || pitchDeckName || null,
+    pitchDeckName: pitchDeckName || deckFileName || '',
+    pitchDeckData: pitchDeckData || '',
+    status: 'Pending Review',
+    timestamp: new Date().toISOString()
+  };
+
+  // 1. Save to MongoDB if connected
+  if (isMongoConnected) {
+    try {
+      await Submission.create({
+        type: `PROGRAM_APPLICATION_${(program || 'ACCELERATOR').toUpperCase().replace(/\s+/g, '_')}`,
+        data: applicationData,
+        email: applicationData.email,
+        createdAt: new Date()
+      });
+    } catch (err) {
+      console.error('MongoDB save application error:', err);
+    }
+  }
+
+  // 2. Fallback to persisted JSON database
+  if (!db.submissions) db.submissions = [];
+  db.submissions.unshift({
+    id: applicationId,
+    type: 'PROGRAM_APPLICATION',
+    data: applicationData,
+    timestamp: applicationData.timestamp
+  });
+  saveJsonFile(SUBMISSIONS_FILE, db.submissions);
+
+  res.status(201).json({
+    success: true,
+    applicationId,
+    message: `Application for ${applicationData.program} recorded successfully!`,
+    application: applicationData
+  });
+});
+
+// --- Custom Event Hosting Inquiries ("Host an Event with Us") ---
+app.post(['/api/custom-events/inquire', '/api/events/host-inquiry'], async (req, res) => {
+  try {
+    const { name, org, company, email, type, details, size, date } = req.body;
+
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({ error: 'A valid work email address is required.' });
+    }
+
+    const inquiryId = `EVT-${Date.now().toString().slice(-6)}`;
+    const eventData = {
+      id: inquiryId,
+      name: (name || 'Event Organizer').trim(),
+      company: (org || company || '').trim(),
+      organization: (org || company || '').trim(),
+      email: email.toLowerCase().trim(),
+      eventType: (type || 'Custom Event / Summit').trim(),
+      details: (details || '').trim(),
+      estimatedSize: size || '',
+      targetDate: date || '',
+      status: 'New Inquiry',
+      timestamp: new Date().toISOString()
+    };
+
+    // 1. Save to MongoDB if connected
+    if (isMongoConnected) {
+      try {
+        await Submission.create({
+          type: 'HOST_EVENT_INQUIRY',
+          data: eventData,
+          status: 'New Inquiry',
+          createdAt: new Date()
+        });
+      } catch (err) {
+        console.error('MongoDB save event inquiry error:', err);
+      }
+    }
+
+    // 2. Fallback to persisted JSON database
+    if (!db.submissions) db.submissions = [];
+    db.submissions.unshift({
+      id: inquiryId,
+      type: 'HOST_EVENT_INQUIRY',
+      data: eventData,
+      createdAt: eventData.timestamp
+    });
+    saveJsonFile(SUBMISSIONS_FILE, db.submissions);
+
+    res.status(201).json({
+      success: true,
+      inquiryId,
+      message: 'Event hosting request recorded successfully! Our venture events team will connect within 24 hours.',
+      inquiry: eventData
+    });
+  } catch (error) {
+    console.error('Error recording event inquiry:', error);
+    res.status(500).json({ error: 'Failed to record event hosting inquiry' });
+  }
+});
+
 // ============================================================================
 // ADMIN PANEL API ENDPOINTS
 // ============================================================================
@@ -648,6 +783,21 @@ app.delete('/api/admin/users/:id', verifyAdminAuth, async (req, res) => {
     res.json({ success: true, message: 'User record deleted' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
+// 7. Admin Delete Submission
+app.delete('/api/admin/submissions/:id', verifyAdminAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (isMongoConnected) {
+      await Submission.findByIdAndDelete(id);
+    }
+    db.submissions = (db.submissions || []).filter(s => (s._id || s.id) !== id);
+    saveJsonFile(SUBMISSIONS_FILE, db.submissions);
+    res.json({ success: true, message: 'Submission record deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete submission' });
   }
 });
 

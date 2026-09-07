@@ -51,6 +51,7 @@ export default function AdminPage() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [copyFeedback, setCopyFeedback] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [submissionFilter, setSubmissionFilter] = useState('ALL');
 
   // Authenticate Admin Key
   const handleLogin = async (e) => {
@@ -206,6 +207,73 @@ export default function AdminPage() {
       console.error('Delete error:', err);
     }
   };
+
+  // Open base64 PDF in a new tab via Blob URL to avoid top-frame data URL blocking
+  const handleViewPdf = (dataUri, filename = 'document.pdf') => {
+    try {
+      if (!dataUri) {
+        alert('No pitch deck document attached.');
+        return;
+      }
+      if (typeof dataUri === 'string' && dataUri.startsWith('data:')) {
+        const arr = dataUri.split(',');
+        const mimeMatch = arr[0].match(/:(.*?);/);
+        const mime = mimeMatch ? mimeMatch[1] : 'application/pdf';
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        const blob = new Blob([u8arr], { type: mime });
+        const blobUrl = URL.createObjectURL(blob);
+        const win = window.open(blobUrl, '_blank');
+        if (!win) {
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      } else {
+        window.open(dataUri, '_blank');
+      }
+    } catch (e) {
+      console.error('Error opening PDF document:', e);
+      window.open(dataUri, '_blank');
+    }
+  };
+
+  // Delete Form Submission
+  const handleDeleteSubmission = async (id, e) => {
+    e?.stopPropagation();
+    if (!window.confirm('Are you sure you want to delete this submission record?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/admin/submissions/${id}`, {
+        method: 'DELETE',
+        headers: { 'x-admin-key': adminKey },
+      });
+      if (res.ok) {
+        setSubmissions((prev) => prev.filter((s) => (s._id || s.id) !== id));
+      }
+    } catch (err) {
+      console.error('Delete submission error:', err);
+    }
+  };
+
+  const filteredSubmissions = useMemo(() => {
+    return submissions.filter((sub) => {
+      const typeStr = (sub.type || '').toUpperCase();
+      if (submissionFilter === 'EVENTS') return typeStr === 'HOST_EVENT_INQUIRY';
+      if (submissionFilter === 'PROGRAMS') return typeStr.includes('PROGRAM_APPLICATION');
+      if (submissionFilter === 'STARTUPS') return typeStr.includes('STARTUP');
+      if (submissionFilter === 'INVESTORS') return typeStr.includes('INVESTOR');
+      return true;
+    });
+  }, [submissions, submissionFilter]);
 
   // --------------------------------------------------------------------------
   // RENDER: Passcode Gate Screen if Not Authenticated
@@ -782,44 +850,282 @@ export default function AdminPage() {
         {/* TAB 2: FORM SUBMISSIONS & INTAKES */}
         {/* ------------------------------------------------------------------ */}
         {activeTab === 'submissions' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {submissions.length === 0 ? (
-              <div style={{ background: '#14141B', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 40, textAlign: 'center', color: '#71717E' }}>
-                No raw form inquiries submitted yet.
-              </div>
-            ) : (
-              submissions.map((sub, idx) => (
-                <div
-                  key={sub._id || idx}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            {/* Filter Pills */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              {[
+                { id: 'ALL', label: `All Submissions (${submissions.length})` },
+                { id: 'EVENTS', label: `Event Inquiries (${submissions.filter(s => s.type === 'HOST_EVENT_INQUIRY').length})` },
+                { id: 'PROGRAMS', label: `Program Applications (${submissions.filter(s => (s.type || '').includes('PROGRAM_APPLICATION')).length})` },
+                { id: 'STARTUPS', label: `Startups (${submissions.filter(s => (s.type || '').includes('STARTUP')).length})` },
+                { id: 'INVESTORS', label: `Investors (${submissions.filter(s => (s.type || '').includes('INVESTOR')).length})` },
+              ].map((pill) => (
+                <button
+                  key={pill.id}
+                  onClick={() => setSubmissionFilter(pill.id)}
                   style={{
-                    background: '#14141B',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    borderRadius: 14,
-                    padding: '18px 20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 10,
+                    padding: '6px 14px',
+                    borderRadius: 8,
+                    fontSize: 12.5,
+                    fontWeight: 700,
+                    border: '1px solid',
+                    cursor: 'pointer',
+                    background: submissionFilter === pill.id ? 'rgba(139, 92, 246, 0.2)' : 'rgba(255, 255, 255, 0.04)',
+                    borderColor: submissionFilter === pill.id ? '#8B5CF6' : 'rgba(255, 255, 255, 0.08)',
+                    color: submissionFilter === pill.id ? '#C4B5FD' : '#A3A3B0',
+                    transition: 'all 0.2s ease',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <span className="font-data" style={{ padding: '3px 10px', borderRadius: 6, background: 'rgba(139, 92, 246, 0.15)', color: '#A78BFA', fontSize: 11.5, fontWeight: 700 }}>
-                        {sub.type || 'INTAKE_SUBMISSION'}
-                      </span>
-                      <strong style={{ color: '#F5F5F7' }}>{sub.data?.name || sub.data?.company || 'Submission Record'}</strong>
-                    </div>
-                    <span style={{ color: '#71717E', fontSize: 12.5 }}>
-                      {sub.createdAt ? new Date(sub.createdAt).toLocaleString() : 'Recent'}
-                    </span>
-                  </div>
+                  {pill.label}
+                </button>
+              ))}
+            </div>
 
-                  <div style={{ background: '#0A0A0F', padding: 14, borderRadius: 10, border: '1px solid rgba(255,255,255,0.04)', fontSize: 13, color: '#C5C5D2', lineHeight: 1.6 }}>
-                    <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)' }}>
-                      {JSON.stringify(sub.data || sub, null, 2)}
-                    </pre>
+            {filteredSubmissions.length === 0 ? (
+              <div style={{ background: '#14141B', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 40, textAlign: 'center', color: '#71717E' }}>
+                No records found matching "{submissionFilter}" filter.
+              </div>
+            ) : (
+              filteredSubmissions.map((sub, idx) => {
+                const raw = sub.data || sub;
+                const deckData = raw?.pitchDeckData || sub?.pitchDeckData || raw?.deckData || (typeof raw?.deckFile === 'string' && raw.deckFile.startsWith('data:') ? raw.deckFile : null);
+                const deckName = raw?.pitchDeckName || sub?.pitchDeckName || raw?.deckFileName || 'Pitch_Deck.pdf';
+
+                // Safe clone for JSON viewer that prevents huge base64 strings from overflowing
+                let cleanDisplay = {};
+                try {
+                  cleanDisplay = JSON.parse(JSON.stringify(raw));
+                  if (cleanDisplay.pitchDeckData) {
+                    cleanDisplay.pitchDeckData = `[Attached PDF Document: "${deckName}" — Use View PDF or Download PDF button above]`;
+                  }
+                  if (cleanDisplay.deckData) {
+                    cleanDisplay.deckData = `[Attached PDF Document: "${deckName}" — Use View PDF or Download PDF button above]`;
+                  }
+                  Object.keys(cleanDisplay).forEach((k) => {
+                    if (typeof cleanDisplay[k] === 'string' && cleanDisplay[k].startsWith('data:application/pdf')) {
+                      cleanDisplay[k] = `[Attached PDF Document: "${deckName}" — Use View PDF or Download PDF button above]`;
+                    }
+                  });
+                } catch (err) {
+                  cleanDisplay = { ...raw };
+                }
+
+                const isEventInquiry = sub.type === 'HOST_EVENT_INQUIRY';
+                const isProgramApp = sub.type && sub.type.includes('PROGRAM_APPLICATION');
+                const isStartupReg = sub.type === 'STARTUP_REGISTRATION';
+                const isInvestorReg = sub.type === 'INVESTOR_REGISTRATION';
+
+                let badgeBg = 'rgba(139, 92, 246, 0.15)';
+                let badgeColor = '#A78BFA';
+                if (isEventInquiry) {
+                  badgeBg = 'rgba(245, 158, 11, 0.15)';
+                  badgeColor = '#FBBF24';
+                } else if (isProgramApp) {
+                  badgeBg = 'rgba(16, 185, 129, 0.15)';
+                  badgeColor = '#34D399';
+                } else if (isInvestorReg) {
+                  badgeBg = 'rgba(59, 130, 246, 0.15)';
+                  badgeColor = '#60A5FA';
+                }
+
+                return (
+                  <div
+                    key={sub._id || sub.id || idx}
+                    style={{
+                      background: '#14141B',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      borderRadius: 14,
+                      padding: '20px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 14,
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
+                    }}
+                  >
+                    {/* Header Bar */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+                        <span className="font-data" style={{ padding: '4px 10px', borderRadius: 6, background: badgeBg, color: badgeColor, fontSize: 11.5, fontWeight: 700 }}>
+                          {sub.type || 'INTAKE_SUBMISSION'}
+                        </span>
+                        <strong style={{ color: '#F5F5F7', fontSize: 15 }}>
+                          {raw.name || raw.company || raw.organization || 'Submission Record'}
+                        </strong>
+                        {(raw.organization || raw.company) && (
+                          <span style={{ color: '#A3A3B0', fontSize: 13 }}>
+                            • {raw.organization || raw.company}
+                          </span>
+                        )}
+                        {raw.email && (
+                          <span style={{ color: '#8B5CF6', fontSize: 12.5 }}>
+                            ({raw.email})
+                          </span>
+                        )}
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <span style={{ color: '#71717E', fontSize: 12 }}>
+                          {sub.createdAt || sub.timestamp ? new Date(sub.createdAt || sub.timestamp).toLocaleString() : 'Recent'}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={(e) => handleDeleteSubmission(sub._id || sub.id, e)}
+                          style={{
+                            background: 'rgba(239, 68, 68, 0.1)',
+                            border: '1px solid rgba(239, 68, 68, 0.25)',
+                            color: '#F87171',
+                            padding: '5px 10px',
+                            borderRadius: 6,
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 5,
+                            fontSize: 11.5,
+                            fontWeight: 600,
+                          }}
+                          title="Delete Record"
+                        >
+                          <Trash2 size={13} />
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Host Event Inquiry Highlight Banner */}
+                    {isEventInquiry && (
+                      <div
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                          gap: 12,
+                          background: 'rgba(245, 158, 11, 0.07)',
+                          border: '1px solid rgba(245, 158, 11, 0.25)',
+                          borderRadius: 10,
+                          padding: '14px 16px',
+                        }}
+                      >
+                        <div>
+                          <span style={{ fontSize: 10.5, color: '#A3A3B0', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.04em' }}>Host Name</span>
+                          <div style={{ color: '#F5F5F7', fontWeight: 600, fontSize: 13.5, marginTop: 2 }}>{raw.name}</div>
+                          <div style={{ color: '#FBBF24', fontSize: 12 }}>{raw.email}</div>
+                        </div>
+                        <div>
+                          <span style={{ fontSize: 10.5, color: '#A3A3B0', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.04em' }}>Organization / Fund</span>
+                          <div style={{ color: '#F5F5F7', fontWeight: 600, fontSize: 13.5, marginTop: 2 }}>{raw.organization || raw.company || 'Not Specified'}</div>
+                        </div>
+                        <div>
+                          <span style={{ fontSize: 10.5, color: '#A3A3B0', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.04em' }}>Requested Event Type</span>
+                          <div style={{ color: '#FBBF24', fontWeight: 700, fontSize: 13.5, marginTop: 2 }}>{raw.eventType || 'Custom Event'}</div>
+                        </div>
+                        {raw.details && (
+                          <div style={{ gridColumn: '1 / -1', marginTop: 4 }}>
+                            <span style={{ fontSize: 10.5, color: '#A3A3B0', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.04em' }}>Event Details &amp; Goals</span>
+                            <div style={{ color: '#E2E2E8', fontSize: 13, lineHeight: 1.5, marginTop: 4, background: 'rgba(0,0,0,0.3)', padding: '10px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.06)' }}>
+                              {raw.details}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Attached Pitch Deck Viewer / Downloader */}
+                    {deckData && (
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.16) 0%, rgba(109, 40, 217, 0.08) 100%)',
+                          border: '1px solid rgba(139, 92, 246, 0.4)',
+                          borderRadius: 12,
+                          padding: '14px 18px',
+                          flexWrap: 'wrap',
+                          gap: 12,
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                          <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(139, 92, 246, 0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <FileText size={22} color="#C4B5FD" />
+                          </div>
+                          <div>
+                            <div style={{ color: '#FFFFFF', fontWeight: 700, fontSize: 14 }}>
+                              {deckName}
+                            </div>
+                            <div style={{ color: '#A78BFA', fontSize: 12 }}>
+                              ✓ PDF Pitch Deck Attached
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                          <button
+                            type="button"
+                            onClick={() => handleViewPdf(deckData, deckName)}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 7,
+                              padding: '8px 16px',
+                              borderRadius: 8,
+                              background: '#8B5CF6',
+                              color: '#FFFFFF',
+                              fontSize: 13,
+                              fontWeight: 700,
+                              border: 'none',
+                              cursor: 'pointer',
+                              boxShadow: '0 0 16px rgba(139, 92, 246, 0.4)',
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            <Eye size={15} />
+                            <span>View PDF</span>
+                          </button>
+
+                          <a
+                            href={deckData}
+                            download={deckName}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 7,
+                              padding: '8px 16px',
+                              borderRadius: 8,
+                              background: 'rgba(255, 255, 255, 0.08)',
+                              border: '1px solid rgba(255, 255, 255, 0.18)',
+                              color: '#F5F5F7',
+                              fontSize: 13,
+                              fontWeight: 700,
+                              textDecoration: 'none',
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            <Download size={15} />
+                            <span>Download PDF</span>
+                          </a>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Clean Payload JSON Box */}
+                    <div style={{ background: '#0A0A0F', padding: 14, borderRadius: 10, border: '1px solid rgba(255,255,255,0.04)', fontSize: 12.5, color: '#C5C5D2', lineHeight: 1.6, overflow: 'hidden' }}>
+                      <pre
+                        style={{
+                          margin: 0,
+                          whiteSpace: 'pre-wrap',
+                          wordBreak: 'break-all',
+                          overflowWrap: 'anywhere',
+                          overflowX: 'auto',
+                          maxHeight: 320,
+                          overflowY: 'auto',
+                          fontFamily: 'var(--font-mono)',
+                        }}
+                      >
+                        {JSON.stringify(cleanDisplay, null, 2)}
+                      </pre>
+                    </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         )}
@@ -1080,28 +1386,49 @@ export default function AdminPage() {
                           </div>
                         </div>
                         {selectedUser.pitchDeckData && (
-                          <a
-                            href={selectedUser.pitchDeckData}
-                            download={selectedUser.pitchDeckName || 'Pitch_Deck.pdf'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: 6,
-                              padding: '8px 14px',
-                              borderRadius: 8,
-                              background: '#8B5CF6',
-                              color: '#FFFFFF',
-                              fontSize: 12.5,
-                              fontWeight: 700,
-                              textDecoration: 'none',
-                              boxShadow: '0 0 12px rgba(139, 92, 246, 0.3)',
-                            }}
-                          >
-                            <Download size={14} />
-                            <span>Download Deck</span>
-                          </a>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                            <button
+                              type="button"
+                              onClick={() => handleViewPdf(selectedUser.pitchDeckData, selectedUser.pitchDeckName || 'Pitch_Deck.pdf')}
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 6,
+                                padding: '8px 14px',
+                                borderRadius: 8,
+                                background: '#8B5CF6',
+                                color: '#FFFFFF',
+                                fontSize: 12.5,
+                                fontWeight: 700,
+                                border: 'none',
+                                cursor: 'pointer',
+                                boxShadow: '0 0 12px rgba(139, 92, 246, 0.3)',
+                              }}
+                            >
+                              <Eye size={14} />
+                              <span>View PDF</span>
+                            </button>
+                            <a
+                              href={selectedUser.pitchDeckData}
+                              download={selectedUser.pitchDeckName || 'Pitch_Deck.pdf'}
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 6,
+                                padding: '8px 14px',
+                                borderRadius: 8,
+                                background: 'rgba(255, 255, 255, 0.08)',
+                                border: '1px solid rgba(255, 255, 255, 0.15)',
+                                color: '#FFFFFF',
+                                fontSize: 12.5,
+                                fontWeight: 700,
+                                textDecoration: 'none',
+                              }}
+                            >
+                              <Download size={14} />
+                              <span>Download</span>
+                            </a>
+                          </div>
                         )}
                       </div>
                     </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import MorsebridgeLogo from '../components/MorsebridgeLogo';
 
 const SIDEBAR_ITEMS = [
   { label: 'Overview', icon: '🏠', path: '/dashboard' },
@@ -19,13 +20,7 @@ function DashboardSidebar() {
     <div className="db-sidebar">
       {/* Logo */}
       <Link to="/" style={{ textDecoration: 'none', marginBottom: 24, display: 'block' }}>
-        <span style={{
-          fontFamily: "'Montserrat', Arial, sans-serif",
-          fontSize: 17, fontWeight: 400, color: 'var(--text-primary)', letterSpacing: '0.04em',
-        }}>
-          MORSE<span style={{ fontWeight: 900 }}>BRIDGE</span>
-          <span style={{ color: 'var(--gold)', fontWeight: 900 }}>.</span>
-        </span>
+        <MorsebridgeLogo fontSize="20px" />
       </Link>
 
       {/* User info */}

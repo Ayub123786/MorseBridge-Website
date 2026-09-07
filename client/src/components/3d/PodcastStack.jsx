@@ -51,10 +51,10 @@ export default function PodcastStack({ podcasts = [], loading = false }) {
           </p>
         </div>
 
-        {/* 4 Horizontal YouTube Episode Cards (16:9) */}
+        {/* 3 Horizontal YouTube Episode Cards (16:9) */}
         <div className="podcast-videos-grid">
           {loading ? (
-            <ShimmerSkeleton count={4} aspectRatio="16/9" />
+            <ShimmerSkeleton count={3} aspectRatio="16/9" />
           ) : (
             podcasts.map((ep, idx) => (
               <VideoCard3D

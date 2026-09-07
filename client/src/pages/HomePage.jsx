@@ -17,6 +17,8 @@ import PodcastStack from '../components/3d/PodcastStack';
 import SubstackSection from '../components/3d/SubstackSection';
 import CountUpNumber from '../components/common/CountUpNumber';
 import ShimmerSkeleton from '../components/common/ShimmerSkeleton';
+import WhatWeDoCard3D from '../components/3d/WhatWeDoCard3D';
+import FeaturedSection from '../components/FeaturedSection';
 
 // Dynamic API Hooks
 import { useEvents } from '../hooks/useEvents';
@@ -25,8 +27,8 @@ import { usePartners } from '../hooks/usePartners';
 import { usePastEvents } from '../hooks/usePastEvents';
 import { useTestimonials } from '../hooks/useTestimonials';
 
-/* ── Investors Marquee Static Data ── */
-const INVESTORS_ROW_1 = [
+/* ── Investors Marquee Data (All 22 Investors) ── */
+const INVESTORS_LIST = [
   { id: 1, name: 'Sultan Al-Husseini', role: 'MENA Seed Fund · Partner', img: 1 },
   { id: 2, name: 'Rashid Al-Nuaimi', role: 'Gulf Tech Ventures · Principal', img: 2 },
   { id: 3, name: 'Zaid Al-Bawardi', role: 'Oasis Capital · Managing Director', img: 3 },
@@ -38,9 +40,6 @@ const INVESTORS_ROW_1 = [
   { id: 9, name: 'Nasser Al-Dossari', role: 'Early Stage Fund · Investment Director', img: 9 },
   { id: 10, name: 'Majed Al-Khaldi', role: 'Falcon Capital · Partner', img: 10 },
   { id: 11, name: 'Rami Haddad', role: 'Horizon Fund · GP', img: 11 },
-];
-
-const INVESTORS_ROW_2 = [
   { id: 12, name: 'Tarek Mansour', role: 'Venture Partner · Angel Investor', img: 12 },
   { id: 13, name: 'Sami Jarrah', role: 'ScaleUp MENA · General Partner', img: 13 },
   { id: 14, name: 'Bilal Kassem', role: 'Seed Bridge · Managing Partner', img: 14 },
@@ -54,7 +53,24 @@ const INVESTORS_ROW_2 = [
   { id: 22, name: 'Omar Al-Majed', role: 'Global Tech Angels · Venture Partner', img: 22 },
 ];
 
-/* ── What We Do Capabilities ── */
+/* ── Mentors Marquee Data (All 13 Mentors from /assets/mentors/) ── */
+const MENTORS_LIST = [
+  { id: 1, name: 'Karim Mansour', role: 'Venture Partner · Mentor', img: 1 },
+  { id: 2, name: 'Nour Al-Sabah', role: 'AMVS Capital · Analyst', img: 2 },
+  { id: 3, name: 'Sami Jarrah', role: 'Maisonette · CEO & CTO', img: 3 },
+  { id: 4, name: 'Elena Rostova', role: 'INOVA Global · CEO', img: 4 },
+  { id: 5, name: 'Tarek Hamdan', role: 'Tech Growth · CIO & Partner', img: 5 },
+  { id: 6, name: 'Rami Haddad', role: 'Obsession · Founder & CEO', img: 6 },
+  { id: 7, name: 'Nabil Touma', role: 'Obsession · Managing Partner', img: 7 },
+  { id: 8, name: 'Anna Shevchenko', role: 'Epicentr · Chief of Strategy', img: 8 },
+  { id: 9, name: 'Fadi Chaaban', role: 'Birch View · Partner', img: 9 },
+  { id: 10, name: 'Waleed Samaha', role: 'Shorages · Board Member', img: 10 },
+  { id: 11, name: 'Ziad Boulos', role: 'InPro · Co-Founder', img: 11 },
+  { id: 12, name: 'Alexander Wright', role: 'Cubed · Growth Partner', img: 12 },
+  { id: 13, name: 'Daria Petrova', role: 'Venture MD · Ecosystem Mentor', img: 13 },
+];
+
+/* ── What We Do Capabilities with 3D Flip Case Studies ── */
 const WHAT_WE_DO_DATA = [
   {
     title: 'Fundraising Enablement',
@@ -65,6 +81,17 @@ const WHAT_WE_DO_DATA = [
       'Access to exclusive summits & live pitch opportunities',
       'Guidance on positioning and high-conversion fundraising narratives',
     ],
+    caseStudy: {
+      title: 'Series A Syndicate & Family Office Consortium',
+      vcFirm: 'Plug and Play Tech Center & Riyadh VC Syndicate',
+      companiesInvolved: '48+ Startups',
+      peopleInvolved: '180+ Founders & VCs',
+      capitalCatalyzed: '$16.8M+',
+      impactLabel: 'Capital Catalyzed',
+      velocity: '82% Success',
+      velocityLabel: 'Term Sheet Rate',
+      narrative: 'Orchestrated private deal rooms and pitch summits at The Garage Riyadh, connecting seed and Series A founders directly to vetted venture partners and sovereign angels.',
+    },
   },
   {
     title: 'Revenue Strategy & Systems',
@@ -75,16 +102,38 @@ const WHAT_WE_DO_DATA = [
       'Building scalable revenue systems (sales loops, monetization, GTM)',
       'Growth planning aligned with top-tier venture expectations',
     ],
+    caseStudy: {
+      title: 'B2B Enterprise AI & SaaS GTM Acceleration',
+      vcFirm: 'Oasis Capital & Global Tech Angels Syndicate',
+      companiesInvolved: '36+ B2B Startups',
+      peopleInvolved: '120+ GTM Leaders',
+      capitalCatalyzed: '3.5x Surge',
+      impactLabel: 'ARR Expansion',
+      velocity: '42% Drop',
+      velocityLabel: 'CAC Reduction',
+      narrative: 'Engineered automated outbound sales loops, 5-Minute CFO financial models, and enterprise subscription tiering to transition post-revenue ventures into venture-backed growth engines.',
+    },
   },
   {
-    title: 'Fundraising Playbook',
-    image: '/assets/what-we-do/fundraising_playbook.jpg',
-    link: 'https://morsebridge.substack.com/s/fundraising-playbook',
+    title: 'Startup Financial Due Diligence',
+    image: '/assets/what-we-do/financial_due_diligence.jpg',
+    link: 'https://cal.com/morsebridge/30-min-intro',
     points: [
-      'Investor-ready data room structuring & diligence prep',
-      'High-converting outreach sequences & warm intro templates',
-      'Due diligence checklist & term sheet negotiation roadmap',
+      'Comprehensive financial audit, historical reconciliations & unit economics',
+      'Institutional data room prep, 5-year pro-forma modeling & cap table stress testing',
+      'Pre-empting venture diligence bottlenecks, red flags & valuation defensibility',
     ],
+    caseStudy: {
+      title: 'Institutional Financial Diligence & Deal Room Sprint',
+      vcFirm: 'Silicon Badia & Global Venture Syndicate',
+      companiesInvolved: '55+ Startups',
+      peopleInvolved: '180+ Founders & CFOs',
+      capitalCatalyzed: '$24M+',
+      impactLabel: 'Capital Cleared',
+      velocity: '100% Audit',
+      velocityLabel: 'Diligence Velocity',
+      narrative: 'Conducted rigorous historical reconciliations, unit economics audits, and forward financial modeling that cleared stringent venture partner due diligence ahead of institutional financing rounds.',
+    },
   },
 ];
 
@@ -378,21 +427,25 @@ export default function HomePage() {
       <SignalDivider />
 
       {/* ====================================================================
-          3.2 — UPCOMING EVENTS (3D GLASS CARDS)
+          3.15 — FEATURED SPOTLIGHT: FIRST 2 PODCASTS & INVESTOR DATA
           ==================================================================== */}
+      <FeaturedSection podcasts={podcasts} />
+
+      {/* Signal Transmission Section Divider */}
+      <SignalDivider />
       <section className="section" style={{ position: 'relative' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
             <h2 className="section-title-gold">
-              Upcoming Event
+              Upcoming Events
             </h2>
             <p className="section-subtitle">
-              Click on the event to view the details
+              Flagship summits, monthly masterclasses, and cohort application forms.
             </p>
           </div>
 
           {/* 3D Events Grid */}
-          <div className="grid-3" style={{ gap: 24, marginBottom: 36 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 36 }}>
             {eventsLoading ? (
               <ShimmerSkeleton count={3} height={420} />
             ) : (
@@ -478,51 +531,53 @@ export default function HomePage() {
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
           <div className="investor-marquee-layout">
             {/* Left Category Sidebar */}
-            <div className="investor-category-sidebar" style={{ background: '#14141B', borderColor: 'var(--border-subtle)' }}>
+            <div className="investor-category-sidebar">
               <div className="investor-category-tab">
-                <div className="category-badge-circle" style={{ background: '#8B5CF6', color: '#FFFFFF' }}>I</div>
+                <div className="category-badge-circle">I</div>
                 <span className="category-vertical-label font-data">INVESTOR</span>
               </div>
               <div className="investor-category-tab">
-                <div className="category-badge-circle" style={{ background: '#F5B400', color: '#0A0A0F' }}>M</div>
+                <div className="category-badge-circle">M</div>
                 <span className="category-vertical-label font-data">MENTOR</span>
               </div>
             </div>
 
             {/* Dual Scrolling Marquee Columns */}
             <div className="investor-marquee-tracks-col">
+              {/* Top Row: INVESTORS (All 22 from /assets/investors/) */}
               <div className="marquee-container">
-                <div className="marquee-track" style={{ animationDuration: '44s' }}>
-                  {[...INVESTORS_ROW_1, ...INVESTORS_ROW_1].map((inv, idx) => (
-                    <div key={idx} className="investor-card-img-wrap hover-float" style={{ background: '#14141B', borderColor: 'var(--border-subtle)' }}>
+                <div className="marquee-track" style={{ animationDuration: '60s' }}>
+                  {[...INVESTORS_LIST, ...INVESTORS_LIST].map((inv, idx) => (
+                    <div key={idx} className="investor-card-img-wrap hover-float">
                       <img
                         src={`/assets/investors/${inv.img}.png`}
                         alt={`${inv.name} - ${inv.role}`}
                         loading="lazy"
                         onError={(e) => { e.currentTarget.style.display = 'none'; }}
                       />
-                      <div className="investor-card-caption" style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(10, 10, 15, 0.95) 100%)' }}>
-                        <div className="investor-name" style={{ color: '#F5F5F7' }}>{inv.name}</div>
-                        <div className="investor-role" style={{ color: '#A3A3B0' }}>{inv.role}</div>
+                      <div className="investor-card-caption">
+                        <div className="investor-name">{inv.name}</div>
+                        <div className="investor-role">{inv.role}</div>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
+              {/* Bottom Row: MENTORS (All 13 from /assets/mentors/) */}
               <div className="marquee-container">
-                <div className="marquee-track-reverse" style={{ animationDuration: '44s' }}>
-                  {[...INVESTORS_ROW_2, ...INVESTORS_ROW_2].map((inv, idx) => (
-                    <div key={idx} className="investor-card-img-wrap hover-float" style={{ background: '#14141B', borderColor: 'var(--border-subtle)' }}>
+                <div className="marquee-track-reverse" style={{ animationDuration: '48s' }}>
+                  {[...MENTORS_LIST, ...MENTORS_LIST].map((men, idx) => (
+                    <div key={idx} className="investor-card-img-wrap hover-float">
                       <img
-                        src={`/assets/investors/${inv.img}.png`}
-                        alt={`${inv.name} - ${inv.role}`}
+                        src={`/assets/mentors/${men.img}.png`}
+                        alt={`${men.name} - ${men.role}`}
                         loading="lazy"
                         onError={(e) => { e.currentTarget.style.display = 'none'; }}
                       />
-                      <div className="investor-card-caption" style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(10, 10, 15, 0.95) 100%)' }}>
-                        <div className="investor-name" style={{ color: '#F5F5F7' }}>{inv.name}</div>
-                        <div className="investor-role" style={{ color: '#A3A3B0' }}>{inv.role}</div>
+                      <div className="investor-card-caption">
+                        <div className="investor-name">{men.name}</div>
+                        <div className="investor-role" style={{ color: '#F5B400' }}>{men.role}</div>
                       </div>
                     </div>
                   ))}
@@ -548,50 +603,9 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid-3" style={{ gap: 24 }}>
+          <div className="grid-3" style={{ gap: 24, alignItems: 'stretch' }}>
             {WHAT_WE_DO_DATA.map((item, idx) => (
-              <motion.a
-                key={idx}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.25 }}
-                className="what-we-do-card"
-                style={{
-                  textDecoration: 'none',
-                  color: 'inherit',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  background: '#14141B',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 18,
-                  overflow: 'hidden',
-                  padding: 24,
-                  boxShadow: '0 8px 28px rgba(0, 0, 0, 0.4)',
-                }}
-              >
-                {item.image && (
-                  <div className="what-we-do-img-wrap" style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="what-we-do-img"
-                      loading="lazy"
-                      onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }}
-                    />
-                  </div>
-                )}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                  <h3 className="what-we-do-title" style={{ margin: '14px 0 12px', color: '#F5F5F7', fontSize: 20 }}>{item.title}</h3>
-                  <span style={{ fontSize: 18, color: '#8B5CF6', fontWeight: 800 }}>↗</span>
-                </div>
-                <ul className="what-we-do-list" style={{ flex: 1, color: 'var(--text-body)' }}>
-                  {item.points.map((pt, pIdx) => (
-                    <li key={pIdx} style={{ fontSize: 13.5, lineHeight: 1.6 }}>{pt}</li>
-                  ))}
-                </ul>
-              </motion.a>
+              <WhatWeDoCard3D key={idx} item={item} index={idx} />
             ))}
           </div>
         </div>
@@ -648,7 +662,7 @@ export default function HomePage() {
       <SignalDivider />
 
       {/* ====================================================================
-          3.7 — "OUR PAST EVENTS" (10 YOUTUBE SHORTS GRID)
+          3.7 — "OUR PAST EVENTS" (FLAGSHIP SUMMIT & 10 VIDEO SHORTS)
           ==================================================================== */}
       <section className="section">
         <div className="container container-wide">

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, Search, ShieldCheck, Globe, Mic, BarChart2, Users } from 'lucide-react';
 import Footer from '../components/Footer';
 import SignalDivider from '../components/3d/SignalDivider';
+import FeaturedSection from '../components/FeaturedSection';
 
 const INVESTOR_BENEFITS = [
   { icon: Search, title: 'Curated Deal Flow', desc: 'Receive pre-screened startup deal flow with audited unit economics and metrics aligned to your fund thesis.' },
@@ -214,6 +215,17 @@ export default function InvestorPage() {
           </div>
         </div>
       </section>
+
+      {/* Signal Transmission Section Divider */}
+      <SignalDivider />
+
+      {/* ====================================================================
+          FEATURED SPOTLIGHT: FIRST 2 PODCASTS & INVESTOR DATA
+          ==================================================================== */}
+      <FeaturedSection />
+
+      {/* Signal Transmission Section Divider */}
+      <SignalDivider />
 
       {/* ====================================================================
           FINAL CTA

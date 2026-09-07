@@ -6,39 +6,33 @@ import SignalDivider from '../components/3d/SignalDivider';
 const EPISODES = [
   {
     id: 1,
-    title: 'How to Raise from MENA VCs in 2026',
-    guest: 'Ahmed Al-Rashid, Partner at Gulf Ventures',
-    duration: '52 min',
-    date: 'Aug 2026',
-    desc: 'A deep dive into what MENA venture capitalists look for, how to structure your outreach, and what common mistakes founders make when pitching to regional funds.',
-    youtubeUrl: 'https://youtube.com/@FoundersTalkwithAyub',
+    title: 'Principal Plug and Play: Investors are Not ATM Machines!',
+    guest: 'ft. Andrea Azzolari · Principal, Plug and Play Tech Center MENA',
+    duration: '1 hr 7 min',
+    date: 'Full Episode',
+    videoId: 'O1hPe9GncBQ',
+    desc: 'Andrea Azzolari, Principal at Plug and Play Tech Center MENA, breaks down VC evaluation criteria, why investors are not ATM machines, and what truly makes founders fundable.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=O1hPe9GncBQ',
   },
   {
     id: 2,
-    title: 'Building a $10M ARR Startup in the UAE',
-    guest: 'Sarah K., Co-founder of FinTech UAE',
-    duration: '44 min',
-    date: 'Jul 2026',
-    desc: 'The journey from idea to $10M ARR — lessons learned, pivots made, and advice for founders targeting the UAE and Saudi market expansion.',
-    youtubeUrl: 'https://youtube.com/@FoundersTalkwithAyub',
+    title: 'How Startup Fundraising Works | Startup School',
+    guest: 'Founders Talk with Ayub · Full Masterclass',
+    duration: '1 hr 13 min',
+    date: 'Full Episode',
+    videoId: 'rjflnyDqN2M',
+    desc: 'A comprehensive masterclass on how startup fundraising actually works: valuation mechanics, pitch deck narratives, SAFEs, and negotiating with lead investors.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=rjflnyDqN2M',
   },
   {
     id: 3,
-    title: 'Family Office Capital: The Untapped Resource',
-    guest: 'Omar Al-Farsi, Family Office Director',
-    duration: '38 min',
-    date: 'Jun 2026',
-    desc: 'Why family offices are becoming the most important source of early-stage capital in MENA and how founders can build institutional credibility.',
-    youtubeUrl: 'https://youtube.com/@FoundersTalkwithAyub',
-  },
-  {
-    id: 4,
-    title: 'From Idea to Launch in 90 Days',
-    guest: 'Nora Hassan, Serial Entrepreneur',
-    duration: '41 min',
-    date: 'May 2026',
-    desc: 'A framework for rapidly validating and launching a startup without burning through your runway — tested across 4 successful tech companies.',
-    youtubeUrl: 'https://youtube.com/@FoundersTalkwithAyub',
+    title: 'Family Offices From Scratch',
+    guest: 'Private Wealth & Family Offices Blueprint',
+    duration: '1 hr 5 min',
+    date: 'Full Episode',
+    videoId: 'SrJu7zkwsYs',
+    desc: 'Everything founders and fund managers need to know about Family Offices: structure, investment mandates, direct startup deals, and securing long-term institutional backing.',
+    youtubeUrl: 'https://www.youtube.com/watch?v=SrJu7zkwsYs',
   },
 ];
 
@@ -148,22 +142,69 @@ export default function PodcastPage() {
                   e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.4)';
                 }}
               >
-                <div
-                  style={{
-                    width: 52,
-                    height: 52,
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#FFFFFF',
-                    flexShrink: 0,
-                    boxShadow: '0 6px 20px rgba(139, 92, 246, 0.4)',
-                  }}
-                >
-                  <Play size={20} fill="#FFFFFF" style={{ marginLeft: 2 }} />
-                </div>
+                {ep.videoId ? (
+                  <div
+                    style={{
+                      width: 220,
+                      aspectRatio: '16/9',
+                      borderRadius: 14,
+                      overflow: 'hidden',
+                      position: 'relative',
+                      flexShrink: 0,
+                      background: '#1C1C24',
+                    }}
+                  >
+                    <img
+                      src={`https://i.ytimg.com/vi/${ep.videoId}/hqdefault.jpg`}
+                      alt={ep.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      loading="lazy"
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'rgba(0, 0, 0, 0.35)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 44,
+                          height: 44,
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#FFFFFF',
+                          boxShadow: '0 4px 16px rgba(139, 92, 246, 0.6)',
+                        }}
+                      >
+                        <Play size={18} fill="#FFFFFF" color="#FFFFFF" style={{ marginLeft: 2 }} />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      width: 52,
+                      height: 52,
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#FFFFFF',
+                      flexShrink: 0,
+                      boxShadow: '0 6px 20px rgba(139, 92, 246, 0.4)',
+                    }}
+                  >
+                    <Play size={20} fill="#FFFFFF" style={{ marginLeft: 2 }} />
+                  </div>
+                )}
 
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>

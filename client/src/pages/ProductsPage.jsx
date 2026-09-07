@@ -1,103 +1,217 @@
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Sparkles, CheckCircle2, Box } from 'lucide-react';
+import {
+  ArrowUpRight,
+  Sparkles,
+  CheckCircle2,
+  Box,
+  TrendingUp,
+  Database,
+  BookOpen,
+  Rocket,
+  Target,
+  Calendar,
+  Layers,
+  Search,
+  ExternalLink,
+  Download,
+  Filter,
+} from 'lucide-react';
 import Footer from '../components/Footer';
 import SignalDivider from '../components/3d/SignalDivider';
 
-const PRODUCTS_LIST = [
+const PRODUCTS = [
   {
-    id: 1,
+    id: 'cfo-model',
     title: 'The 5-Minute CFO Model',
-    tag: 'Finance & Diligence',
+    category: 'financial-tools',
+    tag: 'Financial Modeling',
+    badgeText: 'Interactive Tool & Download',
     badgeColor: '#F5B400',
-    desc: 'Most financial models are complex, consultant-driven, and impossible to update. This one is founder-friendly, institutional-grade, and linked automatically.',
-    features: [
-      'P&L, Cash Flow & Balance Sheet automatically linked',
-      'Real-time cash burn & runway alert calculator',
-      'Unit economics, CAC/LTV & margin models',
-      'Excel & Google Sheets ready to customize in minutes',
+    featured: true,
+    desc: 'An institutional-grade 3-statement financial engine built for Pre-Seed to Series A founders. Features automated P&L, 18-month cash runway radar, and live CAC/LTV unit economics.',
+    highlights: [
+      'Live in-browser Runway & Burn simulator',
+      'Instant download in Excel (.xlsx) and CSV formats',
+      'Pre-wired 3-statement linking (P&L, Balance Sheet, Cash Flow)',
+      'Data room KPI charts ready to paste into Notion/DocSend',
     ],
     path: '/the-5-minute-cfo-model',
     isExternal: false,
-    cta: 'More Info & Download →',
-    featured: true,
+    cta: 'Open CFO Model & Download →',
+    source: 'MorseBridge Proprietary Tool',
   },
   {
-    id: 2,
-    title: 'Startup Look Book',
-    tag: 'Launch & Influence',
-    badgeColor: '#8B5CF6',
-    desc: 'We help startups and companies launch with purpose and influence — through curated events, thought-leadership dialogues, and community gatherings that drive visibility, trust, and investment.',
-    features: [
-      'Product Launch & Demo Showcases',
-      'Curated founder-investor roundtables',
-      'Media, newsletter & podcast spotlight exposure',
-      'Community alignment across UAE & KSA',
-    ],
-    path: 'https://cal.com/morsebridge/30-min-intro',
-    isExternal: true,
-    cta: 'Explore Launch Support ↗',
-    featured: false,
-  },
-  {
-    id: 3,
-    title: 'Investor Data Suite',
-    tag: 'Capital Access',
+    id: 'investor-data-suite',
+    title: 'Curated Investor Data Suite',
+    category: 'substack-intelligence',
+    tag: 'Substack Exclusive',
+    badgeText: '3,000+ Check Writers',
     badgeColor: '#10B981',
-    desc: 'Curated investor data to help founders identify and target the right VCs, angels, and family offices based on stage, fit, and real portfolio alignment.',
-    features: [
-      '100+ active MENA & global institutional investors',
-      'Direct investment thesis & ticket size ranges',
-      'Verified partner contact channels & syndicate lists',
-      'Regular portfolio & deal flow intelligence updates',
+    featured: true,
+    desc: 'The definitive institutional investor databases curated on the MorseBridge Substack. Unlocks direct check-writers, verified check sizes ($250k–$5M), stage fit, and partner contact channels.',
+    highlights: [
+      '3,000+ VCs actively writing checks for B2B SaaS',
+      '90 Top VCs & Angel Investors funding AI startups in 2026',
+      '100+ Middle East Family Offices (UAE & Saudi Arabia)',
+      '120 Curated high-execution early-stage syndicates',
     ],
     path: 'https://morsebridge.substack.com/s/investor-data',
     isExternal: true,
-    cta: 'Explore Investor Data ↗',
-    featured: false,
+    cta: 'Explore Database on Substack ↗',
+    source: 'Substack Verified (Muhammad Ayub)',
   },
   {
-    id: 4,
-    title: 'Investor-Ready Pitch Deck Templates',
-    tag: 'Narrative & Decks',
-    badgeColor: '#38BDF8',
-    desc: 'Ready-made, high-converting pitch deck templates designed with investor expectations in mind. Tell your story clearly, confidently, and raise faster.',
-    features: [
-      'YC & Global VC standard 10-slide framework',
-      'Pre-built market sizing & unit economics slides',
-      'Figma, PowerPoint & Keynote formats',
-      'Clear founder narrative pacing guidelines',
-    ],
-    path: 'https://cal.com/morsebridge/30-min-intro',
-    isExternal: true,
-    cta: 'Get Templates ↗',
+    id: 'fundraising-playbook',
+    title: 'Venture Fundraising Playbook',
+    category: 'substack-intelligence',
+    tag: 'Substack Blueprint',
+    badgeText: 'Tactical Execution',
+    badgeColor: '#8B5CF6',
     featured: false,
-  },
-  {
-    id: 5,
-    title: 'Fundraising Playbook',
-    tag: 'Strategy & Execution',
-    badgeColor: '#A855F7',
-    desc: 'Actionable venture fundraising strategies, deal room frameworks, cold/warm outreach sequences, and due diligence roadmaps tailored for pre-seed and seed founders.',
-    features: [
-      'Step-by-step cold & warm investor outreach scripts',
-      'Due diligence data room structure & checklist',
-      'Term sheet negotiation & SAFE note guide',
-      'Follow-up cadence & investor CRM pipeline setup',
+    desc: 'Comprehensive step-by-step venture fundraising strategy written by Muhammad Ayub. Cold/warm outreach scripts with 42% reply rates, term sheet economics, and SAFE note cap table models.',
+    highlights: [
+      'Cold email & WhatsApp outreach cadences for angels & VCs',
+      'Institutional due diligence data room checklist',
+      'Term sheet dilution math & SAFE valuation cap guide',
+      'Partner meeting objection handling & closing tactics',
     ],
     path: 'https://morsebridge.substack.com/s/fundraising-playbook',
     isExternal: true,
-    cta: 'Explore Fundraising Playbook ↗',
+    cta: 'Read Playbook on Substack ↗',
+    source: 'Substack Verified',
+  },
+  {
+    id: 'ai-accelerator',
+    title: 'Revenue First AI Accelerator',
+    category: 'cohort-programs',
+    tag: 'Cohort Program',
+    badgeText: 'Rolling 48h Screening',
+    badgeColor: '#EC4899',
+    featured: true,
+    desc: 'An 8-week acceleration track designed for revenue-generating AI startups. Focuses on shortening enterprise sales cycles, refining B2B pricing tiers, and direct partner demo day matching.',
+    highlights: [
+      'Direct introductions to 40+ active AI venture funds',
+      'Zero upfront fees or mandatory equity warrants',
+      'Enterprise GTM playbook and contract expansion audit',
+      'Live Demo Day with institutional LP/GP check-writers',
+    ],
+    path: '/apply?program=revenue-first-ai-accelerator',
+    isExternal: false,
+    cta: 'Apply for Accelerator →',
+    source: 'MorseBridge Cohort',
+  },
+  {
+    id: 'fundraising-bootcamp',
+    title: 'Global Fundraising Bootcamp',
+    category: 'cohort-programs',
+    tag: 'Monthly Cohort',
+    badgeText: 'Live Investor Pitch Drills',
+    badgeColor: '#F5B400',
     featured: false,
+    desc: 'Monthly intensive cohort that transforms product-ready founders into compelling institutional presenters. Live partner drills, deck teardowns, and investor syndicate matchmaking.',
+    highlights: [
+      '4 weeks of structured fundraising execution',
+      'Live simulated partner pitches with real VC feedback',
+      'Data room structure audit and narrative pacing review',
+      'Monthly cohorts scheduled via Eventbrite & direct portal',
+    ],
+    path: '/apply?program=global-fundraising-bootcamp',
+    isExternal: false,
+    cta: 'Apply for Next Cohort →',
+    source: 'MorseBridge Cohort',
+  },
+  {
+    id: 'eventbrite-summits',
+    title: 'Official MorseBridge Global Summits',
+    category: 'eventbrite-summits',
+    tag: 'Live Ecosystem',
+    badgeText: 'Official Eventbrite Schedule',
+    badgeColor: '#38BDF8',
+    featured: true,
+    desc: 'Closed-door venture gatherings, flagship regional summits, and curated investor mixers across Dubai, Riyadh, and London hosted via our official Eventbrite organizer hub.',
+    highlights: [
+      'Dubai Rising: Web3, AI & Venture Capital Summit',
+      'Riyadh Tech Rising: Saudi Family Office & VC Mixer',
+      'Private Closed-Door Deal Mixers (15 Founders x 10 VCs)',
+      'Direct Eventbrite ticket reservation & VIP badge access',
+    ],
+    path: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
+    isExternal: true,
+    cta: 'View Eventbrite Schedule ↗',
+    source: 'Eventbrite Verified Organizer',
+  },
+  {
+    id: 'pe-ai-agents',
+    title: 'PE Diligence & Multi-Agent Blueprints',
+    category: 'substack-intelligence',
+    tag: 'Deep-Dive Blueprint',
+    badgeText: 'PE Automation',
+    badgeColor: '#06B6D4',
+    featured: false,
+    desc: 'Weekly engineering & diligence breakdowns on automating commercial due diligence, credit underwriting, and deal sourcing pipelines using multi-agent Claude and LLM architectures.',
+    highlights: [
+      '40 Due Diligence Agents for Private Equity firms',
+      'Automated commercial diligence pipeline setups',
+      'Credit underwriting multi-agent architectures',
+      'Off-market deal sourcing engine in Claude Cowork',
+    ],
+    path: 'https://morsebridge.substack.com',
+    isExternal: true,
+    cta: 'Read Agent Blueprints ↗',
+    source: 'Substack Verified',
+  },
+  {
+    id: 'custom-events',
+    title: 'Bespoke Event Hosting & Ecosystem Curation',
+    category: 'eventbrite-summits',
+    tag: 'Venture Production',
+    badgeText: 'Host with Us',
+    badgeColor: '#A78BFA',
+    featured: false,
+    desc: 'Let MorseBridge produce your next institutional pitch competition, private venture dinner, or corporate demo day across UAE and Saudi Arabia with full investor guestlist curation.',
+    highlights: [
+      'Complete venue sourcing, keynote curation & production',
+      'Curated LP, GP, and family office guestlist invitations',
+      'Post-event Substack writeup & deal flow distribution',
+      'Direct integration with Eventbrite ticketing & outreach',
+    ],
+    path: '/custom-events',
+    isExternal: false,
+    cta: 'Host an Event with Us →',
+    source: 'MorseBridge Events Division',
   },
 ];
 
+const CATEGORIES = [
+  { id: 'all', label: 'All Products & Resources' },
+  { id: 'substack-intelligence', label: 'Substack Intelligence' },
+  { id: 'financial-tools', label: 'Financial & CFO Tools' },
+  { id: 'cohort-programs', label: 'Cohort Programs' },
+  { id: 'eventbrite-summits', label: 'Eventbrite Summits' },
+];
+
 export default function ProductsPage() {
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [search, setSearch] = useState('');
+
+  const filteredProducts = useMemo(() => {
+    return PRODUCTS.filter((p) => {
+      const matchesCategory = activeCategory === 'all' || p.category === activeCategory;
+      const matchesSearch =
+        p.title.toLowerCase().includes(search.toLowerCase()) ||
+        p.desc.toLowerCase().includes(search.toLowerCase()) ||
+        p.tag.toLowerCase().includes(search.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, search]);
+
   return (
     <div style={{ background: 'var(--bg-canvas)', minHeight: '100vh', paddingTop: 90, color: '#F5F5F7' }}>
       
-      {/* Hero */}
-      <section style={{ padding: '60px 0 50px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      {/* Hero Section */}
+      <section style={{ padding: '60px 0 44px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="ambient-mesh-glow" />
 
         <div className="container container-narrow" style={{ position: 'relative', zIndex: 1 }}>
@@ -110,12 +224,12 @@ export default function ProductsPage() {
               borderRadius: 9999,
               background: 'rgba(139, 92, 246, 0.15)',
               border: '1px solid rgba(139, 92, 246, 0.35)',
-              marginBottom: 24,
+              marginBottom: 20,
             }}
           >
             <Box size={14} color="#C4B5FD" />
-            <span className="font-data" style={{ fontSize: 12.5, color: '#C4B5FD', letterSpacing: '0.06em' }}>
-              PRODUCTS &amp; RESOURCES
+            <span className="font-data" style={{ fontSize: 12.5, color: '#C4B5FD', letterSpacing: '0.06em', fontWeight: 700 }}>
+              VENTURE ACCELERATION PRODUCTS
             </span>
           </div>
 
@@ -123,64 +237,147 @@ export default function ProductsPage() {
             style={{
               fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
               fontWeight: 900,
-              fontStyle: 'italic',
               lineHeight: 1.12,
               letterSpacing: '-0.03em',
-              marginBottom: 20,
+              marginBottom: 18,
               background: 'linear-gradient(180deg, #FFFFFF 0%, #E2E2E8 70%, #A3A3B0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
           >
-            Tools &amp; Frameworks for <span style={{ color: '#8B5CF6', WebkitTextFillColor: '#8B5CF6' }}>Momentum</span>
+            Tools, Data &amp; Programs for <span style={{ color: '#8B5CF6', WebkitTextFillColor: '#8B5CF6' }}>Momentum</span>
           </h1>
 
-          <p style={{ color: '#A3A3B0', fontSize: 16.5, maxWidth: 640, margin: '0 auto 36px', lineHeight: 1.65 }}>
-            Institutional-grade models, investor data suites, and tactical playbooks built to help founders raise faster and scale with credibility.
+          <p style={{ color: '#A3A3B0', fontSize: 16.5, maxWidth: 660, margin: '0 auto 36px', lineHeight: 1.65 }}>
+            From our proprietary 5-Minute CFO Model and Substack investor databases to official Eventbrite global summits and venture cohorts — everything founders need to raise capital with authority.
           </p>
+
+          {/* Quick Metrics Bar */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+              gap: 16,
+              background: '#14141B',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 16,
+              padding: '16px 24px',
+              maxWidth: 780,
+              margin: '0 auto',
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 22, fontWeight: 900, color: '#10B981' }}>3,000+</div>
+              <div style={{ fontSize: 11.5, color: '#A3A3B0', fontWeight: 600, textTransform: 'uppercase' }}>VC Check Writers</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 22, fontWeight: 900, color: '#8B5CF6' }}>18-Mo</div>
+              <div style={{ fontSize: 11.5, color: '#A3A3B0', fontWeight: 600, textTransform: 'uppercase' }}>CFO Runway Model</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 22, fontWeight: 900, color: '#F5B400' }}>1,200+</div>
+              <div style={{ fontSize: 11.5, color: '#A3A3B0', fontWeight: 600, textTransform: 'uppercase' }}>Summit Attendees</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 22, fontWeight: 900, color: '#38BDF8' }}>48 Hours</div>
+              <div style={{ fontSize: 11.5, color: '#A3A3B0', fontWeight: 600, textTransform: 'uppercase' }}>Cohort Screening</div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 5 Products Grid */}
+      {/* Filter and Search Bar */}
+      <section style={{ padding: '10px 0 36px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 24 }}>
+            {/* Category Filter Pills */}
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  style={{
+                    padding: '8px 18px',
+                    borderRadius: 9999,
+                    fontSize: 13,
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    border: activeCategory === cat.id ? '1px solid #8B5CF6' : '1px solid rgba(255, 255, 255, 0.1)',
+                    background: activeCategory === cat.id ? 'rgba(139, 92, 246, 0.2)' : 'rgba(20, 20, 27, 0.6)',
+                    color: activeCategory === cat.id ? '#FFFFFF' : '#A3A3B0',
+                  }}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Search Input */}
+            <div style={{ position: 'relative', minWidth: 260 }}>
+              <Search size={15} color="#A3A3B0" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }} />
+              <input
+                type="text"
+                placeholder="Search products, models, databases..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '10px 16px 10px 38px',
+                  background: '#14141B',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 12,
+                  color: '#F5F5F7',
+                  fontSize: 13.5,
+                  outline: 'none',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Products Grid */}
       <section className="section" style={{ paddingTop: 0, paddingBottom: 80 }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 26 }}>
-            {PRODUCTS_LIST.map((prod, idx) => (
+            {filteredProducts.map((prod, idx) => (
               <motion.div
                 key={prod.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: idx * 0.08 }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
                 whileHover={{ y: -6 }}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   background: '#14141B',
-                  border: prod.featured ? '1.5px solid rgba(245, 180, 0, 0.6)' : '1px solid var(--border-subtle)',
+                  border: prod.featured ? '1.5px solid rgba(139, 92, 246, 0.55)' : '1px solid var(--border-subtle)',
                   borderRadius: 22,
-                  padding: 30,
+                  padding: 28,
                   boxShadow: prod.featured
-                    ? '0 12px 36px rgba(245, 180, 0, 0.15)'
+                    ? '0 12px 36px rgba(139, 92, 246, 0.15)'
                     : '0 8px 24px rgba(0, 0, 0, 0.4)',
                   position: 'relative',
                   overflow: 'hidden',
                   transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = prod.featured ? '#F5B400' : 'rgba(139, 92, 246, 0.6)';
+                  e.currentTarget.style.borderColor = '#8B5CF6';
                   e.currentTarget.style.boxShadow = '0 14px 36px rgba(139, 92, 246, 0.25)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = prod.featured ? 'rgba(245, 180, 0, 0.6)' : 'var(--border-subtle)';
+                  e.currentTarget.style.borderColor = prod.featured ? 'rgba(139, 92, 246, 0.55)' : 'var(--border-subtle)';
                   e.currentTarget.style.boxShadow = prod.featured
-                    ? '0 12px 36px rgba(245, 180, 0, 0.15)'
+                    ? '0 12px 36px rgba(139, 92, 246, 0.15)'
                     : '0 8px 24px rgba(0, 0, 0, 0.4)';
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  {/* Top Badges */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
                     <span
                       className="font-data"
                       style={{
@@ -196,54 +393,49 @@ export default function ProductsPage() {
                       {prod.tag}
                     </span>
 
-                    {prod.featured && (
-                      <span
-                        style={{
-                          background: 'rgba(245, 180, 0, 0.15)',
-                          color: '#F5B400',
-                          border: '1px solid rgba(245, 180, 0, 0.4)',
-                          fontSize: 11,
-                          fontWeight: 800,
-                          padding: '4px 12px',
-                          borderRadius: 9999,
-                          letterSpacing: '0.04em',
-                        }}
-                      >
-                        FEATURED
-                      </span>
-                    )}
+                    <span style={{ fontSize: 11, color: '#A3A3B0', fontWeight: 600 }}>
+                      {prod.badgeText}
+                    </span>
                   </div>
 
-                  <h3 style={{ fontSize: 20, fontWeight: 800, color: '#F5F5F7', marginBottom: 12, lineHeight: 1.3 }}>
+                  <h3 style={{ fontSize: 20, fontWeight: 800, color: '#F5F5F7', marginBottom: 10, lineHeight: 1.3 }}>
                     {prod.title}
                   </h3>
-                  <p style={{ color: '#A3A3B0', fontSize: 14, lineHeight: 1.65, marginBottom: 24 }}>
+                  
+                  <p style={{ color: '#A3A3B0', fontSize: 13.5, lineHeight: 1.65, marginBottom: 20 }}>
                     {prod.desc}
                   </p>
 
-                  {/* Bullet features */}
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px 0' }}>
-                    {prod.features.map((feat, fIdx) => (
+                  {/* Feature Highlights */}
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px 0' }}>
+                    {prod.highlights.map((h, hIdx) => (
                       <li
-                        key={fIdx}
+                        key={hIdx}
                         style={{
                           display: 'flex',
                           alignItems: 'flex-start',
-                          gap: 10,
-                          fontSize: 13.5,
+                          gap: 9,
+                          fontSize: 13,
                           color: '#D1D1DB',
-                          marginBottom: 10,
+                          marginBottom: 8,
                           lineHeight: 1.5,
                         }}
                       >
-                        <CheckCircle2 size={16} color={prod.featured ? '#F5B400' : '#8B5CF6'} style={{ flexShrink: 0, marginTop: 2 }} />
-                        <span>{feat}</span>
+                        <CheckCircle2 size={15} color="#8B5CF6" style={{ flexShrink: 0, marginTop: 2 }} />
+                        <span>{h}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div style={{ marginTop: 'auto' }}>
+                {/* Card Action & Source Footer */}
+                <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <span style={{ fontSize: 11, color: '#71717E', fontWeight: 500 }}>
+                      {prod.source}
+                    </span>
+                  </div>
+
                   {prod.isExternal ? (
                     <a
                       href={prod.path}
@@ -251,15 +443,19 @@ export default function ProductsPage() {
                       rel="noopener noreferrer"
                       className="btn-magnetic-signal"
                       style={{
-                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: 14,
-                        padding: '13px',
+                        gap: 8,
+                        width: '100%',
+                        padding: '12px 18px',
+                        background: prod.featured ? '#8B5CF6' : 'rgba(255, 255, 255, 0.06)',
+                        border: prod.featured ? 'none' : '1px solid rgba(255, 255, 255, 0.15)',
+                        color: '#FFFFFF',
                         borderRadius: 12,
-                        background: prod.featured ? '#F5B400' : 'rgba(255, 255, 255, 0.08)',
-                        color: prod.featured ? '#0A0A0F' : '#F5F5F7',
-                        border: prod.featured ? 'none' : '1px solid var(--border-subtle)',
+                        fontSize: 14,
                         fontWeight: 700,
+                        textDecoration: 'none',
                       }}
                     >
                       <span>{prod.cta}</span>
@@ -270,15 +466,19 @@ export default function ProductsPage() {
                       to={prod.path}
                       className="btn-magnetic-signal"
                       style={{
-                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: 14,
-                        padding: '13px',
+                        gap: 8,
+                        width: '100%',
+                        padding: '12px 18px',
+                        background: '#8B5CF6',
+                        color: '#FFFFFF',
                         borderRadius: 12,
-                        background: prod.featured ? '#F5B400' : 'rgba(255, 255, 255, 0.08)',
-                        color: prod.featured ? '#0A0A0F' : '#F5F5F7',
-                        border: prod.featured ? 'none' : '1px solid var(--border-subtle)',
+                        fontSize: 14,
                         fontWeight: 700,
+                        textDecoration: 'none',
+                        boxShadow: '0 0 16px rgba(139, 92, 246, 0.3)',
                       }}
                     >
                       <span>{prod.cta}</span>
@@ -294,42 +494,100 @@ export default function ProductsPage() {
 
       <SignalDivider />
 
-      {/* Closing CTA */}
-      <section className="section" style={{ textAlign: 'center', paddingBottom: 100 }}>
-        <div className="container container-narrow">
+      {/* Substack & Eventbrite Hub Callout */}
+      <section className="section" style={{ paddingBottom: 100 }}>
+        <div className="container">
           <div
             style={{
-              background: 'linear-gradient(135deg, rgba(20, 20, 27, 0.95) 0%, rgba(38, 28, 60, 0.9) 100%)',
-              border: '1px solid rgba(139, 92, 246, 0.35)',
-              borderRadius: 24,
-              padding: '50px 36px',
-              boxShadow: '0 16px 48px rgba(139, 92, 246, 0.15)',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: 24,
             }}
           >
-            <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', fontWeight: 900, color: '#F5F5F7', marginBottom: 12 }}>
-              Have Questions About Our Products?
-            </h2>
-            <p style={{ color: '#A3A3B0', marginBottom: 30, fontSize: 15.5, maxWidth: 520, margin: '0 auto 30px', lineHeight: 1.6 }}>
-              Schedule a 30-minute intro call to discuss your startup's needs and capital roadmap with our venture team.
-            </p>
-            <a
-              href="https://cal.com/morsebridge/30-min-intro"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-magnetic-signal"
+            {/* Substack Hub Card */}
+            <div
               style={{
-                background: '#8B5CF6',
-                color: '#FFFFFF',
-                padding: '13px 32px',
-                fontSize: 15,
-                fontWeight: 700,
-                borderRadius: 12,
+                background: 'linear-gradient(135deg, rgba(20, 20, 27, 0.95) 0%, rgba(30, 24, 45, 0.9) 100%)',
+                border: '1px solid rgba(139, 92, 246, 0.35)',
+                borderRadius: 22,
+                padding: '36px',
+                boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)',
               }}
             >
-              <span>Book a 30-Min Intro Call</span>
-              <ArrowUpRight size={16} />
-              <div className="btn-light-sweep" />
-            </a>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#A78BFA', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', marginBottom: 8 }}>
+                <BookOpen size={14} />
+                <span>Substack Publication</span>
+              </div>
+              <h3 style={{ fontSize: 22, fontWeight: 900, color: '#F5F5F7', marginBottom: 12 }}>
+                MorseBridge Venture Dispatch
+              </h3>
+              <p style={{ color: '#A3A3B0', fontSize: 14, lineHeight: 1.6, marginBottom: 24 }}>
+                Join 5,000+ founders and investors reading weekly intelligence by Muhammad Ayub. Includes proprietary investor drops, diligence agent blueprints, and venture market breakdowns.
+              </p>
+              <a
+                href="https://morsebridge.substack.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '12px 24px',
+                  borderRadius: 10,
+                  background: '#8B5CF6',
+                  color: '#FFFFFF',
+                  fontWeight: 700,
+                  fontSize: 14,
+                  textDecoration: 'none',
+                }}
+              >
+                <span>Subscribe on Substack</span>
+                <ExternalLink size={15} />
+              </a>
+            </div>
+
+            {/* Eventbrite Hub Card */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, rgba(20, 20, 27, 0.95) 0%, rgba(20, 32, 45, 0.9) 100%)',
+                border: '1px solid rgba(56, 189, 248, 0.35)',
+                borderRadius: 22,
+                padding: '36px',
+                boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)',
+              }}
+            >
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#38BDF8', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', marginBottom: 8 }}>
+                <Calendar size={14} />
+                <span>Official Eventbrite Hub</span>
+              </div>
+              <h3 style={{ fontSize: 22, fontWeight: 900, color: '#F5F5F7', marginBottom: 12 }}>
+                Global Venture Summits &amp; Mixers
+              </h3>
+              <p style={{ color: '#A3A3B0', fontSize: 14, lineHeight: 1.6, marginBottom: 24 }}>
+                Explore scheduled live and virtual events on Eventbrite. Connect with institutional venture capitalists, family offices, and innovative founders across Dubai, Riyadh, and London.
+              </p>
+              <a
+                href="https://www.eventbrite.co.uk/o/morse-bridge-78875439043"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '12px 24px',
+                  borderRadius: 10,
+                  background: 'rgba(56, 189, 248, 0.15)',
+                  border: '1px solid #38BDF8',
+                  color: '#38BDF8',
+                  fontWeight: 700,
+                  fontSize: 14,
+                  textDecoration: 'none',
+                }}
+              >
+                <span>View Eventbrite Schedule</span>
+                <ExternalLink size={15} />
+              </a>
+            </div>
           </div>
         </div>
       </section>

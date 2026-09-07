@@ -101,65 +101,61 @@ export const initialResources = [
 
 export const initialEvents = [
   {
-    id: 1,
-    badge: 'Cohort 3 Launch',
-    title: 'Global Fundraising BootCamp Launch',
-    image: '/assets/events/bootcamp.jpg',
-    date: 'Oct 22, 2026',
-    time: '4:00 PM – 8:00 PM GST',
-    location: 'In5 Tech, Dubai Internet City / Virtual Livestream',
-    description: '5 Workshops, 10 Startups, 25 Angels, VCs & Accelerators. Master pitch decks, term sheet negotiation, and GTM mechanics.',
-    seatsLeft: 12,
+    id: 'acc-1',
+    badge: 'Cohort 04 Open',
+    badgeType: 'primary',
+    title: 'Revenue First AI Accelerator',
+    image: '/assets/events/revenue_first_accelerator.png',
+    date: 'Cohort 04 Enrolling Now',
+    time: '12-Week Intensive GTM & Capital Sprint',
+    location: 'In5 Tech Dubai / Riyadh & Remote',
+    price: 'Apply with Form',
     type: 'Hybrid',
-    tags: ['Bootcamp', 'Fundraising', 'Cohort 3', 'Pitching'],
-    rsvpLink: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-    calLink: 'https://cal.com/morsebridge/30-min-intro'
+    seatsLeft: '12 Startups',
+    description: 'Scale enterprise AI revenue, institutionalize outbound GTM loops, stress-test 5-Minute CFO financial models, and pitch directly to Tier-1 institutional venture funds.',
+    tags: ['AI Accelerator', 'Revenue First', 'GTM', 'Enterprise AI', 'Demo Day'],
+    applyLink: '/apply?program=revenue-first-ai-accelerator',
+    isForm: true,
+    buttonText: 'Apply with Form',
+    calLink: 'https://cal.com/morsebridge/30-min-intro',
   },
   {
-    id: 2,
-    badge: 'Flagship Summit',
-    title: 'Riyadh Rising 2026 — Startups & Investor Summit',
-    image: '/assets/events/riyadh_rising.jpg',
-    date: 'Jan 21–22, 2026',
-    time: '9:00 AM – 6:00 PM AST',
-    location: 'King Abdullah Financial District (KAFD), Riyadh, KSA',
-    description: '200+ Global Startups, 100+ Active Investors, 20+ Workshops, VIP Investor Lounge, and Desert Night Meet.',
-    seatsLeft: 18,
-    type: 'In-Person',
-    tags: ['Riyadh Summit', 'VCs', 'Founders', 'Networking'],
-    rsvpLink: 'https://riyadhrising.net/',
-    calLink: 'https://cal.com/morsebridge/30-min-intro'
+    id: 'boot-1',
+    badge: 'Every Month',
+    badgeType: 'primary',
+    title: 'Global Fundraising Boot Camp',
+    image: '/assets/events/bootcamp.png',
+    date: 'Every Month (Monthly Cohorts)',
+    time: '5 Intensive Workshops & 1-on-1 Sprints',
+    location: 'In5 Tech Dubai / Global Online Livestream',
+    price: 'Apply with Form',
+    type: 'Every Month',
+    seatsLeft: '10 Startups / Month',
+    description: 'Held every month: 10 early-stage startups master pitch decks, the 5-Minute CFO model, SAFEs, and term sheet negotiations with 25 active angels, VCs, and accelerators.',
+    tags: ['Bootcamp', 'Every Month', 'Fundraising', 'Pitch Decks', 'Monthly Cohort'],
+    applyLink: '/apply?program=global-fundraising-bootcamp',
+    isForm: true,
+    buttonText: 'Apply with Form',
+    calLink: 'https://cal.com/morsebridge/30-min-intro',
   },
   {
     id: 3,
     badge: 'Coming This November!',
+    badgeType: 'warning',
     title: 'Dubai Rising 2026 — The Ultimate Startups & Investor Summit',
-    image: '/assets/events/dubai_rising.jpg',
+    image: '/assets/events/riyadh-rising.png',
     date: 'Coming This November (Nov 2026)',
     time: '2:00 PM – 7:00 PM GST',
-    location: 'Dubai International Financial Centre (DIFC), UAE',
-    description: 'The premier startup & investor summit in Dubai. Network with 100+ institutional VCs and 200+ founders across MENA.',
-    seatsLeft: 8,
+    location: 'DIFC, Dubai, UAE',
+    price: 'Pre-Register',
     type: 'In-Person',
-    tags: ['Dubai Summit', 'Investors', 'Founders', 'Coming Soon'],
+    seatsLeft: 'VIP Lounge',
+    description: 'The premier startup & investor summit in Dubai. Network with 100+ institutional VCs and 200+ founders across MENA. Secure your spot at the forefront of innovation.',
+    tags: ['Dubai Rising', 'DIFC', 'VCs', 'Founders'],
     rsvpLink: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-    calLink: 'https://cal.com/morsebridge/30-min-intro'
+    buttonText: 'Register on Eventbrite',
+    calLink: 'https://cal.com/morsebridge/30-min-intro',
   },
-  {
-    id: 4,
-    badge: 'Live Pitch Competition',
-    title: 'Startup Pitch Fest 2025',
-    image: '/assets/events/bootcamp.jpg',
-    date: 'Dec 05, 2025',
-    time: '3:00 PM – 6:30 PM GST',
-    location: 'In5 Tech Dubai / Virtual Livestream',
-    description: '12 curated seed-stage tech startups pitch live in front of active Saudi and UAE angel syndicates and Tier-1 regional funds.',
-    seatsLeft: 15,
-    type: 'Hybrid',
-    tags: ['Pitch Fest', 'Seed Capital', 'Angel Syndicates'],
-    rsvpLink: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-    calLink: 'https://cal.com/morsebridge/30-min-intro'
-  }
 ];
 
 export const initialPricing = [
@@ -218,62 +214,45 @@ export const initialFaqs = [
 export const initialPodcasts = [
   {
     id: 1,
-    title: "How to Build & Scale Multi-Million Dollar Tech Companies",
-    guest: "Erik Mendelson",
-    guestRole: "Venture Partner & Web3 Pioneer",
-    youtubeUrl: "https://www.youtube.com/watch?v=FbnIgzwafD4",
-    videoId: "FbnIgzwafD4",
-    duration: "42 min",
-    category: "Scale & Growth"
+    title: 'Principal Plug and Play: Investors are Not ATM Machines!',
+    guest: 'Andrea Azzolari',
+    guestRole: 'Principal, Plug and Play Tech Center MENA',
+    youtubeUrl: 'https://www.youtube.com/watch?v=O1hPe9GncBQ',
+    videoId: 'O1hPe9GncBQ',
+    duration: '1 hr 7 min',
+    category: 'Venture Capital & Pitching',
+    desc: 'Andrea Azzolari, Principal at Plug and Play Tech Center MENA, breaks down VC evaluation criteria, why investors are not ATM machines, and what truly makes founders fundable.'
   },
   {
     id: 2,
-    title: "Mastering Valuation, Diligence & Term Sheets in 2026",
-    guest: "Sultan Al-Husseini",
-    guestRole: "MENA Seed Fund Partner",
-    youtubeUrl: "https://www.youtube.com/watch?v=2l7s12IIu7s",
-    videoId: "2l7s12IIu7s",
-    duration: "38 min",
-    category: "Fundraising"
+    title: 'How Startup Fundraising Works | Startup School',
+    guest: 'Founders Talk with Ayub',
+    guestRole: 'Venture Masterclass',
+    youtubeUrl: 'https://www.youtube.com/watch?v=rjflnyDqN2M',
+    videoId: 'rjflnyDqN2M',
+    duration: '1 hr 13 min',
+    category: 'Fundraising Masterclass',
+    desc: 'A comprehensive masterclass on how startup fundraising actually works: valuation mechanics, pitch deck narratives, SAFEs, and negotiating with lead investors.'
   },
   {
     id: 3,
-    title: "B2B SaaS GTM Playbook & Revenue Loops in Dubai",
-    guest: "Rashid Al-Nuaimi",
-    guestRole: "Principal, Gulf Tech Ventures",
-    youtubeUrl: "https://www.youtube.com/watch?v=PM383MoSQPM",
-    videoId: "PM383MoSQPM",
-    duration: "51 min",
-    category: "Revenue & GTM"
-  },
-  {
-    id: 4,
-    title: "From Pre-Seed to Series A: The Founder Mindset",
-    guest: "Zaid Al-Bawardi",
-    guestRole: "Managing Director, Oasis Capital",
-    youtubeUrl: "https://www.youtube.com/watch?v=7gjQPHrBeG0",
-    videoId: "7gjQPHrBeG0",
-    duration: "45 min",
-    category: "Venture Strategy"
+    title: 'Family Offices From Scratch',
+    guest: 'Private Wealth & Family Offices',
+    guestRole: 'GCC & Global Capital Allocations',
+    youtubeUrl: 'https://www.youtube.com/watch?v=SrJu7zkwsYs',
+    videoId: 'SrJu7zkwsYs',
+    duration: '1 hr 5 min',
+    category: 'Family Offices',
+    desc: 'Everything founders and fund managers need to know about Family Offices: structure, investment mandates, direct startup deals, and securing long-term institutional backing.'
   }
 ];
 
-export const initialPartners = [
-  { id: 1, name: 'inlabels', logo: '/assets/logos/1.png' },
-  { id: 2, name: 'SCOPE fusion', logo: '/assets/logos/2.png' },
-  { id: 3, name: 'Client 3', logo: '/assets/logos/3.png' },
-  { id: 4, name: 'Client 4', logo: '/assets/logos/4.png' },
-  { id: 5, name: 'Client 5', logo: '/assets/logos/5.png' },
-  { id: 6, name: 'Client 6', logo: '/assets/logos/6.png' },
-  { id: 7, name: 'Client 7', logo: '/assets/logos/7.png' },
-  { id: 8, name: 'Client 8', logo: '/assets/logos/8.png' },
-  { id: 9, name: 'Client 9', logo: '/assets/logos/9.png' },
-  { id: 10, name: 'Client 10', logo: '/assets/logos/10.png' },
-  { id: 11, name: 'Client 11', logo: '/assets/logos/11.png' },
-  { id: 12, name: 'Client 12', logo: '/assets/logos/12.png' },
-  { id: 13, name: 'Client 13', logo: '/assets/logos/13.png' },
-  { id: 14, name: 'Client 14', logo: '/assets/logos/14.png' },
-];
+export const initialPartners = Array.from({ length: 23 }, (_, i) => ({
+  id: i + 1,
+  name: `Client ${i + 1}`,
+  logo: `/assets/logos/${i + 1}.png`
+}));
+
 
 export const initialPastEvents = [
   {

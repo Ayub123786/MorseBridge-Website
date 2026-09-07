@@ -139,7 +139,7 @@ export default function Footer() {
                 { label: 'What We Do', to: '/#what-we-do' },
                 { label: 'Products', to: '/products' },
                 { label: 'Custom Events', to: '/custom-events' },
-                { label: 'Podcast', to: 'https://youtube.com/@FoundersTalkwithAyub', external: true },
+                { label: 'Podcast', to: '/podcast' },
                 { label: "FAQ's", to: '/#faqs' },
               ].map((l) => (
                 <li key={l.label}>
@@ -162,7 +162,7 @@ export default function Footer() {
             <div className="footer-col-title">Products</div>
             <ul className="footer-links">
               {[
-                { label: '5-Minute CFO Model', to: '/the-5-minute-cFO-model' },
+                { label: '5-Minute CFO Model', to: '/the-5-minute-cfo-model' },
                 { label: 'Startup Look Book', to: '/products' },
                 { label: 'Investor Data Suite ↗', to: 'https://morsebridge.substack.com/s/investor-data', external: true },
                 { label: 'Pitch Deck Templates', to: '/products' },

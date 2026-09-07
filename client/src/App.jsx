@@ -22,6 +22,7 @@ import PodcastPage from './pages/PodcastPage';
 import FaqsPage from './pages/FaqsPage';
 import SignupPage from './pages/SignupPage';
 import AdminPage from './pages/AdminPage';
+import ProgramApplyPage from './pages/ProgramApplyPage';
 
 // Auth Pages
 import { LoginPage, ResetPasswordPage, UpdatePasswordPage } from './pages/AuthPages';
@@ -74,9 +75,14 @@ export function App() {
           <Route path="/i-am-a-startup" element={<StartupPage />} />
           <Route path="/i-am-an-investor" element={<InvestorPage />} />
           <Route path="/the-5-minute-cfo-model" element={<CFOModelPage />} />
+          <Route path="/cfo-model" element={<CFOModelPage />} />
+          <Route path="/5-minute-cfo-model" element={<CFOModelPage />} />
           <Route path="/custom-events" element={<CustomEventsPage />} />
           <Route path="/the-founder-knowledge-hub" element={<KnowledgeHubPage />} />
           <Route path="/startup-intake" element={<StartupIntakePage />} />
+          <Route path="/apply" element={<ProgramApplyPage />} />
+          <Route path="/apply-program" element={<ProgramApplyPage />} />
+          <Route path="/program-application" element={<ProgramApplyPage />} />
           <Route path="/membership-plans" element={<MembershipPlansPage />} />
 
           {/* Auth & Signup Pages */}

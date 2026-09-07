@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function EventCard3D({ event, index = 0 }) {
   if (!event) return null;
@@ -28,11 +29,12 @@ export default function EventCard3D({ event, index = 0 }) {
             style={{
               position: 'relative',
               width: '100%',
-              height: 180,
+              height: 200,
               borderRadius: 14,
               overflow: 'hidden',
               marginBottom: 18,
-              background: '#1C1C24',
+              background: event.image?.includes('bootcamp') ? '#FFFFFF' : '#1C1C24',
+              padding: event.image?.includes('bootcamp') ? '4px' : 0,
             }}
           >
             <img
@@ -42,11 +44,16 @@ export default function EventCard3D({ event, index = 0 }) {
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
+                objectFit: event.image?.includes('bootcamp') ? 'contain' : 'cover',
+                objectPosition: 'center',
                 display: 'block',
                 transition: 'transform 0.4s ease',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.06)')}
+              onMouseEnter={(e) => {
+                if (!event.image?.includes('bootcamp')) {
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                }
+              }}
               onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
               onError={(e) => {
                 e.currentTarget.parentElement.style.display = 'none';
@@ -68,11 +75,21 @@ export default function EventCard3D({ event, index = 0 }) {
             >
               <span
                 className="event-badge-pill"
-                style={{
-                  background: 'rgba(139, 92, 246, 0.85)',
-                  backdropFilter: 'blur(8px)',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
-                }}
+                style={
+                  event.badge?.toLowerCase().includes('almost full')
+                    ? {
+                        background: 'rgba(254, 226, 226, 0.95)',
+                        color: '#991B1B',
+                        border: '1px solid rgba(239, 68, 68, 0.5)',
+                        fontWeight: 800,
+                        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.25)',
+                      }
+                    : {
+                        background: 'rgba(139, 92, 246, 0.85)',
+                        backdropFilter: 'blur(8px)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+                      }
+                }
               >
                 {event.badge || 'Featured Event'}
               </span>
@@ -94,7 +111,16 @@ export default function EventCard3D({ event, index = 0 }) {
         {/* Fallback badges if no image */}
         {!event.image && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <span className="event-badge-pill">{event.badge || 'Featured Event'}</span>
+            <span
+              className="event-badge-pill"
+              style={
+                event.badge?.toLowerCase().includes('almost full')
+                  ? { background: 'rgba(254, 226, 226, 0.95)', color: '#991B1B', border: '1px solid rgba(239, 68, 68, 0.5)', fontWeight: 800 }
+                  : undefined
+              }
+            >
+              {event.badge || 'Featured Event'}
+            </span>
             <span className="event-type-tag">{event.type || 'In-Person'}</span>
           </div>
         )}
@@ -105,17 +131,38 @@ export default function EventCard3D({ event, index = 0 }) {
         </h3>
 
         {/* Metadata in Monospace Data Font */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, margin: '10px 0 16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, margin: '10px 0 14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 9, color: 'var(--text-muted)', fontSize: 13 }}>
             <Calendar size={15} color="#8B5CF6" />
             <span className="font-data" style={{ color: '#F5F5F7', fontWeight: 600 }}>{event.date}</span>
-            <span style={{ color: 'var(--text-subtle)' }}>· {event.time}</span>
+            {event.time && <span style={{ color: 'var(--text-subtle)' }}>· {event.time}</span>}
           </div>
 
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 9, color: 'var(--text-muted)', fontSize: 13 }}>
             <MapPin size={15} color="#F5B400" style={{ flexShrink: 0, marginTop: 2 }} />
-            <span>{event.location}</span>
+            <span style={{ color: '#E2E2E8', fontWeight: 600 }}>{event.location}</span>
           </div>
+        </div>
+
+        {/* Price Tag (Eventbrite Free / Price) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+          <span
+            className="font-data"
+            style={{
+              fontSize: 13,
+              fontWeight: 800,
+              color: '#10B981',
+              background: 'rgba(16, 185, 129, 0.12)',
+              border: '1px solid rgba(16, 185, 129, 0.3)',
+              padding: '3px 10px',
+              borderRadius: 6,
+            }}
+          >
+            {event.price || 'Free'}
+          </span>
+          <span style={{ fontSize: 12, color: 'var(--text-subtle)' }}>
+            {event.isForm ? 'Direct Form Application' : 'Official Eventbrite Registration'}
+          </span>
         </div>
 
         {/* Description */}
@@ -134,27 +181,58 @@ export default function EventCard3D({ event, index = 0 }) {
           </div>
         )}
 
-        {/* Action Button linking to official event website */}
+        {/* Action Button linking to official Eventbrite or Application Form */}
         <div style={{ marginTop: 'auto', display: 'flex', gap: 10 }}>
-          <a
-            href={event.rsvpLink || event.link || 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-magnetic-signal"
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              padding: '12px 18px',
-              fontSize: 14,
-              background: '#8B5CF6',
-              color: '#FFFFFF',
-              textDecoration: 'none',
-            }}
-          >
-            <span>View Event Website</span>
-            <ArrowUpRight size={16} />
-            <div className="btn-light-sweep" />
-          </a>
+          {event.isForm || event.applyLink ? (
+            <Link
+              to={event.applyLink || '/apply'}
+              className="btn-magnetic-signal"
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                padding: '12px 18px',
+                fontSize: 14,
+                background: event.title?.toLowerCase().includes('bootcamp') || event.title?.toLowerCase().includes('boot camp')
+                  ? 'linear-gradient(135deg, #F5B400 0%, #D97706 100%)'
+                  : 'linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%)',
+                color: event.title?.toLowerCase().includes('bootcamp') || event.title?.toLowerCase().includes('boot camp')
+                  ? '#0A0A0F'
+                  : '#FFFFFF',
+                textDecoration: 'none',
+                fontWeight: 800,
+                borderRadius: 12,
+                boxShadow: event.title?.toLowerCase().includes('bootcamp') || event.title?.toLowerCase().includes('boot camp')
+                  ? '0 6px 20px rgba(245, 180, 0, 0.3)'
+                  : '0 6px 20px rgba(139, 92, 246, 0.35)',
+              }}
+            >
+              <span>{event.buttonText || 'Apply with Form'}</span>
+              <ArrowUpRight size={16} />
+              <div className="btn-light-sweep" />
+            </Link>
+          ) : (
+            <a
+              href={event.rsvpLink || event.link || 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-magnetic-signal"
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                padding: '12px 18px',
+                fontSize: 14,
+                background: '#8B5CF6',
+                color: '#FFFFFF',
+                textDecoration: 'none',
+                fontWeight: 700,
+                borderRadius: 12,
+              }}
+            >
+              <span>{event.buttonText || 'Register on Eventbrite'}</span>
+              <ArrowUpRight size={16} />
+              <div className="btn-light-sweep" />
+            </a>
+          )}
         </div>
       </div>
     </motion.div>

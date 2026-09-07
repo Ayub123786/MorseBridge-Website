@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, CheckCircle, Sparkles, Shield, Rocket, Target, FileText, Users } from 'lucide-react';
 import Footer from '../components/Footer';
 import SignalDivider from '../components/3d/SignalDivider';
+import FeaturedSection from '../components/FeaturedSection';
 
 const BENEFITS = [
   { icon: Target, title: 'Investor Matching', desc: 'Get introduced to pre-vetted institutional VCs and angel syndicates aligned to your sector, stage, and geography.' },
@@ -322,6 +323,17 @@ export default function StartupPage() {
           </div>
         </div>
       </section>
+
+      {/* Signal Transmission Section Divider */}
+      <SignalDivider />
+
+      {/* ====================================================================
+          FEATURED SPOTLIGHT: FIRST 2 PODCASTS & INVESTOR DATA
+          ==================================================================== */}
+      <FeaturedSection />
+
+      {/* Signal Transmission Section Divider */}
+      <SignalDivider />
 
       {/* ====================================================================
           FINAL CTA
