@@ -24,22 +24,22 @@ import { API_BASE } from '../config/api';
 const PROGRAMS = {
   accelerator: {
     id: 'accelerator',
-    title: 'Revenue First AI Accelerator',
-    badge: '12-WEEK INTENSIVE COHORT',
-    subtitle: 'Scale enterprise AI revenue, institutionalize GTM loops, and pitch directly to tier-1 venture partners.',
-    accentColor: '#8B5CF6',
-    gradient: 'linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%)',
+    title: 'Runway — Revenue in 90 Days',
+    badge: '13-WEEK SPRINT · 10 FOUNDERS',
+    subtitle: "Let's get you paid before the runway runs out. Thirteen weeks. Ten founders. Ayub Rafique sits with you while we build it, launch it, and find the first people willing to pay. You keep all of your equity.",
+    accentColor: '#7A6BD0',
+    gradient: 'linear-gradient(135deg, #7A6BD0 0%, #5E53A2 100%)',
     icon: Rocket,
     highlights: [
-      '1-on-1 GTM & pricing architecture with seasoned founders',
-      'Direct pitch access to Plug and Play, Oasis Capital & angel syndicates',
-      'Zero equity options available • Demo day in Riyadh & Dubai',
-      'Guaranteed investor-ready data room & cap table audit',
+      '13 weeks hands-on sprint with Ayub Rafique (Phase 1: Build, Phase 2: Revenue)',
+      'Starts 1 November · Strictly limited to 10 founders',
+      '$2,600 per founder · 0% Equity (Keep 100% of your company)',
+      'Master 25 battle-tested tools (Clay, Claude, Sales Navigator, Apollo, Smartlead)',
     ],
     stats: [
-      { val: '3.4x', lbl: 'Average ARR Growth' },
-      { val: '$16.8M+', lbl: 'Capital Catalyzed' },
-      { val: '40+', lbl: 'Partner VC Funds' },
+      { val: '13 Wks', lbl: 'Hands-On Sprint' },
+      { val: '10 Seats', lbl: 'Only 10 Founders' },
+      { val: '$2,600', lbl: '0% Equity' },
     ],
   },
   bootcamp: {
@@ -108,14 +108,14 @@ export default function ProgramApplyPage() {
   useEffect(() => {
     if (programParam.includes('bootcamp')) {
       setActiveProgram('bootcamp');
-    } else if (programParam.includes('accelerator')) {
+    } else if (programParam.includes('runway') || programParam.includes('accelerator')) {
       setActiveProgram('accelerator');
     }
   }, [programParam]);
 
   const handleProgramSwitch = (key) => {
     setActiveProgram(key);
-    setSearchParams({ program: key === 'bootcamp' ? 'global-fundraising-bootcamp' : 'revenue-first-ai-accelerator' });
+    setSearchParams({ program: key === 'bootcamp' ? 'global-fundraising-bootcamp' : 'runway' });
   };
 
   const handleInputChange = (e) => {
@@ -145,19 +145,21 @@ export default function ProgramApplyPage() {
   const handleAutoFillDemo = () => {
     if (activeProgram === 'accelerator') {
       setForm({
-        name: 'Sarah Al-Khatib',
-        email: 'sarah@neuralflow.ai',
-        phone: '+966 50 892 4110',
-        company: 'NeuralFlow AI',
-        website: 'https://neuralflow.ai',
-        stage: 'Early Revenue ($10k – $50k MRR)',
-        targetRaise: '$1M – $3M',
-        traction: 'Currently at $32k MRR, growing 24% MoM across 14 enterprise clients in Riyadh and Dubai. Proprietary Arabic LLM agent infrastructure for financial compliance.',
-        whyJoin: 'Accelerate enterprise B2B sales cycles, refine enterprise pricing tiers, and connect with lead Series A venture partners.',
+        name: 'Elena Rostova',
+        email: 'elena@metriceye.io',
+        phone: '+44 7700 900821',
+        company: 'MetricEye',
+        website: 'https://metriceye.io',
+        stage: 'Pre-Revenue (Product Ready)',
+        targetRaise: '0% Equity / Bootstrapped',
+        traction:
+          'Functional AI workflow automation product built for supply-chain brokers. Need direct hands-on assistance to build outbound Clay lead funnels, book enterprise demos, and close the first 5 paying contracts.',
+        whyJoin:
+          'I have deep industry domain knowledge in logistics, but need Ayub to sit with me to structure outbound distribution, demo scripts, and repeatable pricing.',
       });
       setDeckFile({
-        name: 'NeuralFlow_AI_Pitch_Deck_2026.pdf',
-        size: '4.8 MB',
+        name: 'MetricEye_Product_Overview.pdf',
+        size: '3.4 MB',
       });
     } else {
       setForm({
@@ -325,13 +327,13 @@ export default function ProgramApplyPage() {
               fontWeight: 700,
               fontSize: 14.5,
               transition: 'all 0.25s ease',
-              background: activeProgram === 'accelerator' ? 'linear-gradient(135deg, #8B5CF6, #6D28D9)' : 'transparent',
+              background: activeProgram === 'accelerator' ? 'linear-gradient(135deg, #7A6BD0, #5E53A2)' : 'transparent',
               color: activeProgram === 'accelerator' ? '#FFFFFF' : '#A3A3B0',
-              boxShadow: activeProgram === 'accelerator' ? '0 4px 20px rgba(139, 92, 246, 0.4)' : 'none',
+              boxShadow: activeProgram === 'accelerator' ? '0 4px 20px rgba(122, 107, 208, 0.4)' : 'none',
             }}
           >
             <Rocket size={18} />
-            <span>Revenue First AI Accelerator</span>
+            <span>Runway (Revenue in 90 Days)</span>
           </button>
 
           <button
@@ -366,7 +368,7 @@ export default function ProgramApplyPage() {
             border: `1px solid ${activeProg.accentColor}55`,
             borderRadius: 18,
             padding: '24px 28px',
-            marginBottom: 36,
+            marginBottom: 24,
             boxShadow: `0 12px 36px rgba(0, 0, 0, 0.45), 0 0 24px ${activeProg.accentColor}22`,
           }}
         >
@@ -377,7 +379,7 @@ export default function ProgramApplyPage() {
                   display: 'inline-block',
                   background: `${activeProg.accentColor}22`,
                   border: `1px solid ${activeProg.accentColor}55`,
-                  color: activeProg.accentColor === '#F5B400' ? '#F5B400' : '#C4B5FD',
+                  color: activeProg.accentColor === '#F5B400' ? '#F5B400' : '#AB9EE8',
                   fontSize: 11,
                   fontWeight: 800,
                   letterSpacing: '0.08em',
@@ -407,6 +409,50 @@ export default function ProgramApplyPage() {
             </div>
           </div>
         </div>
+
+        {activeProgram === 'accelerator' && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              background: 'rgba(122, 107, 208, 0.12)',
+              border: '1px solid rgba(122, 107, 208, 0.35)',
+              borderRadius: 14,
+              padding: '16px 22px',
+              marginBottom: 32,
+              flexWrap: 'wrap',
+              gap: 12,
+            }}
+          >
+            <div>
+              <span style={{ color: '#AB9EE8', fontWeight: 700, fontSize: 14 }}>
+                Looking for the full 13-week syllabus, market stats &amp; 25-tool stack?
+              </span>
+              <p style={{ margin: '4px 0 0', fontSize: 13, color: '#9C95AD' }}>
+                See the week-by-week track, Ayub Rafique's track record, and the one rule.
+              </p>
+            </div>
+            <Link
+              to="/runway"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                background: '#7A6BD0',
+                color: '#FFFFFF',
+                padding: '8px 18px',
+                borderRadius: 9999,
+                fontSize: 13,
+                fontWeight: 700,
+                textDecoration: 'none',
+              }}
+            >
+              <span>View Dedicated Runway Page</span>
+              <ExternalLink size={14} />
+            </Link>
+          </div>
+        )}
 
         {/* Application Form or Success Screen */}
         <AnimatePresence mode="wait">

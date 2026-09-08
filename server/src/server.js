@@ -537,7 +537,7 @@ app.post('/api/programs/apply', async (req, res) => {
   const applicationData = {
     id: applicationId,
     type: 'PROGRAM_APPLICATION',
-    program: program || 'Revenue First AI Accelerator',
+    program: program || 'Runway — Revenue in 90 Days',
     name: name || 'Applicant',
     email: email.toLowerCase().trim(),
     phone: phone || '',
@@ -558,7 +558,7 @@ app.post('/api/programs/apply', async (req, res) => {
   if (isMongoConnected) {
     try {
       await Submission.create({
-        type: `PROGRAM_APPLICATION_${(program || 'ACCELERATOR').toUpperCase().replace(/\s+/g, '_')}`,
+        type: `PROGRAM_APPLICATION_${(program || 'RUNWAY').toUpperCase().replace(/\s+/g, '_')}`,
         data: applicationData,
         email: applicationData.email,
         createdAt: new Date()

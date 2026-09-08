@@ -118,20 +118,20 @@ const FEATURED_INVESTOR_DATA = [
 
 const FEATURED_PROGRAMS = [
   {
-    id: 'acc-1',
-    badge: 'Cohort 04 Open',
-    badgeColor: '#8B5CF6',
-    title: 'Revenue First AI Accelerator',
-    sub: '12-Week Intensive Enterprise AI GTM & Capital Sprint',
-    image: '/assets/events/revenue_first_accelerator.png',
-    date: 'Cohort 04 Enrolling Now',
-    location: 'In5 Tech Dubai / Riyadh & Remote',
-    price: 'Apply with Form',
+    id: 'runway-1',
+    badge: 'Cohort 01 Open',
+    badgeColor: '#7A6BD0',
+    title: 'Runway — Revenue in 90 Days',
+    sub: '13-Week Hands-On Revenue Sprint with Ayub Rafique',
+    image: '/runway-logo-navy.jpg?v=2',
+    date: 'Starts 1 November · Only 10 Founders',
+    location: 'In5 Tech Dubai / London & Remote',
+    price: '$2,600 · 0% Equity',
     type: 'Hybrid Cohort',
-    desc: 'Scale enterprise AI revenue, institutionalize outbound GTM loops, stress-test 5-Minute CFO financial models, and pitch directly to Tier-1 institutional venture funds.',
-    applyLink: '/apply?program=revenue-first-ai-accelerator',
+    desc: "Let's get you paid before the runway runs out. Thirteen weeks. Ten founders. Ayub Rafique sits with you while we build it, launch it, and find the first people willing to pay. You keep 100% of your equity.",
+    applyLink: '/runway',
     isForm: true,
-    buttonText: 'Apply with Form',
+    buttonText: 'Explore & Apply',
   },
   {
     id: 'boot-1',
@@ -287,7 +287,7 @@ export default function FeaturedSection({ podcasts = [] }) {
                     Featured Events &amp; Cohorts
                   </h3>
                   <span style={{ fontSize: 12.5, color: '#A3A3B0' }}>
-                    Revenue First AI Accelerator &amp; Global Fundraising Boot Camp (Every Month)
+                    Runway (Revenue in 90 Days) &amp; Global Fundraising Boot Camp (Every Month)
                   </span>
                 </div>
               </div>
@@ -323,8 +323,8 @@ export default function FeaturedSection({ podcasts = [] }) {
                   style={{
                     background: '#14141B',
                     borderRadius: 20,
-                    border: prog.id === 'acc-1'
-                      ? '1px solid rgba(139, 92, 246, 0.35)'
+                    border: prog.id.includes('runway')
+                      ? '1px solid rgba(122, 107, 208, 0.45)'
                       : '1px solid rgba(245, 180, 0, 0.35)',
                     boxShadow: '0 16px 40px rgba(0, 0, 0, 0.45)',
                     padding: 16,
@@ -342,8 +342,11 @@ export default function FeaturedSection({ podcasts = [] }) {
                       borderRadius: 14,
                       overflow: 'hidden',
                       marginBottom: 16,
-                      background: prog.image.includes('bootcamp') ? '#FFFFFF' : '#1C1C24',
-                      padding: prog.image.includes('bootcamp') ? '4px' : 0,
+                      background: prog.image.includes('bootcamp') || prog.image.includes('runway') ? '#FFFFFF' : '#1C1C24',
+                      padding: prog.image.includes('runway') ? '16px 24px' : (prog.image.includes('bootcamp') ? '4px' : 0),
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
                   >
                     <img
@@ -353,7 +356,7 @@ export default function FeaturedSection({ podcasts = [] }) {
                       style={{
                         width: '100%',
                         height: '100%',
-                        objectFit: prog.image.includes('bootcamp') ? 'contain' : 'cover',
+                        objectFit: prog.image.includes('bootcamp') || prog.image.includes('runway') ? 'contain' : 'cover',
                         objectPosition: 'center',
                         display: 'block',
                       }}

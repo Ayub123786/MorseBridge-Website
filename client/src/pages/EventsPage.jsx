@@ -6,18 +6,18 @@ import SignalDivider from '../components/3d/SignalDivider';
 
 const EVENTS_LIST = [
   {
-    id: 'acc-1',
-    title: 'Revenue First AI Accelerator',
-    sub: '12-Week Intensive Cohort for AI & SaaS Ventures',
-    date: 'Cohort 04 Enrolling Now · In5 Tech Dubai & Remote',
-    desc: 'Scale enterprise AI revenue, institutionalize outbound GTM loops, stress-test 5-Minute CFO financial models, and pitch directly to Tier-1 institutional venture funds.',
-    tag: 'Cohort 04 Open',
-    tagColor: '#8B5CF6',
-    price: 'Apply with Form',
-    image: '/assets/events/revenue_first_accelerator.png',
-    applyLink: '/apply?program=revenue-first-ai-accelerator',
+    id: 'runway-1',
+    title: 'Runway — Revenue in 90 Days',
+    sub: '13-Week Hands-On Revenue Sprint with Ayub Rafique',
+    date: 'Starts 1 November · In5 Tech Dubai & Remote · 10 Founders Only',
+    desc: "Let's get you paid before the runway runs out. Thirteen weeks. Ten founders. Ayub Rafique sits with you while we build it, launch it, and find the first people willing to pay. You keep 100% of your equity.",
+    tag: 'Starts 1 Nov',
+    tagColor: '#7A6BD0',
+    price: '$2,600 (0% Equity)',
+    image: '/runway-logo-navy.jpg?v=2',
+    applyLink: '/runway',
     isForm: true,
-    buttonText: 'Apply with Form',
+    buttonText: 'Explore & Apply',
   },
   {
     id: 'boot-1',
@@ -35,8 +35,8 @@ const EVENTS_LIST = [
   },
   {
     id: 3,
-    title: 'Dubai Rising 2026 — The Ultimate Startups & Investor Summit',
-    sub: 'The Premier Startup & Investor Summit in Dubai',
+    title: 'My Rising Time - A Global Summit Where Founders Rise',
+    sub: 'The Premier Startup & Investor Summit',
     date: 'Coming This November (Nov 2026) · DIFC, Dubai, UAE',
     desc: 'Network with 100+ institutional VCs and 200+ founders across MENA. Secure your spot at the forefront of innovation.',
     tag: 'Coming This November!',
@@ -169,8 +169,11 @@ export default function EventsPage() {
                         borderRadius: 14,
                         overflow: 'hidden',
                         marginBottom: 18,
-                        background: ev.image?.includes('bootcamp') ? '#FFFFFF' : '#1C1C24',
-                        padding: ev.image?.includes('bootcamp') ? '4px' : 0,
+                        background: ev.image?.includes('bootcamp') || ev.image?.includes('runway') ? '#FFFFFF' : '#1C1C24',
+                        padding: ev.image?.includes('runway') ? '16px 24px' : (ev.image?.includes('bootcamp') ? '4px' : 0),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
                     >
                       <img
@@ -180,7 +183,7 @@ export default function EventsPage() {
                         style={{
                           width: '100%',
                           height: '100%',
-                          objectFit: ev.image?.includes('bootcamp') ? 'contain' : 'cover',
+                          objectFit: ev.image?.includes('bootcamp') || ev.image?.includes('runway') ? 'contain' : 'cover',
                           objectPosition: 'center',
                         }}
                         onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }}

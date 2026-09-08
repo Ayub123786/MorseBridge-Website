@@ -10,7 +10,6 @@ const NAV_LINKS = [
   { label: 'Products', href: '/products', isExternal: false },
   { label: 'Events', href: '/custom-events', isExternal: false },
   { label: 'Substack', href: '/#substack', isExternal: false },
-  { label: 'Blog', href: '/blog', isExternal: false },
   { label: 'Podcast', href: '/podcast', isExternal: false },
   { label: "FAQ's", href: '/#faqs', isExternal: false },
 ];

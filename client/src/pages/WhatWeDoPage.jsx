@@ -18,7 +18,7 @@ const SERVICES = [
   {
     icon: Calendar,
     title: 'Startup Events & Summits',
-    desc: 'We curate and execute premium private summits across MENA — including Riyadh Rising, Dubai Rising, pitch showcases, and closed-door investor roundtables.',
+    desc: 'We curate and execute premium private summits across MENA — including My Rising Time, Runway cohorts, pitch showcases, and closed-door investor roundtables.',
   },
   {
     icon: BookOpen,

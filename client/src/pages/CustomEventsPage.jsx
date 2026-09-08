@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Sparkles,
@@ -23,52 +24,63 @@ import { API_BASE } from '../config/api';
 
 const EVENTBRITE_SCHEDULE = [
   {
-    id: 'dubai-rising',
-    title: 'Dubai Rising: Web3, AI & Venture Capital Summit',
-    date: 'Monthly Flagship Series',
-    time: '6:00 PM – 9:30 PM GST',
-    location: 'Downtown Dubai / DIFC, UAE',
-    tag: 'Flagship Summit',
+    id: 'runway',
+    title: 'Runway — Revenue in 90 Days',
+    sub: '13-Week Hands-On Revenue Sprint with Ayub Rafique',
+    image: '/runway-logo-navy.jpg?v=2',
+    imageBg: '#FFFFFF',
+    tag: 'Cohort 01 Open',
     badgeColor: '#8B5CF6',
-    desc: 'Bringing together 250+ institutional VCs, Gulf family offices, and seed to Series A tech founders for structured deal flow discussions and partner panels.',
-    link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-    status: 'Official Eventbrite RSVP',
+    status: 'Hybrid Cohort',
+    price: '$2,600 · 0% Equity',
+    meta: 'Starts 1 November · Only 10 Founders',
+    date: 'Starts 1 November (13-Week Sprint)',
+    time: '13 Weeks Hands-On · 10 Founders',
+    location: 'In5 Tech Dubai / London & Remote',
+    desc: "Let's get you paid before the runway runs out. Thirteen weeks. Ten founders. Ayub Rafique sits with you while we build it, launch it, and find the first people willing to pay. You keep 100% of your equity.",
+    link: '/runway',
+    isInternal: true,
+    buttonText: 'Explore & Apply',
+    btnGradient: 'linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%)',
   },
   {
     id: 'global-bootcamp',
     title: 'Global Fundraising Bootcamp — Monthly Cohort',
+    sub: 'Master Pitch Decks, SAFEs & Partner Drills',
+    image: '/assets/events/bootcamp.png',
+    imageBg: '#FFFFFF',
+    tag: 'Masterclass',
+    badgeColor: '#F5B400',
+    status: 'Application Form Open',
+    price: 'Apply with Form',
+    meta: 'Monthly Cohorts · In5 Tech & Online',
     date: 'Every 2nd & 4th Thursday',
     time: '5:00 PM – 8:00 PM GST',
     location: 'Live Hybrid (Dubai & Virtual)',
-    tag: 'Masterclass',
-    badgeColor: '#F5B400',
     desc: 'Intensive cohort drill where founders simulate partner pitch meetings, refine narrative pacing, and get direct feedback from active venture check-writers.',
-    link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-    status: 'Eventbrite RSVP & Application',
+    link: '/apply?program=global-fundraising-bootcamp',
+    isInternal: true,
+    buttonText: 'Apply with Form',
+    btnGradient: 'linear-gradient(135deg, #F5B400 0%, #D97706 100%)',
+    btnColor: '#0A0A0F',
   },
   {
-    id: 'riyadh-rising',
-    title: 'Riyadh Tech Rising: Institutional Investor Roundtable',
-    date: 'Quarterly Gathering',
-    time: '7:00 PM – 10:00 PM AST',
-    location: 'KAFD, Riyadh, Saudi Arabia',
-    tag: 'Saudi Ecosystem',
-    badgeColor: '#10B981',
-    desc: 'Closed-door gathering connecting Saudi sovereign wealth funds, regional venture funds, and high-growth MENA startups scaling into the Kingdom.',
-    link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
+    id: 'my-rising-time',
+    title: 'My Rising Time - A Global Summit Where Founders Rise',
+    sub: 'The Premier Startup & Investor Summit',
+    image: '/assets/events/riyadh-rising.png',
+    imageBg: '#101726',
+    tag: 'Coming This November!',
+    badgeColor: '#F5B400',
     status: 'Official Eventbrite RSVP',
-  },
-  {
-    id: 'closed-door-dinner',
-    title: 'Private Investor Dinner & Deal Flow Mixer',
-    date: 'Bi-Weekly Invitation Only',
-    time: '8:00 PM – 11:00 PM GST',
-    location: 'Dubai Marina / Jumeirah, UAE',
-    tag: 'Closed-Door Mixer',
-    badgeColor: '#38BDF8',
-    desc: 'Intimate curated dinner matching 15 vetted founders with 10 active angel syndicates and family office investment directors. Strictly capped attendance.',
+    price: 'Pre-Register Open',
+    meta: 'November 2026 · Global Summit',
+    date: 'Coming This November (Nov 2026)',
+    time: '2:00 PM – 7:00 PM GST',
+    location: 'DIFC, Dubai, UAE & Global',
+    desc: 'The premier global summit for founders and strategic capital. Network with 100+ institutional VCs, angel syndicates, and sovereign partners across MENA and globally.',
     link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-    status: 'Curated RSVP via Eventbrite',
+    buttonText: 'Register on Eventbrite',
   },
 ];
 
@@ -274,12 +286,14 @@ export default function CustomEventsPage() {
                   background: '#14141B',
                   border: '1px solid var(--border-subtle)',
                   borderRadius: 20,
-                  padding: 26,
+                  padding: 24,
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
                   transition: 'all 0.25s ease',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = '#8B5CF6';
@@ -291,30 +305,104 @@ export default function CustomEventsPage() {
                 }}
               >
                 <div>
+                  {/* Top Badges */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
                     <span
                       className="font-data"
                       style={{
                         fontSize: 11,
                         fontWeight: 700,
-                        color: ev.badgeColor,
+                        color: ev.badgeColor || '#8B5CF6',
                         background: 'rgba(255, 255, 255, 0.05)',
-                        border: `1px solid ${ev.badgeColor}40`,
-                        padding: '3px 10px',
+                        border: `1px solid ${ev.badgeColor || '#8B5CF6'}40`,
+                        padding: '4px 11px',
                         borderRadius: 9999,
                       }}
                     >
                       {ev.tag}
                     </span>
 
-                    <span style={{ fontSize: 11.5, color: '#A3A3B0' }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        color: '#F5F5F7',
+                        background: 'rgba(10, 10, 15, 0.85)',
+                        padding: '3px 10px',
+                        borderRadius: 9999,
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                      }}
+                    >
                       {ev.status}
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: 18.5, fontWeight: 800, color: '#F5F5F7', marginBottom: 10, lineHeight: 1.3 }}>
+                  {/* Banner / Media Image */}
+                  {ev.image && (
+                    <div
+                      style={{
+                        height: 160,
+                        borderRadius: 14,
+                        overflow: 'hidden',
+                        marginBottom: 16,
+                        background: ev.imageBg || (ev.image?.includes('runway') || ev.image?.includes('bootcamp') ? '#FFFFFF' : '#1C1C24'),
+                        padding: ev.image?.includes('runway') ? '16px 20px' : (ev.image?.includes('bootcamp') ? '6px' : '0'),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <img
+                        src={ev.image}
+                        alt={ev.title}
+                        loading="lazy"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: ev.image?.includes('runway') || ev.image?.includes('bootcamp') ? 'contain' : 'cover',
+                          objectPosition: 'center',
+                        }}
+                        onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Pricing / Meta info */}
+                  {(ev.price || ev.meta) && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
+                      {ev.price && (
+                        <span
+                          className="font-data"
+                          style={{
+                            fontSize: 11.5,
+                            fontWeight: 800,
+                            color: '#10B981',
+                            background: 'rgba(16, 185, 129, 0.12)',
+                            padding: '2px 8px',
+                            borderRadius: 6,
+                            border: '1px solid rgba(16, 185, 129, 0.3)',
+                          }}
+                        >
+                          {ev.price}
+                        </span>
+                      )}
+                      {ev.meta && (
+                        <span style={{ fontSize: 12, color: '#A3A3B0', fontWeight: 600 }}>
+                          {ev.meta}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  <h3 style={{ fontSize: 18.5, fontWeight: 800, color: '#F5F5F7', marginBottom: 6, lineHeight: 1.3 }}>
                     {ev.title}
                   </h3>
+
+                  {ev.sub && (
+                    <div style={{ fontSize: 12.5, fontWeight: 700, color: '#F5B400', marginBottom: 12 }}>
+                      {ev.sub}
+                    </div>
+                  )}
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 14 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, color: '#D4D4D8' }}>
@@ -336,40 +424,70 @@ export default function CustomEventsPage() {
                   </p>
                 </div>
 
-                <a
-                  href={ev.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-magnetic-signal"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 8,
-                    width: '100%',
-                    padding: '11px 16px',
-                    background: 'rgba(255, 255, 255, 0.06)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: '#FFFFFF',
-                    borderRadius: 10,
-                    fontSize: 13.5,
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    transition: 'all 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#8B5CF6';
-                    e.currentTarget.style.borderColor = '#8B5CF6';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
-                  }}
-                >
-                  <span>Register on Eventbrite</span>
-                  <ExternalLink size={14} />
-                  <div className="btn-light-sweep" />
-                </a>
+                {/* Card Action Button */}
+                {ev.isInternal || ev.link.startsWith('/') ? (
+                  <Link
+                    to={ev.link}
+                    className="btn-magnetic-signal"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      width: '100%',
+                      padding: '12px 18px',
+                      background: ev.btnGradient || 'linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%)',
+                      color: ev.btnColor || '#FFFFFF',
+                      borderRadius: 12,
+                      fontSize: 14,
+                      fontWeight: 800,
+                      textDecoration: 'none',
+                      boxShadow: ev.btnGradient?.includes('F5B400')
+                        ? '0 6px 20px rgba(245, 180, 0, 0.35)'
+                        : '0 6px 20px rgba(139, 92, 246, 0.35)',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <span>{ev.buttonText || 'Explore & Apply'}</span>
+                    <ArrowUpRight size={16} />
+                    <div className="btn-light-sweep" />
+                  </Link>
+                ) : (
+                  <a
+                    href={ev.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-magnetic-signal"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      width: '100%',
+                      padding: '11px 16px',
+                      background: 'rgba(255, 255, 255, 0.06)',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      color: '#FFFFFF',
+                      borderRadius: 10,
+                      fontSize: 13.5,
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#8B5CF6';
+                      e.currentTarget.style.borderColor = '#8B5CF6';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                    }}
+                  >
+                    <span>{ev.buttonText || 'Register on Eventbrite'}</span>
+                    <ExternalLink size={14} />
+                    <div className="btn-light-sweep" />
+                  </a>
+                )}
               </motion.div>
             ))}
           </div>

@@ -23,6 +23,7 @@ import FaqsPage from './pages/FaqsPage';
 import SignupPage from './pages/SignupPage';
 import AdminPage from './pages/AdminPage';
 import ProgramApplyPage from './pages/ProgramApplyPage';
+import RunwayPage from './pages/RunwayPage';
 
 // Auth Pages
 import { LoginPage, ResetPasswordPage, UpdatePasswordPage } from './pages/AuthPages';
@@ -80,6 +81,8 @@ export function App() {
           <Route path="/custom-events" element={<CustomEventsPage />} />
           <Route path="/the-founder-knowledge-hub" element={<KnowledgeHubPage />} />
           <Route path="/startup-intake" element={<StartupIntakePage />} />
+          <Route path="/runway" element={<RunwayPage />} />
+          <Route path="/revenue-first-ai-accelerator" element={<RunwayPage />} />
           <Route path="/apply" element={<ProgramApplyPage />} />
           <Route path="/apply-program" element={<ProgramApplyPage />} />
           <Route path="/program-application" element={<ProgramApplyPage />} />

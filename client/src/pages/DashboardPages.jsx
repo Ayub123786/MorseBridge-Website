@@ -264,7 +264,7 @@ export function DashboardAdvisory() {
 /* ── Dashboard Events ── */
 export function DashboardEvents() {
   const EVENTS = [
-    { title: 'Dubai Rising 2026', date: 'November 2026', type: 'Flagship Summit', status: 'Registered' },
+    { title: 'My Rising Time - A Global Summit Where Founders Rise', date: 'November 2026', type: 'Flagship Summit', status: 'Registered' },
     { title: 'Global Fundraising Boot Camp', date: 'Monthly', type: 'Workshop Cohort', status: 'Available' },
     { title: 'Riyadh Rising 2026', date: 'Late 2026', type: 'Summit', status: 'Available' },
   ];
