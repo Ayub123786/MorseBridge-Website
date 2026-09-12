@@ -8,9 +8,6 @@ import {
   Trophy,
   Mic,
   BookOpen,
-  Users,
-  Rocket,
-  Globe,
   Loader2,
   ExternalLink,
   MapPin,
@@ -88,9 +85,6 @@ const EVENT_TYPES = [
   { icon: Trophy, title: 'Pitch Competitions', desc: 'Organize a structured pitch event with active investor panels, capital commitments, and media spotlights for top startups.' },
   { icon: Mic, title: 'Investor Summits', desc: 'Multi-day flagships bringing together institutional VCs, angel syndicates, and high-growth founders across MENA and London.' },
   { icon: BookOpen, title: 'Workshops & Bootcamps', desc: 'Curated masterclasses on venture fundraising, unit economics, data room structuring, and GTM execution.' },
-  { icon: Users, title: 'Networking Roundtables', desc: 'Curated private dinners and closed-door mixers designed to facilitate direct deal flow and high-trust introductions.' },
-  { icon: Rocket, title: 'Demo Days & Showcases', desc: 'Showcase vetted cohort startups to live LP/GP audiences with structured pitch slots and syndicated deal sheets.' },
-  { icon: Globe, title: 'Corporate Innovation Days', desc: 'Connect corporate venture capital arms and enterprise leaders with cutting-edge tech startups across UAE and Saudi Arabia.' },
 ];
 
 export default function CustomEventsPage() {
@@ -142,32 +136,14 @@ export default function CustomEventsPage() {
       <section style={{ padding: '60px 0 44px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="ambient-mesh-glow" />
 
-        <div className="container container-narrow" style={{ position: 'relative', zIndex: 1 }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '6px 18px',
-              borderRadius: 9999,
-              background: 'rgba(139, 92, 246, 0.15)',
-              border: '1px solid rgba(139, 92, 246, 0.35)',
-              marginBottom: 20,
-            }}
-          >
-            <Calendar size={14} color="#C4B5FD" />
-            <span className="font-data" style={{ fontSize: 12.5, color: '#C4B5FD', letterSpacing: '0.06em', fontWeight: 700 }}>
-              BESPOKE ECOSYSTEM EXPERIENCES &amp; EVENTBRITE HUB
-            </span>
-          </div>
-
+        <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: 1200 }}>
           <h1
+            className="hero-heading-single-line"
             style={{
-              fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
               fontWeight: 900,
-              lineHeight: 1.12,
+              lineHeight: 1.18,
               letterSpacing: '-0.03em',
-              marginBottom: 18,
+              marginBottom: 16,
               background: 'linear-gradient(180deg, #FFFFFF 0%, #E2E2E8 70%, #A3A3B0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -176,21 +152,21 @@ export default function CustomEventsPage() {
             Build, Host, or Join — <span style={{ color: '#8B5CF6', WebkitTextFillColor: '#8B5CF6' }}>We Make It Happen</span>
           </h1>
 
-          <p style={{ color: '#A3A3B0', fontSize: 16.5, maxWidth: 660, margin: '0 auto 32px', lineHeight: 1.65 }}>
-            MorseBridge handles the full venture event lifecycle — from premium venue curation and keynote speakers in Dubai &amp; Riyadh to institutional VC outreach, Eventbrite registration, and post-event deal flow syndication.
+          <p style={{ color: '#A3A3B0', fontSize: 16, maxWidth: 660, margin: '0 auto 28px', lineHeight: 1.6 }}>
+            MorseBridge handles the full venture event lifecycle — from premium venue curation and keynote speakers in Dubai &amp; Riyadh.
           </p>
 
           {/* Quick Metrics */}
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
               gap: 16,
               background: '#14141B',
               border: '1px solid var(--border-subtle)',
               borderRadius: 16,
               padding: '16px 24px',
-              maxWidth: 760,
+              maxWidth: 640,
               margin: '0 auto 28px',
             }}
           >
@@ -203,12 +179,8 @@ export default function CustomEventsPage() {
               <div style={{ fontSize: 11.5, color: '#A3A3B0', fontWeight: 600, textTransform: 'uppercase' }}>Active VC &amp; FO Partners</div>
             </div>
             <div>
-              <div style={{ fontSize: 22, fontWeight: 900, color: '#F5B400' }}>$18M+</div>
-              <div style={{ fontSize: 11.5, color: '#A3A3B0', fontWeight: 600, textTransform: 'uppercase' }}>Capital Deployed</div>
-            </div>
-            <div>
-              <div style={{ fontSize: 22, fontWeight: 900, color: '#38BDF8' }}>3 Hubs</div>
-              <div style={{ fontSize: 11.5, color: '#A3A3B0', fontWeight: 600, textTransform: 'uppercase' }}>Dubai · Riyadh · London</div>
+              <div style={{ fontSize: 22, fontWeight: 900, color: '#38BDF8' }}>2 Hubs</div>
+              <div style={{ fontSize: 11.5, color: '#A3A3B0', fontWeight: 600, textTransform: 'uppercase' }}>Dubai · Riyadh</div>
             </div>
           </div>
 
@@ -264,13 +236,8 @@ export default function CustomEventsPage() {
       {/* Featured Eventbrite Schedule Grid */}
       <section className="section" style={{ paddingTop: 10, paddingBottom: 60 }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#38BDF8', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', marginBottom: 6 }}>
-              <Calendar size={14} />
-              <span>OFFICIAL EVENTBRITE SCHEDULE</span>
-            </div>
+          <div style={{ textAlign: 'center', marginBottom: 36 }}>
             <h2 className="section-title">Upcoming Ecosystem Summits &amp; Cohorts</h2>
-            <p className="section-subtitle">Reserve tickets directly via Eventbrite or connect with our events team for custom sponsorship.</p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>

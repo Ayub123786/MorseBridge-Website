@@ -5,7 +5,6 @@ import {
   ArrowUpRight,
   Sparkles,
   CheckCircle2,
-  Box,
   TrendingUp,
   Database,
   BookOpen,
@@ -214,32 +213,14 @@ export default function ProductsPage() {
       <section style={{ padding: '60px 0 44px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="ambient-mesh-glow" />
 
-        <div className="container container-narrow" style={{ position: 'relative', zIndex: 1 }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '6px 18px',
-              borderRadius: 9999,
-              background: 'rgba(139, 92, 246, 0.15)',
-              border: '1px solid rgba(139, 92, 246, 0.35)',
-              marginBottom: 20,
-            }}
-          >
-            <Box size={14} color="#C4B5FD" />
-            <span className="font-data" style={{ fontSize: 12.5, color: '#C4B5FD', letterSpacing: '0.06em', fontWeight: 700 }}>
-              VENTURE ACCELERATION PRODUCTS
-            </span>
-          </div>
-
+        <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: 1200 }}>
           <h1
+            className="hero-heading-single-line"
             style={{
-              fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
               fontWeight: 900,
-              lineHeight: 1.12,
+              lineHeight: 1.18,
               letterSpacing: '-0.03em',
-              marginBottom: 18,
+              marginBottom: 28,
               background: 'linear-gradient(180deg, #FFFFFF 0%, #E2E2E8 70%, #A3A3B0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -247,10 +228,6 @@ export default function ProductsPage() {
           >
             Tools, Data &amp; Programs for <span style={{ color: '#8B5CF6', WebkitTextFillColor: '#8B5CF6' }}>Momentum</span>
           </h1>
-
-          <p style={{ color: '#A3A3B0', fontSize: 16.5, maxWidth: 660, margin: '0 auto 36px', lineHeight: 1.65 }}>
-            From our proprietary 5-Minute CFO Model and Substack investor databases to official Eventbrite global summits and venture cohorts — everything founders need to raise capital with authority.
-          </p>
 
           {/* Quick Metrics Bar */}
           <div
