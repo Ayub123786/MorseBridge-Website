@@ -81,16 +81,16 @@ export default function WhatWeDoCard3D({ item = {}, index = 0, href, link }) {
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: 12,
-              marginBottom: 10,
+              marginBottom: 14,
             }}
           >
             <h3
               style={{
                 margin: 0,
                 color: '#F5F5F7',
-                fontSize: 18,
+                fontSize: 21,
                 fontWeight: 800,
-                letterSpacing: '-0.01em',
+                letterSpacing: '-0.015em',
                 lineHeight: 1.3,
               }}
             >
@@ -105,7 +105,7 @@ export default function WhatWeDoCard3D({ item = {}, index = 0, href, link }) {
                 handleCardClick(e);
               }}
             >
-              <ArrowUpRight size={15} />
+              <ArrowUpRight size={16} />
             </div>
           </div>
 
@@ -114,11 +114,10 @@ export default function WhatWeDoCard3D({ item = {}, index = 0, href, link }) {
             style={{
               listStyle: 'none',
               padding: 0,
-              margin: '0 0 14px 0',
-              flex: 1,
+              margin: '0 0 16px 0',
               display: 'flex',
               flexDirection: 'column',
-              gap: 8,
+              gap: 15,
             }}
           >
             {item.points &&
@@ -128,27 +127,51 @@ export default function WhatWeDoCard3D({ item = {}, index = 0, href, link }) {
                   style={{
                     display: 'flex',
                     alignItems: 'flex-start',
-                    gap: 8,
-                    fontSize: 12.5,
-                    lineHeight: 1.5,
-                    color: 'var(--text-body)',
+                    gap: 10,
+                    fontSize: 14.5,
+                    lineHeight: 1.6,
+                    color: '#D4D4D8',
                   }}
                 >
                   <span
                     style={{
-                      width: 5,
-                      height: 5,
+                      width: 6,
+                      height: 6,
                       borderRadius: '50%',
                       background: '#8B5CF6',
-                      marginTop: 7,
+                      marginTop: 8,
                       flexShrink: 0,
-                      boxShadow: '0 0 6px rgba(139, 92, 246, 0.6)',
+                      boxShadow: '0 0 8px rgba(139, 92, 246, 0.7)',
                     }}
                   />
                   <span>{pt}</span>
                 </li>
               ))}
           </ul>
+
+          {/* Bottom Action CTA Button */}
+          <div style={{ marginTop: 'auto', paddingTop: 14 }}>
+            <div
+              className="wwd-front-cta-btn"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                background: 'rgba(139, 92, 246, 0.12)',
+                border: '1px solid rgba(139, 92, 246, 0.3)',
+                color: '#C4B5FD',
+                fontSize: 13,
+                fontWeight: 700,
+                padding: '11px 16px',
+                borderRadius: 12,
+                transition: 'all 0.25s ease',
+              }}
+            >
+              <span>Schedule Consultation</span>
+              <ArrowUpRight size={14} />
+            </div>
+          </div>
         </div>
 
         {/* ==================================================================
@@ -204,7 +227,7 @@ export default function WhatWeDoCard3D({ item = {}, index = 0, href, link }) {
             {caseStudy.title || item.title}
           </h4>
 
-          {/* VC Firm Box */}
+          {/* VC Firm / Client Focus Box */}
           <div className="case-study-vc-box">
             <div className="case-study-vc-icon">
               <Building2 size={16} />
@@ -219,47 +242,68 @@ export default function WhatWeDoCard3D({ item = {}, index = 0, href, link }) {
                   letterSpacing: '0.04em',
                 }}
               >
-                PARTNER VC FIRM / SYNDICATE
+                {caseStudy.clientFocus ? 'CLIENT FOCUS' : 'PARTNER VC FIRM / SYNDICATE'}
               </div>
               <div style={{ fontSize: 12.5, fontWeight: 800, color: '#FFFFFF' }}>
-                {caseStudy.vcFirm || 'Institutional VC Syndicate & Family Offices'}
+                {caseStudy.clientFocus || caseStudy.vcFirm || 'Institutional VC Syndicate & Family Offices'}
               </div>
             </div>
           </div>
 
-          {/* Stats Matrix: Companies & People Involved */}
+          {/* Stats Matrix */}
           <div className="case-study-stats-grid">
-            <div className="case-study-stat-card">
-              <div className="case-study-stat-val purple">
-                {caseStudy.companiesInvolved || '40+ Startups'}
-              </div>
-              <div className="case-study-stat-lbl">Companies Involved</div>
-            </div>
+            {caseStudy.metrics && caseStudy.metrics.length > 0 ? (
+              caseStudy.metrics.map((m, mIdx) => (
+                <div key={mIdx} className="case-study-stat-card">
+                  <div
+                    className={`case-study-stat-val ${
+                      mIdx === 0 ? 'purple' : mIdx === 1 ? 'gold' : mIdx === 3 ? 'purple' : ''
+                    }`}
+                    style={{
+                      fontSize: m.value && m.value.length > 15 ? 12 : m.value && m.value.length > 9 ? 14 : 17,
+                      lineHeight: 1.25,
+                    }}
+                  >
+                    {m.value}
+                  </div>
+                  <div className="case-study-stat-lbl">{m.label}</div>
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="case-study-stat-card">
+                  <div className="case-study-stat-val purple">
+                    {caseStudy.companiesInvolved || '40+ Startups'}
+                  </div>
+                  <div className="case-study-stat-lbl">Companies Involved</div>
+                </div>
 
-            <div className="case-study-stat-card">
-              <div className="case-study-stat-val gold">
-                {caseStudy.peopleInvolved || '150+ People'}
-              </div>
-              <div className="case-study-stat-lbl">People / Founders</div>
-            </div>
+                <div className="case-study-stat-card">
+                  <div className="case-study-stat-val gold">
+                    {caseStudy.peopleInvolved || '150+ People'}
+                  </div>
+                  <div className="case-study-stat-lbl">People / Founders</div>
+                </div>
 
-            <div className="case-study-stat-card">
-              <div className="case-study-stat-val">
-                {caseStudy.capitalCatalyzed || '$15M+'}
-              </div>
-              <div className="case-study-stat-lbl">
-                {caseStudy.impactLabel || 'Capital Catalyzed'}
-              </div>
-            </div>
+                <div className="case-study-stat-card">
+                  <div className="case-study-stat-val">
+                    {caseStudy.capitalCatalyzed || '$15M+'}
+                  </div>
+                  <div className="case-study-stat-lbl">
+                    {caseStudy.impactLabel || 'Capital Catalyzed'}
+                  </div>
+                </div>
 
-            <div className="case-study-stat-card">
-              <div className="case-study-stat-val gold">
-                {caseStudy.velocity || '82% Success'}
-              </div>
-              <div className="case-study-stat-lbl">
-                {caseStudy.velocityLabel || 'Conversion Rate'}
-              </div>
-            </div>
+                <div className="case-study-stat-card">
+                  <div className="case-study-stat-val gold">
+                    {caseStudy.velocity || '82% Success'}
+                  </div>
+                  <div className="case-study-stat-lbl">
+                    {caseStudy.velocityLabel || 'Conversion Rate'}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Case Study Narrative Summary */}
