@@ -414,8 +414,8 @@ export default function HomePage() {
                 objectFit: 'cover',
                 display: 'block',
                 margin: '0 auto 16px',
-                border: 'none',
-                boxShadow: 'none',
+                border: '2px solid rgba(255, 255, 255, 0.22)',
+                boxShadow: '0 0 28px rgba(139, 92, 246, 0.35), 0 8px 24px rgba(0, 0, 0, 0.5)',
               }}
               onError={(e) => { e.currentTarget.src = '/assets/founder/ayub-founder.png'; }}
             />
