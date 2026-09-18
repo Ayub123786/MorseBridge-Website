@@ -69,15 +69,15 @@ const EVENTBRITE_SCHEDULE = [
     imageBg: '#101726',
     tag: 'Coming This November!',
     badgeColor: '#F5B400',
-    status: 'Official Eventbrite RSVP',
+    status: 'Official Summit Website',
     price: 'Pre-Register Open',
     meta: 'November 2026 · Global Summit',
     date: 'Coming This November (Nov 2026)',
     time: '2:00 PM – 7:00 PM GST',
     location: 'DIFC, Dubai, UAE & Global',
     desc: 'The premier global summit for founders and strategic capital. Network with 100+ institutional VCs, angel syndicates, and sovereign partners across MENA and globally.',
-    link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-    buttonText: 'Register on Eventbrite',
+    link: 'https://myrisingtime.com',
+    buttonText: 'Register on My Rising Time',
   },
 ];
 

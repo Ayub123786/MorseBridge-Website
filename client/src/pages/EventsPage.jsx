@@ -43,8 +43,8 @@ const EVENTS_LIST = [
     tagColor: '#F5B400',
     price: 'Pre-Register',
     image: '/assets/events/riyadh-rising.png',
-    link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-    buttonText: 'Register on Eventbrite',
+    link: 'https://myrisingtime.com',
+    buttonText: 'Register on My Rising Time',
   },
 ];
 

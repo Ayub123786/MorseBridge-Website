@@ -161,7 +161,7 @@ export default function EventCard3D({ event, index = 0 }) {
             {event.price || 'Free'}
           </span>
           <span style={{ fontSize: 12, color: 'var(--text-subtle)' }}>
-            {event.isForm ? 'Direct Form Application' : 'Official Eventbrite Registration'}
+            {event.isForm ? 'Direct Form Application' : (event.registrationType || (event.rsvpLink?.includes('myrisingtime') || event.link?.includes('myrisingtime') ? 'Official Summit Registration' : 'Official Eventbrite Registration'))}
           </span>
         </div>
 

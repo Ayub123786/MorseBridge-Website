@@ -53,8 +53,9 @@ const FALLBACK_EVENTS = [
     seatsLeft: 'VIP Lounge',
     description: 'The premier startup & investor summit in Dubai. Network with 100+ institutional VCs and 200+ founders across MENA. Secure your spot at the forefront of innovation.',
     tags: ['My Rising Time', 'Dubai', 'VCs', 'Founders'],
-    rsvpLink: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043',
-    buttonText: 'Register on Eventbrite',
+    rsvpLink: 'https://myrisingtime.com',
+    registrationType: 'Official Summit Registration',
+    buttonText: 'Register on My Rising Time',
     calLink: 'https://cal.com/morsebridge/30-min-intro',
   },
 ];

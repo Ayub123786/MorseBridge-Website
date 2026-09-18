@@ -264,9 +264,9 @@ export function DashboardAdvisory() {
 /* ── Dashboard Events ── */
 export function DashboardEvents() {
   const EVENTS = [
-    { title: 'My Rising Time - A Global Summit Where Founders Rise', date: 'November 2026', type: 'Flagship Summit', status: 'Registered' },
-    { title: 'Global Fundraising Boot Camp', date: 'Monthly', type: 'Workshop Cohort', status: 'Available' },
-    { title: 'Riyadh Rising 2026', date: 'Late 2026', type: 'Summit', status: 'Available' },
+    { title: 'My Rising Time - A Global Summit Where Founders Rise', date: 'November 2026', type: 'Flagship Summit', status: 'Registered', link: 'https://myrisingtime.com' },
+    { title: 'Global Fundraising Boot Camp', date: 'Monthly', type: 'Workshop Cohort', status: 'Available', link: '/apply?program=global-fundraising-bootcamp' },
+    { title: 'Riyadh Rising 2026', date: 'Late 2026', type: 'Summit', status: 'Available', link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043' },
   ];
 
   return (
@@ -282,7 +282,7 @@ export function DashboardEvents() {
               <div style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 3 }}>{e.type} · {e.date}</div>
             </div>
             <a
-              href="https://www.eventbrite.co.uk/o/morse-bridge-78875439043"
+              href={e.link}
               target="_blank"
               rel="noopener noreferrer"
               className={e.status === 'Registered' ? 'btn-purple-outline' : 'btn-purple'}
