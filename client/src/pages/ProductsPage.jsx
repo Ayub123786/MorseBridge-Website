@@ -184,7 +184,7 @@ const PRODUCTS = [
 ];
 
 const CATEGORIES = [
-  { id: 'all', label: 'All Products & Resources' },
+  { id: 'all', label: 'All Solutions & Resources' },
   { id: 'substack-intelligence', label: 'Substack Intelligence' },
   { id: 'financial-tools', label: 'Financial & CFO Tools' },
   { id: 'cohort-programs', label: 'Cohort Programs' },
@@ -295,7 +295,7 @@ export default function ProductsPage() {
               <Search size={15} color="#A3A3B0" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }} />
               <input
                 type="text"
-                placeholder="Search products, models, databases..."
+                placeholder="Search solutions, models, databases..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 style={{

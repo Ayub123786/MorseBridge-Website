@@ -236,7 +236,7 @@ export default function RunwayPage() {
         background: '#0C0A11',
         color: '#EEECF3',
         minHeight: '100vh',
-        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+        fontFamily: "'Proxima Nova', system-ui, -apple-system, sans-serif",
         fontSize: '17px',
         lineHeight: 1.62,
         paddingTop: '70px',
@@ -287,7 +287,7 @@ export default function RunwayPage() {
             <span style={{ color: 'rgba(255, 255, 255, 0.2)' }}>/</span>
             <span
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "'Proxima Nova', sans-serif",
                 fontWeight: 700,
                 fontSize: 18,
                 letterSpacing: '-0.01em',
@@ -301,7 +301,7 @@ export default function RunwayPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <span
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "'Proxima Nova', sans-serif",
                 fontSize: 12,
                 color: '#CBA24E',
                 fontWeight: 700,
@@ -320,7 +320,7 @@ export default function RunwayPage() {
               href="#apply"
               onClick={scrollToApply}
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "'Proxima Nova', sans-serif",
                 fontWeight: 600,
                 fontSize: 14.5,
                 background: '#7A6BD0',
@@ -407,7 +407,7 @@ export default function RunwayPage() {
             <span
               style={{
                 display: 'inline-block',
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "'Proxima Nova', sans-serif",
                 fontWeight: 600,
                 fontSize: 12,
                 letterSpacing: '0.12em',
@@ -427,7 +427,7 @@ export default function RunwayPage() {
           {/* Title */}
           <h1
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontWeight: 700,
               fontSize: 'clamp(36px, 6vw, 70px)',
               letterSpacing: '-0.025em',
@@ -460,7 +460,7 @@ export default function RunwayPage() {
               flexWrap: 'wrap',
               justifyContent: 'center',
               gap: 12,
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontSize: 14,
               color: '#9C95AD',
             }}
@@ -504,7 +504,7 @@ export default function RunwayPage() {
         <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 28px' }}>
           <h2
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontWeight: 700,
               fontSize: 'clamp(29px, 4.4vw, 42px)',
               marginBottom: 20,
@@ -556,7 +556,7 @@ export default function RunwayPage() {
               <b
                 style={{
                   display: 'block',
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: "'Proxima Nova', sans-serif",
                   fontWeight: 700,
                   fontSize: 38,
                   lineHeight: 1,
@@ -581,7 +581,7 @@ export default function RunwayPage() {
               <b
                 style={{
                   display: 'block',
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: "'Proxima Nova', sans-serif",
                   fontWeight: 700,
                   fontSize: 38,
                   lineHeight: 1,
@@ -606,7 +606,7 @@ export default function RunwayPage() {
               <b
                 style={{
                   display: 'block',
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: "'Proxima Nova', sans-serif",
                   fontWeight: 700,
                   fontSize: 38,
                   lineHeight: 1,
@@ -628,7 +628,7 @@ export default function RunwayPage() {
         <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 28px' }}>
           <h2
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontWeight: 700,
               fontSize: 'clamp(29px, 4.4vw, 42px)',
               marginBottom: 16,
@@ -660,7 +660,7 @@ export default function RunwayPage() {
             >
               <span
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: "'Proxima Nova', sans-serif",
                   fontWeight: 600,
                   fontSize: 12,
                   letterSpacing: '0.1em',
@@ -672,7 +672,7 @@ export default function RunwayPage() {
               </span>
               <h3
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: "'Proxima Nova', sans-serif",
                   fontWeight: 700,
                   fontSize: 23,
                   margin: '12px 0 10px',
@@ -707,7 +707,7 @@ export default function RunwayPage() {
             >
               <span
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: "'Proxima Nova', sans-serif",
                   fontWeight: 600,
                   fontSize: 12,
                   letterSpacing: '0.1em',
@@ -719,7 +719,7 @@ export default function RunwayPage() {
               </span>
               <h3
                 style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontFamily: "'Proxima Nova', sans-serif",
                   fontWeight: 700,
                   fontSize: 23,
                   margin: '12px 0 10px',
@@ -748,7 +748,7 @@ export default function RunwayPage() {
           {/* Track Header in Gold */}
           <p
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontWeight: 600,
               fontSize: 13,
               letterSpacing: '0.1em',
@@ -801,7 +801,7 @@ export default function RunwayPage() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     lineHeight: 1,
                   }}
                 >
@@ -814,7 +814,7 @@ export default function RunwayPage() {
                 <div style={{ paddingTop: 5 }}>
                   <h4
                     style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontFamily: "'Proxima Nova', sans-serif",
                       fontWeight: 600,
                       fontSize: 17,
                       margin: '0 0 4px',
@@ -846,7 +846,7 @@ export default function RunwayPage() {
           >
             <span
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "'Proxima Nova', sans-serif",
                 fontWeight: 600,
                 fontSize: 12,
                 letterSpacing: '0.12em',
@@ -858,7 +858,7 @@ export default function RunwayPage() {
             </span>
             <h2
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "'Proxima Nova', sans-serif",
                 fontWeight: 700,
                 fontSize: 'clamp(25px, 3.8vw, 36px)',
                 margin: '14px auto 12px',
@@ -881,7 +881,7 @@ export default function RunwayPage() {
         <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 28px' }}>
           <h2
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontWeight: 700,
               fontSize: 'clamp(29px, 4.4vw, 42px)',
               marginBottom: 20,
@@ -910,7 +910,7 @@ export default function RunwayPage() {
         <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 28px' }}>
           <h2
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontWeight: 700,
               fontSize: 'clamp(29px, 4.4vw, 42px)',
               marginBottom: 16,
@@ -925,7 +925,7 @@ export default function RunwayPage() {
 
           <p
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontWeight: 600,
               fontSize: 12,
               letterSpacing: '0.1em',
@@ -953,7 +953,7 @@ export default function RunwayPage() {
                 background: '#17141F',
               }}
             >
-              <h4 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 17, margin: '0 0 6px', color: '#EEECF3' }}>
+              <h4 style={{ fontFamily: "'Proxima Nova', sans-serif", fontWeight: 600, fontSize: 17, margin: '0 0 6px', color: '#EEECF3' }}>
                 Your lead funnels
               </h4>
               <p style={{ margin: 0, fontSize: '14.5px', color: '#9C95AD' }}>
@@ -969,7 +969,7 @@ export default function RunwayPage() {
                 background: '#17141F',
               }}
             >
-              <h4 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 17, margin: '0 0 6px', color: '#EEECF3' }}>
+              <h4 style={{ fontFamily: "'Proxima Nova', sans-serif", fontWeight: 600, fontSize: 17, margin: '0 0 6px', color: '#EEECF3' }}>
                 Financial model and unit economics
               </h4>
               <p style={{ margin: 0, fontSize: '14.5px', color: '#9C95AD' }}>
@@ -985,7 +985,7 @@ export default function RunwayPage() {
                 background: '#17141F',
               }}
             >
-              <h4 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 17, margin: '0 0 6px', color: '#EEECF3' }}>
+              <h4 style={{ fontFamily: "'Proxima Nova', sans-serif", fontWeight: 600, fontSize: 17, margin: '0 0 6px', color: '#EEECF3' }}>
                 LinkedIn page and Sales Navigator
               </h4>
               <p style={{ margin: 0, fontSize: '14.5px', color: '#9C95AD' }}>
@@ -1001,7 +1001,7 @@ export default function RunwayPage() {
                 background: '#17141F',
               }}
             >
-              <h4 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 17, margin: '0 0 6px', color: '#EEECF3' }}>
+              <h4 style={{ fontFamily: "'Proxima Nova', sans-serif", fontWeight: 600, fontSize: 17, margin: '0 0 6px', color: '#EEECF3' }}>
                 Clay, end to end
               </h4>
               <p style={{ margin: 0, fontSize: '14.5px', color: '#9C95AD' }}>
@@ -1013,7 +1013,7 @@ export default function RunwayPage() {
           {/* 25-Tool Stack */}
           <p
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontWeight: 600,
               fontSize: 12,
               letterSpacing: '0.1em',
@@ -1070,7 +1070,7 @@ export default function RunwayPage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     fontWeight: 700,
                     fontSize: 17,
                     color: '#AB9EE8',
@@ -1080,7 +1080,7 @@ export default function RunwayPage() {
                 </span>
                 <figcaption
                   style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     fontWeight: 500,
                     fontSize: '12.5px',
                     color: '#EEECF3',
@@ -1100,7 +1100,7 @@ export default function RunwayPage() {
         <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 28px' }}>
           <h2
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'Proxima Nova', sans-serif",
               fontWeight: 700,
               fontSize: 'clamp(29px, 4.4vw, 42px)',
               marginBottom: 20,
@@ -1113,7 +1113,7 @@ export default function RunwayPage() {
           <div style={{ maxWidth: '64ch' }}>
             <div
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "'Proxima Nova', sans-serif",
                 fontWeight: 700,
                 fontSize: 28,
                 marginBottom: 2,
@@ -1166,7 +1166,7 @@ export default function RunwayPage() {
                 <b
                   style={{
                     display: 'block',
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     fontWeight: 700,
                     fontSize: 26,
                     color: '#AB9EE8',
@@ -1190,7 +1190,7 @@ export default function RunwayPage() {
                 <b
                   style={{
                     display: 'block',
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     fontWeight: 700,
                     fontSize: 26,
                     color: '#CBA24E',
@@ -1214,7 +1214,7 @@ export default function RunwayPage() {
                 <b
                   style={{
                     display: 'block',
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     fontWeight: 700,
                     fontSize: 26,
                     color: '#AB9EE8',
@@ -1238,7 +1238,7 @@ export default function RunwayPage() {
                 <b
                   style={{
                     display: 'block',
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     fontWeight: 700,
                     fontSize: 26,
                     color: '#CBA24E',
@@ -1268,7 +1268,7 @@ export default function RunwayPage() {
             <span
               style={{
                 display: 'inline-block',
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "'Proxima Nova', sans-serif",
                 fontWeight: 600,
                 fontSize: 12,
                 letterSpacing: '0.12em',
@@ -1285,7 +1285,7 @@ export default function RunwayPage() {
             </span>
             <h2
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontFamily: "'Proxima Nova', sans-serif",
                 fontWeight: 700,
                 fontSize: 'clamp(28px, 4.2vw, 42px)',
                 margin: '0 auto 16px',
@@ -1319,7 +1319,7 @@ export default function RunwayPage() {
                 <b
                   style={{
                     display: 'block',
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     fontWeight: 700,
                     fontSize: 40,
                     color: '#CBA24E',
@@ -1367,7 +1367,7 @@ export default function RunwayPage() {
                   <div>
                     <h3
                       style={{
-                        fontFamily: "'Space Grotesk', sans-serif",
+                        fontFamily: "'Proxima Nova', sans-serif",
                         fontSize: 21,
                         fontWeight: 700,
                         color: '#EEECF3',
@@ -1659,7 +1659,7 @@ export default function RunwayPage() {
                       cursor: loading ? 'not-allowed' : 'pointer',
                       background: '#7A6BD0',
                       color: '#FFFFFF',
-                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontFamily: "'Proxima Nova', sans-serif",
                       fontWeight: 700,
                       fontSize: 17,
                       display: 'flex',
@@ -1725,7 +1725,7 @@ export default function RunwayPage() {
                 <span
                   style={{
                     display: 'inline-block',
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     fontWeight: 700,
                     fontSize: 12,
                     letterSpacing: '0.1em',
@@ -1743,7 +1743,7 @@ export default function RunwayPage() {
 
                 <h2
                   style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontFamily: "'Proxima Nova', sans-serif",
                     fontSize: 'clamp(24px, 4vw, 34px)',
                     fontWeight: 700,
                     color: '#EEECF3',
@@ -1819,7 +1819,7 @@ export default function RunwayPage() {
                   </button>
 
                   <Link
-                    to="/products"
+                    to="/solutions"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -1833,7 +1833,7 @@ export default function RunwayPage() {
                       textDecoration: 'none',
                     }}
                   >
-                    <span>Browse Morsebridge Products</span>
+                    <span>Browse Morsebridge Solutions</span>
                     <ChevronRight size={16} />
                   </Link>
                 </div>

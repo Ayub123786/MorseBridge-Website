@@ -1,7 +1,25 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Rocket, LineChart, ArrowUpRight, Sparkles, Radio } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Rocket,
+  LineChart,
+  ArrowUpRight,
+  ArrowRight,
+  Sparkles,
+  Radio,
+  Compass,
+  Cpu,
+  FileSearch,
+  Presentation,
+  Activity,
+  FileText,
+  Target,
+  FolderLock,
+  Calculator,
+  Handshake,
+  Calendar,
+} from 'lucide-react';
 import Footer from '../components/Footer';
 
 // 3D & Signal Modular Components
@@ -14,17 +32,17 @@ import EventCard3D from '../components/3d/EventCard3D';
 import VideoCard3D from '../components/3d/VideoCard3D';
 import LogoMarquee from '../components/3d/LogoMarquee';
 import PodcastStack from '../components/3d/PodcastStack';
-import SubstackSection from '../components/3d/SubstackSection';
 import CountUpNumber from '../components/common/CountUpNumber';
 import ShimmerSkeleton from '../components/common/ShimmerSkeleton';
-import WhatWeDoCard3D from '../components/3d/WhatWeDoCard3D';
-import FeaturedSection from '../components/FeaturedSection';
+import WhatWeDoSection from '../components/WhatWeDoSection';
+import WhatsHotSection from '../components/WhatsHotSection';
+import PastEventsCarousel3D from '../components/PastEventsCarousel3D';
+import CommentsCarousel3D from '../components/CommentsCarousel3D';
 
 // Dynamic API Hooks
 import { useEvents } from '../hooks/useEvents';
 import { usePodcasts } from '../hooks/usePodcasts';
 import { usePartners } from '../hooks/usePartners';
-import { usePastEvents } from '../hooks/usePastEvents';
 import { useTestimonials } from '../hooks/useTestimonials';
 
 /* ── Investors Marquee Data (All 22 Investors from PDF & /assets/investors/) ── */
@@ -70,78 +88,7 @@ const MENTORS_LIST = [
   { id: 13, name: 'Sofia Kostiunina', role: '100VP Capital Network · Founder & MD', img: 13 },
 ];
 
-/* ── What We Do Capabilities with 3D Flip Case Studies ── */
-const WHAT_WE_DO_DATA = [
-  {
-    title: 'Fundraising Enablement',
-    image: '/assets/what-we-do/fundraising_enablement.png',
-    link: 'https://cal.com/morsebridge/30-min-intro',
-    points: [
-      'Strategic introductions to vetted institutional investors',
-      'Access to exclusive summits & live pitch opportunities',
-      'Guidance on positioning and high-conversion fundraising narratives',
-    ],
-    caseStudy: {
-      title: 'Startup Fundraising & Investor Connections',
-      clientFocus: 'Startups, Founders & Investors',
-      metrics: [
-        { value: '450', label: 'Startups Supported' },
-        { value: '110+', label: 'Investors Engaged' },
-        { value: '120', label: 'Demo Days & Founder and Investor Programs' },
-        { value: '20M+', label: 'Deal Value Facilitated' },
-      ],
-      narrative: 'Supported 450 startups through fundraising preparation, investor introductions and founder programs. Engaged over 110 investors and facilitated deal closures exceeding 20 million.',
-      buttonText: 'Schedule Consultation',
-      link: 'https://cal.com/morsebridge/30-min-intro',
-    },
-  },
-  {
-    title: 'Revenue Strategy & Systems',
-    image: '/assets/what-we-do/revenue_strategy.png',
-    link: 'https://cal.com/morsebridge/30-min-intro',
-    points: [
-      'Advising on revenue models and pricing tiering',
-      'Building scalable revenue systems (sales loops, monetization, GTM)',
-      'Growth planning aligned with top-tier venture expectations',
-    ],
-    caseStudy: {
-      title: 'Go to Market Strategy & Revenue Growth',
-      clientFocus: 'VC Backed Startups',
-      metrics: [
-        { value: '20 Startups', label: 'Top of Funnel Improved' },
-        { value: '$4M', label: 'Client Revenue Generated' },
-        { value: '5 Products', label: 'Launched & Validated' },
-        { value: 'GTM Funnels', label: 'Reviewed & Rebuilt' },
-      ],
-      narrative: 'Helped 20 VC backed startups improve their top of funnel and rebuild their GTM funnels. Supported product validation, launches and sales conversion, helping clients generate $4 million in revenue.',
-      buttonText: 'Schedule Consultation',
-      link: 'https://cal.com/morsebridge/30-min-intro',
-    },
-  },
-  {
-    title: 'Startup Financial Due Diligence',
-    image: '/assets/what-we-do/financial_due_diligence.png',
-    link: 'https://cal.com/morsebridge/30-min-intro',
-    points: [
-      'Comprehensive financial audit, historical reconciliations & unit economics',
-      'Institutional data room prep, 5-year pro-forma modeling & cap table stress testing',
-      'Pre-empting venture diligence bottlenecks, red flags & valuation defensibility',
-    ],
-    caseStudy: {
-      title: 'Financial Advisory & Business Expansion',
-      clientFocus: 'SMEs & Startups',
-      metrics: [
-        { value: '100+ Businesses', label: 'SMEs & Startups Supported' },
-        { value: 'Valuation & Models', label: 'Financial Planning' },
-        { value: 'Books & Tax Returns', label: 'Financial Records & Filing' },
-        { value: 'Structuring & Expansion', label: 'Cross Border Advisory' },
-      ],
-      narrative: 'Supported over 100 SMEs and startups with financial valuations, financial models, bookkeeping and financial records. Services also cover VAT filing, corporate tax returns, cross border capital structuring and business expansion.',
-      buttonText: 'Schedule Consultation',
-      link: 'https://cal.com/morsebridge/30-min-intro',
-    },
-  },
-];
+
 
 /* ── Stat Cards ("How Are We Making a Difference?") ── */
 const DIFFERENCE_CARDS = [
@@ -149,42 +96,37 @@ const DIFFERENCE_CARDS = [
     stat: '450',
     suffix: '+',
     label: 'Founders Supported',
-    desc: 'Guiding visionary founders from pre-seed ideation to institutional rounds with hands-on support.',
     featured: true,
   },
   {
     stat: '500',
     suffix: '+',
     label: 'VCs & Family Offices',
-    desc: 'Active network of institutional funds, family offices, and verified angel syndicates.',
     featured: false,
   },
   {
     stat: '85',
     suffix: '+',
     label: 'Pitch Competitions & Summits',
-    desc: 'High-impact investor roundtables, summits, and demo days across Dubai, Riyadh, and London.',
     featured: false,
   },
   {
     stat: '98',
     suffix: '%',
     label: 'Founder Satisfaction Rate',
-    desc: 'Rated 4.9/5 across hundreds of founder advisory sessions and fundraising masterclasses.',
     featured: false,
   },
   {
     stat: '10',
     suffix: '+',
     label: 'Flagship Bootcamps',
-    desc: 'Intensive cohort-based bootcamps turning early-stage ideas into investor-ready ventures.',
     featured: false,
+    topPurple: true,
   },
   {
     stat: '100',
     suffix: '+',
     label: 'Knowledge Hub Guides',
-    desc: 'Institutional-grade models, cap table calculators, SAFE notes, and due diligence frameworks.',
     featured: false,
   },
 ];
@@ -219,13 +161,14 @@ function FaqAccordionItem({ item }) {
   return (
     <div
       style={{
-        background: '#14141B',
-        border: '1px solid var(--border-subtle)',
+        background: open ? 'rgba(20, 20, 32, 0.95)' : '#14141B',
+        border: open ? '1px solid rgba(139, 92, 246, 0.65)' : '1px solid var(--border-subtle)',
         borderRadius: 14,
         overflow: 'hidden',
-        transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
-        boxShadow: open ? '0 0 24px rgba(139, 92, 246, 0.15)' : 'var(--shadow-xs)',
-        borderColor: open ? 'rgba(139, 92, 246, 0.6)' : 'var(--border-subtle)',
+        transition: 'border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease',
+        boxShadow: open
+          ? '0 0 28px rgba(139, 92, 246, 0.22), 0 10px 30px rgba(0, 0, 0, 0.5)'
+          : 'var(--shadow-xs)',
       }}
     >
       <div
@@ -239,23 +182,31 @@ function FaqAccordionItem({ item }) {
           userSelect: 'none',
         }}
       >
-        <span style={{ fontSize: 16.5, fontWeight: 700, color: '#F5F5F7', lineHeight: 1.4 }}>
+        <span
+          style={{
+            fontSize: 16.5,
+            fontWeight: 700,
+            color: open ? '#FFFFFF' : '#F5F5F7',
+            lineHeight: 1.4,
+            transition: 'color 0.2s ease',
+          }}
+        >
           {item.q}
         </span>
         <span
           style={{
-            width: 30,
-            height: 30,
+            width: 32,
+            height: 32,
             borderRadius: '50%',
             background: open ? '#8B5CF6' : 'rgba(255, 255, 255, 0.08)',
             color: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: 700,
-            transform: open ? 'rotate(45deg)' : 'rotate(0)',
-            transition: 'transform 0.25s ease, background 0.2s ease',
+            transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
+            transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease',
             flexShrink: 0,
             marginLeft: 16,
           }}
@@ -263,23 +214,52 @@ function FaqAccordionItem({ item }) {
           +
         </span>
       </div>
-      {open && (
-        <div
-          style={{
-            padding: '0 26px 24px',
-            color: 'var(--text-body)',
-            fontSize: 14.5,
-            lineHeight: 1.7,
-            borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-            paddingTop: 18,
-          }}
-        >
-          {item.a}
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            style={{ overflow: 'hidden' }}
+          >
+            <div
+              style={{
+                padding: '0 26px 24px',
+                color: '#C5C5D2',
+                fontSize: 15,
+                lineHeight: 1.7,
+                borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                paddingTop: 18,
+              }}
+            >
+              {item.a}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
+
+/* ── Hero Dual Cards Data (Image 2) ── */
+const INVESTMENT_FIRMS_FEATURES = [
+  { icon: Compass, title: 'Deal Sourcing', desc: 'Identify high-potential opportunities' },
+  { icon: Cpu, title: 'AI Screening', desc: 'Filter and prioritize with AI' },
+  { icon: FileSearch, title: 'Due Diligence', desc: 'Commercial, financial, legal, management' },
+  { icon: Presentation, title: 'Investment Committee', desc: 'Auto-generate IC memos and decks' },
+  { icon: Activity, title: 'Portfolio Monitoring', desc: 'Track performance and risks in real time' },
+  { icon: FileText, title: 'LP Reporting', desc: 'Automate updates and insights' },
+];
+
+const FOUNDERS_FEATURES = [
+  { icon: Target, title: 'Fundraising Strategy', desc: 'Refine your story and positioning' },
+  { icon: FolderLock, title: 'Data Rooms', desc: 'Investor-ready, secure and structured' },
+  { icon: Calculator, title: 'Financial Models', desc: 'Robust, VC/PE grade models' },
+  { icon: Rocket, title: 'Go-To-Market', desc: 'Validate and accelerate traction' },
+  { icon: Handshake, title: 'Investor Access', desc: 'Warm introductions to our network' },
+  { icon: Calendar, title: 'Demo Days & Events', desc: 'Showcase to global investors' },
+];
 
 /* ==========================================================================
    HOMEPAGE MAIN COMPONENT (DARK SIGNAL TRANSMISSION THEME)
@@ -288,15 +268,8 @@ export default function HomePage() {
   const { events, loading: eventsLoading } = useEvents();
   const { podcasts, loading: podcastsLoading } = usePodcasts();
   const { partners, loading: partnersLoading } = usePartners();
-  const { pastEvents, loading: pastEventsLoading } = usePastEvents();
   const { testimonials, loading: testimonialsLoading } = useTestimonials();
-
-  const [activePastCategory, setActivePastCategory] = useState('All');
   const [heroHovered, setHeroHovered] = useState(false);
-
-  const filteredPastVideos = activePastCategory === 'All'
-    ? pastEvents
-    : pastEvents.filter((v) => v.category === activePastCategory);
 
   return (
     <div style={{ background: 'var(--bg-canvas)', minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
@@ -307,98 +280,274 @@ export default function HomePage() {
       <AnimatedGridBackground />
 
       {/* ====================================================================
-          3.1 — HERO SECTION
+          3.1 — HERO SECTION (IMAGE 1: LEFT-ALIGNED HERO + EVENT COLLAGE SHOWCASE)
           ==================================================================== */}
-      <section className="hero-section" style={{ position: 'relative', zIndex: 1, paddingTop: 130, paddingBottom: 60 }}>
-        <div className="container container-narrow" style={{ textAlign: 'center' }}>
-          {/* Main Headline with 3D Depth */}
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="hero-headline"
+      <section className="hero-section" style={{ position: 'relative', zIndex: 1, paddingTop: 130, paddingBottom: 60, textAlign: 'left' }}>
+        <div className="container container-wide" style={{ maxWidth: 1320 }}>
+          <div
+            className="hero-grid-showcase"
             style={{
-              fontSize: 'clamp(2.75rem, 6vw, 4.5rem)',
-              fontWeight: 900,
-              lineHeight: 1.1,
-              letterSpacing: '-0.035em',
-              marginBottom: 20,
-              background: 'linear-gradient(180deg, #FFFFFF 0%, #E2E2E8 70%, #A3A3B0 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+              gap: 'clamp(24px, 3.5vw, 44px)',
+              alignItems: 'start',
+              marginBottom: 64,
             }}
           >
-            Matching Startups<br />
-            with Investors.
-          </motion.h1>
+            {/* Left Column: Eyebrow, Headline, Paragraph, Buttons, Proof Stats (Left-Aligned) */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              style={{ textAlign: 'left' }}
+            >
+              {/* Eyebrow / Kicker */}
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  marginBottom: 18,
+                }}
+              >
+                <span
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: '50%',
+                    background: '#8B5CF6',
+                    boxShadow: '0 0 10px #8B5CF6',
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: 12.5,
+                    fontWeight: 800,
+                    letterSpacing: '0.14em',
+                    color: '#C4B5FD',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  AI Native Investing
+                </span>
+              </div>
 
-          {/* Subheadline */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-            className="hero-subheadline"
-            style={{
-              color: 'var(--text-muted)',
-              fontSize: 16.5,
-              maxWidth: 620,
-              margin: '0 auto 48px',
-              lineHeight: 1.65,
-            }}
-          >
-            Over 700+ startups supported, from pre-seed to scale across MENA and global tech hubs.
-          </motion.p>
+              {/* Main Headline (Left Aligned) */}
+              <h1
+                style={{
+                  fontSize: 'clamp(2.5rem, 4.8vw, 4rem)',
+                  fontWeight: 900,
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.03em',
+                  marginBottom: 20,
+                  color: '#FFFFFF',
+                  textAlign: 'left',
+                }}
+              >
+                Build the investment firm that works with AI agents.
+              </h1>
 
-          {/* Dual Persona Cards Connected by Living Signal Line */}
-          <div style={{ position: 'relative', maxWidth: 940, margin: '0 auto 36px' }}>
+              {/* Subheadline / Paragraph (Left Aligned) */}
+              <p
+                style={{
+                  color: 'var(--text-muted)',
+                  fontSize: 16.5,
+                  maxWidth: 580,
+                  lineHeight: 1.65,
+                  marginBottom: 32,
+                  textAlign: 'left',
+                }}
+              >
+                Morse Bridge helps Private Equity, Venture Capital and Family Office teams automate deal sourcing, due diligence, investment committee preparation, portfolio monitoring and reporting.
+              </p>
+
+              {/* Action Buttons Row (Left Aligned) */}
+              <div
+                style={{
+                  display: 'flex',
+                  gap: 14,
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                }}
+              >
+                <Link
+                  to="/i-am-an-investor"
+                  className="btn-magnetic-signal"
+                  style={{
+                    background: '#14141B',
+                    border: '1px solid rgba(255, 255, 255, 0.22)',
+                    color: '#FFFFFF',
+                    padding: '13px 26px',
+                    borderRadius: 9999,
+                    fontSize: 14.5,
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  <span>Explore Investor Systems</span>
+                  <ArrowRight size={16} />
+                </Link>
+
+                <Link
+                  to="/i-am-a-startup"
+                  className="btn-magnetic-signal"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.16)',
+                    color: '#F5F5F7',
+                    padding: '13px 26px',
+                    borderRadius: 9999,
+                    fontSize: 14.5,
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  <span>For Founders</span>
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+
+              {/* Proof / Stats Strip (3 horizontal columns with dividers, Left-Aligned) */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 26,
+                  marginTop: 40,
+                  paddingTop: 32,
+                  borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                  flexWrap: 'wrap',
+                  justifyContent: 'flex-start',
+                }}
+              >
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: 'clamp(1.75rem, 2.8vw, 2.2rem)', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                    <CountUpNumber end={2700} duration={1600} />+
+                  </div>
+                  <div style={{ fontSize: 12.5, color: '#A3A3B0', marginTop: 4, lineHeight: 1.35, maxWidth: 140 }}>
+                    Investment Professionals Trained
+                  </div>
+                </div>
+
+                <div style={{ width: 1, height: 46, background: 'rgba(255, 255, 255, 0.12)', flexShrink: 0 }} />
+
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: 'clamp(1.75rem, 2.8vw, 2.2rem)', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                    $<CountUpNumber end={246} duration={1500} />B+
+                  </div>
+                  <div style={{ fontSize: 12.5, color: '#A3A3B0', marginTop: 4, lineHeight: 1.35, maxWidth: 155 }}>
+                    AUM Represented by Firms We've Trained
+                  </div>
+                </div>
+
+                <div style={{ width: 1, height: 46, background: 'rgba(255, 255, 255, 0.12)', flexShrink: 0 }} />
+
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: 'clamp(1.75rem, 2.8vw, 2.2rem)', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                    <CountUpNumber end={700} duration={1400} />+
+                  </div>
+                  <div style={{ fontSize: 12.5, color: '#A3A3B0', marginTop: 4, lineHeight: 1.35, maxWidth: 130 }}>
+                    Founders Supported
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right Column: Visual Showcase Event Collage Image (Image 1) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-end',
+                width: '100%',
+                paddingTop: 2,
+              }}
+            >
+              {/* Subtle ambient backlight behind collage */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: '-8%',
+                  background: 'radial-gradient(circle at 60% 45%, rgba(255, 255, 255, 0.05) 0%, rgba(139, 92, 246, 0.06) 50%, transparent 70%)',
+                  filter: 'blur(50px)',
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                }}
+              />
+
+              <img
+                src="/Mb-website-hero.png"
+                alt="MorseBridge Investor Summits, Founders & Team"
+                style={{
+                  position: 'relative',
+                  zIndex: 1,
+                  width: '100%',
+                  maxWidth: 740,
+                  height: 'auto',
+                  display: 'block',
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 20px 42px rgba(0, 0, 0, 0.65))',
+                }}
+              />
+            </motion.div>
+          </div>
+
+          {/* ====================================================================
+              3.2 — DUAL PERSONA CARDS (IMAGE 2: AI NATIVE DEAL FLOW & INVESTOR READINESS)
+              ==================================================================== */}
+          <div style={{ position: 'relative', maxWidth: 1060, margin: '0 auto 36px' }}>
             {/* Living Signal Line Bridge Layer (Behind cards) */}
             <SignalLineBridge isHovered={heroHovered} />
 
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
                 gap: 28,
                 position: 'relative',
                 zIndex: 1,
               }}
             >
               <HeroTiltCard
-                icon={Rocket}
-                badge="FOR FOUNDERS"
-                title="I am a Startup"
-                description="Master high-conversion pitch decks, financial models, and gain warm introductions to active Tier-1 investors."
-                items={[
-                  'Direct access to 100+ vetted institutional VCs',
-                  'Curated pitch days & flagship demo day slots',
-                  'Institutional 5-Minute CFO financial models',
-                ]}
-                ctaText="Apply for Capital Support"
-                accent="violet"
-                href="/i-am-a-startup"
+                badge="01  FOR INVESTMENT FIRMS"
+                title="AI Native Deal Flow"
+                description="From sourcing to exit, powered by AI agents."
+                features={INVESTMENT_FIRMS_FEATURES}
+                ctaText="Explore Investor Systems"
+                accent="gold"
+                href="/i-am-an-investor"
                 onHoverChange={setHeroHovered}
               />
 
               <HeroTiltCard
-                icon={LineChart}
-                badge="FOR INVESTORS"
-                title="I am an Investor"
-                description="Receive vetted, institutional-grade deal flow with audited unit economics, growth metrics, and founder traction."
-                items={[
-                  'Pre-vetted seed & Series A tech deal flow',
-                  'Private roundtable & demo day invitations',
-                  'Standardized data rooms with audit metrics',
-                ]}
-                ctaText="Join Investor Syndicate"
-                accent="gold"
-                href="/i-am-an-investor"
+                badge="02  FOR FOUNDERS"
+                title="Investor Readiness"
+                description="Everything you need to raise and scale."
+                features={FOUNDERS_FEATURES}
+                ctaText="For Founders"
+                accent="violet"
+                href="/i-am-a-startup"
                 onHoverChange={setHeroHovered}
               />
             </div>
           </div>
 
           {/* Supporting Text */}
-          <p style={{ color: 'var(--text-subtle)', fontSize: 14, fontWeight: 500 }}>
+          <p style={{ color: 'var(--text-subtle)', fontSize: 14, fontWeight: 500, textAlign: 'center' }}>
             Register now to connect, collaborate, and scale your venture.
           </p>
 
@@ -430,79 +579,6 @@ export default function HomePage() {
       </section>
 
       {/* Signal Transmission Section Divider */}
-      <SignalDivider />
-
-      {/* ====================================================================
-          3.15 — FEATURED SPOTLIGHT: FIRST 2 PODCASTS & INVESTOR DATA
-          ==================================================================== */}
-      <FeaturedSection podcasts={podcasts} />
-
-      {/* Signal Transmission Section Divider */}
-      <SignalDivider />
-      <section className="section" style={{ position: 'relative' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 44 }}>
-            <h2 className="section-title-gold">
-              Upcoming Events
-            </h2>
-            <p className="section-subtitle">
-              Flagship summits, monthly masterclasses, and cohort application forms.
-            </p>
-          </div>
-
-          {/* 3D Events Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 36 }}>
-            {eventsLoading ? (
-              <ShimmerSkeleton count={3} height={420} />
-            ) : (
-              events.slice(0, 3).map((ev, idx) => (
-                <EventCard3D key={ev.id || idx} event={ev} index={idx} />
-              ))
-            )}
-          </div>
-
-          {/* Closing Actions */}
-          <div style={{ textAlign: 'center', marginTop: 32 }}>
-            <p style={{ fontSize: 16, fontWeight: 700, color: '#F5F5F7', marginBottom: 20 }}>
-              Build, Host, or Join — We Make Startup Events Happen.
-            </p>
-            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a
-                href="https://www.eventbrite.co.uk/o/morse-bridge-78875439043"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-magnetic-signal"
-                style={{
-                  background: '#8B5CF6',
-                  color: '#FFFFFF',
-                  padding: '12px 28px',
-                  fontSize: 14.5,
-                }}
-              >
-                <span>Explore Events</span>
-                <ArrowUpRight size={16} />
-                <div className="btn-light-sweep" />
-              </a>
-              <Link
-                to="/custom-events"
-                className="btn-magnetic-signal"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  color: '#F5F5F7',
-                  border: '1px solid var(--border-subtle)',
-                  padding: '12px 28px',
-                  fontSize: 14.5,
-                }}
-              >
-                <span>Product Launch</span>
-                <ArrowUpRight size={16} />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Signal Divider */}
       <SignalDivider />
 
       {/* ====================================================================
@@ -594,69 +670,100 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Signal Divider */}
+      {/* Signal Transmission Section Divider */}
       <SignalDivider />
 
       {/* ====================================================================
-          3.5 — "WHAT WE DO" (3 DARK GLASS CARDS)
+          3.12 — WHATS HOT SECTION (INTERACTIVE TABS & FLAGSHIP EXPERIENCES)
           ==================================================================== */}
-      <section id="what-we-do" className="section">
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <h2 className="section-title">What We Do</h2>
-            <p className="section-subtitle">
-              Empowering founders with clarity, credibility, and connections that drive real momentum.
-            </p>
-          </div>
+      <WhatsHotSection />
 
-          <div className="grid-3" style={{ gap: 24, alignItems: 'stretch' }}>
-            {WHAT_WE_DO_DATA.map((item, idx) => (
-              <WhatWeDoCard3D key={idx} item={item} index={idx} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Signal Divider */}
+      {/* Signal Transmission Section Divider */}
       <SignalDivider />
 
       {/* ====================================================================
-          3.6 — "HOW ARE WE MAKING A DIFFERENCE?" (IMPACT STATS WITH COUNT-UP)
+          3.7 — "OUR PAST EVENTS" (3D ANIMATED CAROUSEL DECK MATCHING IMAGE 2)
+          ==================================================================== */}
+      <PastEventsCarousel3D />
+
+      {/* Signal Transmission Section Divider */}
+      <SignalDivider />
+
+
+
+      {/* ====================================================================
+          3.5 — "WHAT WE DO" (8 CAPABILITY CARDS & ECOSYSTEM BANNER)
+          ==================================================================== */}
+      <WhatWeDoSection />
+
+      {/* Signal Transmission Section Divider */}
+      <SignalDivider />
+
+      {/* ====================================================================
+          3.6 — "HOW ARE WE MAKING A DIFFERENCE?" (6 IMPACT STAT CARDS)
           ==================================================================== */}
       <section className="section" style={{ position: 'relative' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+        <div className="container container-wide">
+          <div style={{ textAlign: 'center', marginBottom: 44 }}>
             <h2 className="section-title">How Are We Making a Difference?</h2>
             <p className="section-subtitle">
               Measured impact across startups, capital deployment, and ecosystem growth.
             </p>
           </div>
 
-          <div className="grid-3" style={{ gap: 24 }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
+              gap: 16,
+              maxWidth: 1240,
+              margin: '0 auto',
+            }}
+          >
             {DIFFERENCE_CARDS.map((card, i) => (
               <div
                 key={i}
-                className={`impact-stat-card ${card.featured ? 'featured-stat' : ''}`}
+                style={{
+                  background: '#101017',
+                  border: card.featured || card.topPurple
+                    ? '1px solid rgba(139, 92, 246, 0.35)'
+                    : '1px solid rgba(255, 255, 255, 0.08)',
+                  borderTop: card.featured || card.topPurple
+                    ? '2.5px solid #8B5CF6'
+                    : '2.5px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: 12,
+                  padding: '24px 20px 22px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  textAlign: 'left',
+                  boxShadow: card.featured
+                    ? '0 8px 24px rgba(139, 92, 246, 0.12), 0 4px 12px rgba(0, 0, 0, 0.4)'
+                    : '0 4px 16px rgba(0, 0, 0, 0.3)',
+                  transition: 'transform 0.2s ease, border-color 0.2s ease',
+                }}
               >
-                {/* Top Border Traveling Signal Line */}
-                <div className="stat-top-scanline" />
-
                 <div
                   style={{
-                    fontSize: '3rem',
+                    fontSize: 'clamp(2.1rem, 3.2vw, 2.6rem)',
                     fontWeight: 900,
-                    color: card.featured ? '#C4B5FD' : '#F5F5F7',
+                    color: card.featured ? '#C4B5FD' : '#FFFFFF',
                     lineHeight: 1.1,
                     letterSpacing: '-0.03em',
+                    marginBottom: 10,
                   }}
                 >
                   <CountUpNumber value={card.stat} suffix={card.suffix} />
                 </div>
-                <div style={{ fontSize: 16.5, fontWeight: 700, color: '#F5F5F7', marginBottom: 4 }}>
+                <div
+                  style={{
+                    fontSize: 13.5,
+                    fontWeight: 700,
+                    color: '#FFFFFF',
+                    lineHeight: 1.35,
+                  }}
+                >
                   {card.label}
-                </div>
-                <div style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>
-                  {card.desc}
                 </div>
               </div>
             ))}
@@ -664,140 +771,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Signal Divider */}
+      {/* Signal Transmission Section Divider */}
       <SignalDivider />
 
       {/* ====================================================================
-          3.7 — "OUR PAST EVENTS" (FLAGSHIP SUMMIT & 10 VIDEO SHORTS)
+          3.8 — "COMMENTS BY FOUNDERS & INVESTORS" (3D ANIMATED CAROUSEL)
           ==================================================================== */}
-      <section className="section">
-        <div className="container container-wide">
-          <div style={{ textAlign: 'center', marginBottom: 36 }}>
-            <h2 className="section-title">Our Past Events</h2>
-            <p className="section-subtitle">
-              Watch summit highlights, live pitch sessions, and masterclasses from across MENA.
-            </p>
-          </div>
+      <CommentsCarousel3D />
 
-          {/* Category Tabs with Animated Pill */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 36 }}>
-            <div className="category-tab-container">
-              {['All', 'Workshops', 'Startup Fundraising', 'Community'].map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActivePastCategory(cat)}
-                  className={`category-tab-btn ${activePastCategory === cat ? 'active' : ''}`}
-                >
-                  {activePastCategory === cat && (
-                    <motion.div
-                      layoutId="pastEventActiveTab"
-                      className="category-tab-active-pill"
-                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* 10 Vertical Video Cards (2 rows x 5 columns) */}
-          <div className="past-events-grid">
-            {pastEventsLoading ? (
-              <ShimmerSkeleton count={10} aspectRatio="9/16" />
-            ) : (
-              filteredPastVideos.map((item, idx) => (
-                <VideoCard3D
-                  key={item.id || idx}
-                  video={item}
-                  aspectRatio="9/16"
-                  index={idx}
-                  accent={idx % 2 === 0 ? 'violet' : 'gold'}
-                />
-              ))
-            )}
-          </div>
-
-          {/* Channel Link */}
-          <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <a
-              href="https://www.youtube.com/@foundermeetinvestor"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-magnetic-signal"
-              style={{
-                display: 'inline-flex',
-                background: 'rgba(255, 255, 255, 0.08)',
-                color: '#F5F5F7',
-                border: '1px solid var(--border-subtle)',
-                padding: '12px 28px',
-                fontSize: 14.5,
-              }}
-            >
-              <span>Watch More on YouTube (@foundermeetinvestor)</span>
-              <ArrowUpRight size={16} />
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Signal Divider */}
+      {/* Signal Transmission Section Divider */}
       <SignalDivider />
 
-      {/* ====================================================================
-          3.8 — "COMMENTS BY FOUNDERS & INVESTORS" (YOUTUBE SHORTS GRID)
-          ==================================================================== */}
-      <section className="section" style={{ position: 'relative' }}>
-        <div className="container container-wide">
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <h2 className="section-title">Comments By Founders &amp; Investors</h2>
-            <p className="section-subtitle">
-              What those who've built and backed say about us.
-            </p>
-          </div>
-
-          {/* 8 Vertical YouTube Shorts Grid (2 rows x 4 columns) */}
-          <div className="comments-shorts-grid">
-            {testimonialsLoading ? (
-              <ShimmerSkeleton count={8} aspectRatio="9/16" />
-            ) : (
-              testimonials.map((item, idx) => (
-                <VideoCard3D
-                  key={item.id || idx}
-                  video={item}
-                  aspectRatio="9/16"
-                  index={idx}
-                  accent={idx % 2 === 0 ? 'violet' : 'gold'}
-                />
-              ))
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Signal Divider */}
-      <SignalDivider />
-
-      {/* ====================================================================
-          3.9 — "PODCAST: FOUNDERS TALK WITH AYUB"
-          ==================================================================== */}
-      <PodcastStack podcasts={podcasts} loading={podcastsLoading} />
-
-      {/* Signal Divider */}
-      <SignalDivider />
-
-      {/* ====================================================================
-          3.10 — SUBSTACK INSIGHTS & PE AUTOMATIONS
-          ==================================================================== */}
-      <SubstackSection />
-
-      {/* Signal Divider */}
-      <SignalDivider />
 
       {/* ====================================================================
           3.10 — FAQS SECTION
           ==================================================================== */}
-      <section id="faqs" className="section" style={{ position: 'relative' }}>
+      <section id="faqs" className="section" style={{ position: 'relative', scrollMarginTop: 90 }}>
         <div className="container container-narrow">
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 className="section-title">Frequently Asked Questions</h2>

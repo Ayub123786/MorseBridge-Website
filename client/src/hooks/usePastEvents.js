@@ -7,6 +7,7 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/z1UMcbF7i9A',
     videoId: 'z1UMcbF7i9A',
     category: 'Startup Fundraising',
+    tag: 'FAST-TRACK MATCHING',
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/lPuPA9M2zsQ',
     videoId: 'lPuPA9M2zsQ',
     category: 'Startup Fundraising',
+    tag: 'DEMO DAY HIGHLIGHT',
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/6F1UNtMalJ4',
     videoId: '6F1UNtMalJ4',
     category: 'Community',
+    tag: 'SPEED PITCHES',
   },
   {
     id: 4,
@@ -28,6 +31,7 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/FbnIgzwafD4',
     videoId: 'FbnIgzwafD4',
     category: 'Workshops',
+    tag: 'COHORT WORKSHOP',
   },
   {
     id: 5,
@@ -35,6 +39,7 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/2l7s12IIu7s',
     videoId: '2l7s12IIu7s',
     category: 'Community',
+    tag: 'INVESTORS ROUNDTABLE',
   },
   {
     id: 6,
@@ -42,6 +47,7 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/PM383MoSQPM',
     videoId: 'PM383MoSQPM',
     category: 'Workshops',
+    tag: 'AI & BLOCKCHAIN',
   },
   {
     id: 7,
@@ -49,6 +55,7 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/7gjQPHrBeG0',
     videoId: '7gjQPHrBeG0',
     category: 'Startup Fundraising',
+    tag: 'PITCH SHOWCASE',
   },
   {
     id: 8,
@@ -56,6 +63,7 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/kTNOAtNIJr0',
     videoId: 'kTNOAtNIJr0',
     category: 'Community',
+    tag: 'DEAL FLOW FORUM',
   },
   {
     id: 9,
@@ -63,6 +71,7 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/ncTZX7T8Etc',
     videoId: 'ncTZX7T8Etc',
     category: 'Community',
+    tag: 'AFTER PARTY VIP',
   },
   {
     id: 10,
@@ -70,6 +79,15 @@ const FALLBACK_PAST_EVENTS = [
     youtubeUrl: 'https://www.youtube.com/shorts/gIw3kw30wgc',
     videoId: 'gIw3kw30wgc',
     category: 'Workshops',
+    tag: 'FOUNDER MASTERCLASS',
+  },
+  {
+    id: 11,
+    title: 'Breakthrough Moments: MENA Founders Demo Day Pitch',
+    youtubeUrl: 'https://www.youtube.com/shorts/2l7s12IIu7s',
+    videoId: '2l7s12IIu7s',
+    category: 'Startup Fundraising',
+    tag: 'BREAKTHROUGH DEMO',
   },
 ];
 

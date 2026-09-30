@@ -39,8 +39,8 @@ Thumbs.db
 # OS / Gemini Agent metadata
 .tempmediaStorage/
 .system_generated/
-.user_uploaded/
 scratch/
+**/scratch/
 
 # User data & private database files
 server/src/data/users.json

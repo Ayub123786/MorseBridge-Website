@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import SignupModal from './components/SignupModal';
 import ScrollToTop from './components/ScrollToTop';
@@ -16,6 +16,7 @@ import StartupIntakePage from './pages/StartupIntakePage';
 import MembershipPlansPage from './pages/MembershipPlansPage';
 import BlogPostPage from './pages/BlogPostPage';
 import WhatWeDoPage from './pages/WhatWeDoPage';
+import AboutPage from './pages/AboutPage';
 import EventsPage from './pages/EventsPage';
 import BlogListPage from './pages/BlogListPage';
 import PodcastPage from './pages/PodcastPage';
@@ -62,13 +63,16 @@ export function App() {
         <Routes>
           {/* Main Nav Routes */}
           <Route path="/" element={<HomePage />} />
-          <Route path="/what-we-do" element={<WhatWeDoPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/what-we-do" element={<AboutPage />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/solutions" element={<ProductsPage />} />
           <Route path="/events" element={<EventsPage />} />
-          <Route path="/blog" element={<BlogListPage />} />
+          <Route path="/blog" element={<KnowledgeHubPage defaultTab="blog" />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
-          <Route path="/podcast" element={<PodcastPage />} />
-          <Route path="/faqs" element={<FaqsPage />} />
+          <Route path="/podcast" element={<KnowledgeHubPage defaultTab="podcast" />} />
+          <Route path="/faqs" element={<Navigate to="/#faqs" replace />} />
+          <Route path="/contact" element={<FaqsPage />} />
 
           {/* Sub-pages */}
           <Route path="/startup" element={<StartupPage />} />
@@ -80,6 +84,7 @@ export function App() {
           <Route path="/5-minute-cfo-model" element={<CFOModelPage />} />
           <Route path="/custom-events" element={<CustomEventsPage />} />
           <Route path="/the-founder-knowledge-hub" element={<KnowledgeHubPage />} />
+          <Route path="/insights" element={<KnowledgeHubPage />} />
           <Route path="/startup-intake" element={<StartupIntakePage />} />
           <Route path="/runway" element={<RunwayPage />} />
           <Route path="/revenue-first-ai-accelerator" element={<RunwayPage />} />

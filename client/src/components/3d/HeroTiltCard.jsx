@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { usePrefersReducedMotion, useIsMobile } from '../../hooks/useMediaQuery';
 
 const ACCENTS = {
@@ -34,6 +34,7 @@ export default function HeroTiltCard({
   title = 'I am a Startup',
   description = 'Master high-conversion pitch decks, models, and gain warm introductions to active Tier-1 investors.',
   items = [],
+  features = [],
   ctaText = 'Apply for Capital Support',
   accent = 'violet',
   href = '/signup?role=startup',
@@ -171,13 +172,13 @@ export default function HeroTiltCard({
           </div>
 
           {/* Title & Description */}
-          <div style={{ transform: 'translateZ(25px)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+          <div style={{ transform: 'translateZ(25px)', marginBottom: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
               {Icon && (
                 <div
                   style={{
-                    width: 38,
-                    height: 38,
+                    width: 36,
+                    height: 36,
                     borderRadius: 10,
                     background: palette.grad,
                     display: 'flex',
@@ -187,21 +188,77 @@ export default function HeroTiltCard({
                     boxShadow: `0 4px 16px ${palette.glow}`,
                   }}
                 >
-                  <Icon size={20} strokeWidth={2.2} />
+                  <Icon size={18} strokeWidth={2.2} />
                 </div>
               )}
-              <h3 style={{ fontSize: 22, fontWeight: 800, color: '#F5F5F7', margin: 0, letterSpacing: '-0.02em' }}>
+              <h3 style={{ fontSize: 'clamp(1.5rem, 2.5vw, 1.85rem)', fontWeight: 800, color: '#F5F5F7', margin: 0, letterSpacing: '-0.025em', lineHeight: 1.25 }}>
                 {title}
               </h3>
             </div>
 
-            <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: 14.5, lineHeight: 1.55, margin: 0 }}>
               {description}
             </p>
           </div>
 
-          {/* Feature Bullets */}
-          {items.length > 0 && (
+          {/* Feature Rows (Rich icon + title + description) */}
+          {features && features.length > 0 ? (
+            <div
+              style={{
+                transform: 'translateZ(15px)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 10,
+                margin: '0 0 26px 0',
+              }}
+            >
+              {features.map((feat, idx) => {
+                const FeatIcon = feat.icon;
+                return (
+                  <div
+                    key={idx}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                      padding: '9px 12px',
+                      borderRadius: 10,
+                      background: 'rgba(255, 255, 255, 0.025)',
+                      border: '1px solid rgba(255, 255, 255, 0.05)',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    {FeatIcon && (
+                      <div
+                        style={{
+                          width: 34,
+                          height: 34,
+                          borderRadius: 8,
+                          background: 'rgba(255, 255, 255, 0.06)',
+                          border: '1px solid rgba(255, 255, 255, 0.09)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: palette.badgeText,
+                          flexShrink: 0,
+                        }}
+                      >
+                        <FeatIcon size={16} strokeWidth={2} />
+                      </div>
+                    )}
+                    <div style={{ textAlign: 'left', flex: 1 }}>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: '#F5F5F7', lineHeight: 1.25 }}>
+                        {feat.title}
+                      </div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.35, marginTop: 2 }}>
+                        {feat.desc}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : items.length > 0 ? (
             <ul style={{ transform: 'translateZ(15px)', listStyle: 'none', padding: 0, margin: '0 0 26px 0', display: 'flex', flexDirection: 'column', gap: 9 }}>
               {items.map((it, idx) => (
                 <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13.5, color: 'var(--text-body)' }}>
@@ -210,7 +267,7 @@ export default function HeroTiltCard({
                 </li>
               ))}
             </ul>
-          )}
+          ) : null}
 
           {/* Magnetic CTA Button with Light Sweep */}
           <div style={{ transform: 'translateZ(25px)', marginTop: 'auto' }}>
@@ -219,10 +276,18 @@ export default function HeroTiltCard({
               style={{
                 background: palette.btnBg,
                 color: palette.btnText,
+                justifyContent: 'center',
+                padding: '12px 20px',
+                fontSize: 14,
+                fontWeight: 700,
+                borderRadius: 12,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
               }}
             >
               <span>{ctaText}</span>
-              <ArrowUpRight size={16} />
+              <ArrowRight size={16} />
               {/* Light sweep beam */}
               <div className="btn-light-sweep" />
             </div>

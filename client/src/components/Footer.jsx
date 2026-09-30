@@ -137,7 +137,7 @@ export default function Footer() {
               {[
                 { label: 'Home', to: '/' },
                 { label: 'What We Do', to: '/#what-we-do' },
-                { label: 'Products', to: '/products' },
+                { label: 'Solutions', to: '/solutions' },
                 { label: 'Custom Events', to: '/custom-events' },
                 { label: 'Podcast', to: '/podcast' },
                 { label: "FAQ's", to: '/#faqs' },
@@ -157,15 +157,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Products & Resources */}
+          {/* Solutions & Resources */}
           <div>
-            <div className="footer-col-title">Products</div>
+            <div className="footer-col-title">Solutions</div>
             <ul className="footer-links">
               {[
                 { label: '5-Minute CFO Model', to: '/the-5-minute-cfo-model' },
-                { label: 'Startup Look Book', to: '/products' },
+                { label: 'Startup Look Book', to: '/solutions' },
                 { label: 'Investor Data Suite ↗', to: 'https://morsebridge.substack.com/s/investor-data', external: true },
-                { label: 'Pitch Deck Templates', to: '/products' },
+                { label: 'Pitch Deck Templates', to: '/solutions' },
                 { label: 'Fundraising Playbook ↗', to: 'https://morsebridge.substack.com/s/fundraising-playbook', external: true },
               ].map((l) => (
                 <li key={l.label}>
