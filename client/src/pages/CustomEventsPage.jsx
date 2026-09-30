@@ -864,6 +864,7 @@ export default function CustomEventsPage() {
             >
               <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000000' }}>
                 <video
+                  src="/hacking_event_1.mp4"
                   controls
                   playsInline
                   preload="metadata"
