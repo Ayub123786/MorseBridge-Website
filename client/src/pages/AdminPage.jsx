@@ -675,8 +675,8 @@ export default function AdminPage() {
               <div style={{ display: 'flex', gap: 8 }}>
                 {[
                   { label: 'All Members', value: 'all' },
-                  { label: '🚀 Startups Only', value: 'startup' },
-                  { label: '💼 Investors Only', value: 'investor' },
+                  { label: ' Startups Only', value: 'startup' },
+                  { label: ' Investors Only', value: 'investor' },
                 ].map((chip) => (
                   <button
                     key={chip.value}
@@ -764,7 +764,7 @@ export default function AdminPage() {
                                 border: `1px solid ${isStartup ? 'rgba(139, 92, 246, 0.3)' : 'rgba(245, 180, 0, 0.3)'}`,
                               }}
                             >
-                              {isStartup ? '🚀 Startup' : '💼 Investor'}
+                              {isStartup ? 'Startup' : 'Investor'}
                             </span>
                           </td>
 

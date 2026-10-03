@@ -4,8 +4,8 @@ import { ArrowUpRight, Play, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TABS = [
-  { id: 'events', label: 'Events & Cohorts' },
   { id: 'podcasts', label: 'Top Podcasts' },
+  { id: 'events', label: 'Events & Cohorts' },
   { id: 'directories', label: 'Investor Data Directories' },
   { id: 'solutions', label: 'Solutions' },
 ];
@@ -84,7 +84,7 @@ const INVESTOR_DIRECTORIES_DATA = [
 ];
 
 export default function WhatsHotSection() {
-  const [activeTab, setActiveTab] = useState('events');
+  const [activeTab, setActiveTab] = useState('podcasts');
   const [podcastPlaying, setPodcastPlaying] = useState(false);
 
   return (

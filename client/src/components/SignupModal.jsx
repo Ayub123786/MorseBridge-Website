@@ -400,7 +400,7 @@ export default function SignupModal({ isOpen, onClose }) {
                     boxShadow: tab === 'startup' ? '0 0 14px rgba(139, 92, 246, 0.4)' : 'none',
                   }}
                 >
-                  🚀 I am a Startup
+                   I am a Startup
                 </button>
 
                 <button
@@ -419,7 +419,7 @@ export default function SignupModal({ isOpen, onClose }) {
                     boxShadow: tab === 'investor' ? '0 0 14px rgba(245, 180, 0, 0.4)' : 'none',
                   }}
                 >
-                  💼 I am an Investor
+                   I am an Investor
                 </button>
               </div>
 

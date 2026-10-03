@@ -353,7 +353,7 @@ export default function SignupPage() {
                     boxShadow: tab === 'startup' ? '0 0 16px rgba(139, 92, 246, 0.4)' : 'none',
                   }}
                 >
-                  🚀 I am a Startup
+                   I am a Startup
                 </button>
 
                 <button
@@ -372,7 +372,7 @@ export default function SignupPage() {
                     boxShadow: tab === 'investor' ? '0 0 16px rgba(245, 180, 0, 0.4)' : 'none',
                   }}
                 >
-                  💼 I am an Investor
+                   I am an Investor
                 </button>
               </div>
 

@@ -518,7 +518,7 @@ export default function InvestorPage() {
                 marginBottom: 8,
               }}
             >
-              investor round table video
+              Investor Round Table
             </h3>
             <p style={{ color: '#A3A3B0', fontSize: 15, margin: 0 }}>
               Watch closed-door discussions on institutional check-writing, startup valuation, and MENA capital deployment.

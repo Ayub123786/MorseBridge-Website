@@ -47,7 +47,7 @@ const PLANS = [
     name: 'Scale',
     price: '$149',
     period: '/month',
-    badge: '🚀 HIGH GROWTH',
+    badge: 'HIGH GROWTH',
     featured: false,
     features: [
       'Everything in Founder Pro',
