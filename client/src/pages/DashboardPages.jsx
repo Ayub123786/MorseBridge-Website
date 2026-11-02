@@ -264,7 +264,9 @@ export function DashboardAdvisory() {
 /* ── Dashboard Events ── */
 export function DashboardEvents() {
   const EVENTS = [
-    { title: 'My Rising Time - A Global Summit Where Founders Rise', date: 'November 2026', type: 'Flagship Summit', status: 'Registered', link: 'https://myrisingtime.com' },
+    { title: 'My Rising Time - A Global Summit Where Founders Rise', date: '22-23 Nov 2026 (Online via Zoom)', type: 'Flagship Summit', status: 'Registered', link: 'https://myrisingtime.com' },
+    { title: 'Expand North Star 2026 — GITEX Global', date: '8–10 Dec 2026 (Expo City Dubai)', type: 'Ecosystem Partner', status: 'Available', link: 'https://tinyurl.com/MorseBridge' },
+    { title: "Investor's Roundtable — AstroLabs JLT", date: '9 Dec 2026 (7:00–9:00 PM)', type: 'Investor Roundtable', status: 'Available', link: 'https://www.eventbrite.com/e/2004227211542?aff=oddtdtcreator' },
     { title: 'Global Fundraising Boot Camp', date: 'Monthly', type: 'Workshop Cohort', status: 'Available', link: '/apply?program=global-fundraising-bootcamp' },
     { title: 'Riyadh Rising 2026', date: 'Late 2026', type: 'Summit', status: 'Available', link: 'https://www.eventbrite.co.uk/o/morse-bridge-78875439043' },
   ];

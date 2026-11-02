@@ -14,9 +14,12 @@ const EVENTS_COHORTS_DATA = [
   {
     id: 'my-rising-time',
     title: 'My Rising Time - A Global Summit Where Founders Rise',
-    badgeTopLeft: 'COMING THIS NOVEMBER!',
+    badgeTopLeft: '22-23 NOV 2026',
     badgeTopLeftColor: '#7A6BD0',
-    badgeTopRight: 'In-Person',
+    badgeTopRight: 'Online via Zoom',
+    tagLeft: '22-23 Nov 2026',
+    tagRight: 'Online Mode via Zoom',
+    desc: 'The premier global summit for founders and strategic capital. Network with 100+ institutional VCs, angel syndicates, and sovereign partners online via Zoom.',
     image: '/assets/events/my_rising_time.png',
     isImageCard: true,
     isHighlighted: true,
@@ -50,6 +53,38 @@ const EVENTS_COHORTS_DATA = [
     desc: 'Held every month: 10 early-stage startups master pitch decks, the 5-Minute CFO model, SAFEs, and term sheet negotiations with 25 active angels, VCs, and accelerators.',
     link: '/apply?program=global-fundraising-bootcamp',
     isExternal: false,
+  },
+  {
+    id: 'expand-north-star',
+    title: 'Expand North Star 2026 — GITEX Global',
+    subtitle: 'Plugging Into What’s Next · Ecosystem Partner',
+    badgeTopLeft: '8–10 DEC 2026',
+    badgeTopLeftColor: '#06B6D4',
+    badgeTopRight: 'Ecosystem Partner',
+    tagLeft: '8–10 Dec 2026',
+    tagRight: 'Expo City Dubai',
+    image: '/assets/events/expand_north_star.jpg',
+    isImageCard: true,
+    isHighlighted: false,
+    desc: "MorseBridge is joining forces with Expand North Star 2026 as an Ecosystem Partner plugging into one of the region's biggest meeting points for founders, investors and the people building what's next.\n\nTogether, we're connecting the dots across the startup ecosystem, creating more opportunities for ambitious founders to meet the right people, discover new possibilities and take their next big step.\n\n8–10 December 2026 | Dubai Exhibition Centre, Expo City\nGet Involved  https://tinyurl.com/MorseBridge\nSee you at Expand North Star!",
+    link: 'https://tinyurl.com/MorseBridge',
+    isExternal: true,
+  },
+  {
+    id: 'investor-roundtable',
+    title: "Investor's Roundtable",
+    subtitle: 'Connecting 20+ Family Offices, VCs & Angel Investors',
+    badgeTopLeft: '9 DEC 2026',
+    badgeTopLeftColor: '#EAB308',
+    badgeTopRight: 'In-Person Roundtable',
+    tagLeft: '9 Dec 2026 · 7–9 PM',
+    tagRight: 'AstroLabs, JLT, Cluster R',
+    image: '/assets/events/investor_roundtable.jpg',
+    isImageCard: true,
+    isHighlighted: false,
+    desc: "A polished, in-person roundtable connecting 20+ family offices, VCs, and angel investors from across the region in collaboration with Expand North Star & GITEX Global.\n\n9 Dec 2026 | AstroLabs, JLT, Cluster R · 7:00–9:00 PM",
+    link: 'https://www.eventbrite.com/e/2004227211542?aff=oddtdtcreator',
+    isExternal: true,
   },
 ];
 
@@ -251,9 +286,11 @@ export default function WhatsHotSection() {
                           style={{
                             width: '100%',
                             height: '100%',
-                            objectFit: card.isImageCard ? 'cover' : 'contain',
+                            objectFit: card.image?.includes('expand_north_star') || card.image?.includes('investor_roundtable')
+                              ? 'contain'
+                              : (card.isImageCard ? 'cover' : 'contain'),
                             display: 'block',
-                            padding: card.isImageCard ? 0 : '14px',
+                            padding: card.isImageCard && !card.image?.includes('expand_north_star') ? 0 : '14px',
                           }}
                         />
 
@@ -368,9 +405,10 @@ export default function WhatsHotSection() {
                             style={{
                               color: 'var(--text-muted)',
                               fontSize: 13,
-                              lineHeight: 1.55,
+                              lineHeight: 1.6,
                               marginTop: 4,
                               marginBottom: 0,
+                              whiteSpace: 'pre-line',
                             }}
                           >
                             {card.desc}

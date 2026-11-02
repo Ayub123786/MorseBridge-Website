@@ -67,16 +67,50 @@ const UPCOMING_EVENTS = [
     badgeColor: '#F5B400',
     title: 'My Rising Time - A Global Summit Where Founders Rise',
     desc: 'The premier global summit for founders and strategic capital. Network with 100+ institutional VCs, angel syndicates, and sovereign partners.',
-    location: 'DIFC, Dubai, UAE',
-    format: 'In-Person & Global',
+    location: 'Online',
+    format: 'Online Mode via Zoom',
     image: '/assets/events/riyadh-rising.png',
-    dayOfWeek: 'NOV',
-    dateMonthDay: 'Nov 2026',
+    dayOfWeek: 'SUN - MON',
+    dateMonthDay: '22-23 Nov',
     year: '2026',
-    timeDuration: 'Coming This November!',
+    timeDuration: 'Online Mode via Zoom',
     link: 'https://myrisingtime.com',
     isExternal: true,
     ctaText: 'Register on My Rising Time',
+  },
+  {
+    id: 'expand-north-star-2026',
+    badge: 'ECOSYSTEM PARTNER',
+    badgeColor: '#06B6D4',
+    title: 'Expand North Star 2026 — GITEX Global',
+    desc: "MorseBridge is joining forces with Expand North Star 2026 as an Ecosystem Partner plugging into one of the region's biggest meeting points for founders, investors and the people building what's next.\n\nTogether, we're connecting the dots across the startup ecosystem, creating more opportunities for ambitious founders to meet the right people, discover new possibilities and take their next big step.\n\n8–10 December 2026 | Dubai Exhibition Centre, Expo City\nGet Involved  https://tinyurl.com/MorseBridge\nSee you at Expand North Star!",
+    location: 'Dubai Exhibition Centre, Expo City',
+    format: 'In-Person Global Expo & Summit',
+    image: '/assets/events/expand_north_star.jpg',
+    dayOfWeek: 'TUE - THU',
+    dateMonthDay: '8–10 Dec',
+    year: '2026',
+    timeDuration: 'Dubai Exhibition Centre · Expo City',
+    link: 'https://tinyurl.com/MorseBridge',
+    isExternal: true,
+    ctaText: 'Get Involved / Register',
+  },
+  {
+    id: 'investor-roundtable-2026',
+    badge: 'INVESTOR ROUNDTABLE',
+    badgeColor: '#EAB308',
+    title: "Investor's Roundtable — Expand North Star & GITEX Global",
+    desc: "A polished, in-person roundtable connecting 20+ family offices, VCs, and angel investors from across the region.\n\nWednesday, 9 Dec 2026 | 7:00–9:00 PM\nAstroLabs, JLT, Cluster R, Dubai, UAE\nOrganized by Morse Bridge in collaboration with Expand North Star & GITEX Global.",
+    location: 'AstroLabs, JLT, Cluster R, Dubai',
+    format: 'In-Person Roundtable · 7:00–9:00 PM',
+    image: '/assets/events/investor_roundtable.jpg',
+    dayOfWeek: 'WED',
+    dateMonthDay: '9 Dec',
+    year: '2026',
+    timeDuration: '7:00 PM – 9:00 PM GST · AstroLabs JLT',
+    link: 'https://www.eventbrite.com/e/2004227211542?aff=oddtdtcreator',
+    isExternal: true,
+    ctaText: 'Register on Eventbrite',
   },
 ];
 
@@ -418,8 +452,12 @@ export default function CustomEventsPage() {
                     height: 160,
                     borderRadius: 12,
                     overflow: 'hidden',
-                    background: ev.image?.includes('bootcamp') || ev.image?.includes('runway') ? '#FFFFFF' : '#14141E',
-                    padding: ev.image?.includes('runway') ? '16px 20px' : (ev.image?.includes('bootcamp') ? '6px' : '0'),
+                    background: ev.image?.includes('bootcamp') || ev.image?.includes('runway')
+                      ? '#FFFFFF'
+                      : (ev.image?.includes('expand_north_star') || ev.image?.includes('investor_roundtable') ? '#08080E' : '#14141E'),
+                    padding: ev.image?.includes('runway')
+                      ? '16px 20px'
+                      : (ev.image?.includes('bootcamp') ? '6px' : (ev.image?.includes('expand_north_star') ? '4px' : '0')),
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -432,7 +470,9 @@ export default function CustomEventsPage() {
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: ev.image?.includes('bootcamp') || ev.image?.includes('runway') ? 'contain' : 'cover',
+                      objectFit: ev.image?.includes('bootcamp') || ev.image?.includes('runway') || ev.image?.includes('expand_north_star')
+                        ? 'contain'
+                        : 'cover',
                       display: 'block',
                     }}
                   />
@@ -470,12 +510,27 @@ export default function CustomEventsPage() {
                     style={{
                       color: '#A3A3B0',
                       fontSize: 14,
-                      lineHeight: 1.55,
+                      lineHeight: 1.6,
                       marginBottom: 16,
                       maxWidth: 580,
+                      whiteSpace: 'pre-line',
                     }}
                   >
-                    {ev.desc}
+                    {ev.desc.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
+                      part.startsWith('http') ? (
+                        <a
+                          key={i}
+                          href={part}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: '#06B6D4', textDecoration: 'underline', fontWeight: 600 }}
+                        >
+                          {part}
+                        </a>
+                      ) : (
+                        part
+                      )
+                    )}
                   </p>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap', fontSize: 13, color: '#D4D4D8' }}>
